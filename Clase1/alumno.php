@@ -10,16 +10,9 @@ class alumno extends Persona
         $this->legajo = $Legajo;
     }
 
-    public function __construct($apellido, $numero, $letra)
-    {
-        $this->DNI = $numero;
-        $this->legajo = $apellido;
-        $this->nombre = $letra;
-    }
-
     public function ReturnJson()
     {
-        return json_encode($this);
+        return parent::ReturnJson();
     }
 }
 ?>

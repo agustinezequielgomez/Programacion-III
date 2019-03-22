@@ -13,7 +13,7 @@ class Persona extends Humano
     
     function ReturnJson()
     {
-        return json_encode($this);
+        return parent::ReturnJson();
     }
 }
 
