@@ -43,6 +43,4 @@ $person->ReturnJSON();
 
 $miAlumno->GuardarAlumno("C:\\xampp\htdocs\Programacion-III\Clases\Clase2\ListadoAlumnos.txt");
 $miAlumno->GuardarJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase2\ListadoAlumnos.json");
-
-
 ?>

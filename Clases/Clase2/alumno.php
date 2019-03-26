@@ -61,6 +61,27 @@ class alumno extends Persona
             }while(!feof($resource)); //Leo el archivo mientras no haya terminado
             return $vectorArchivo;
         }
+        return false;
+    }
+
+    public static function BorrarAlumnoTxt($dirFile,$DNI)
+    {
+        $alumnos = alumno::MostrarAlumnos($dirFile);
+        $arrayAlumnos = array();
+        foreach($alumnos as $string)
+        {
+           $datos = explode(",",$string);
+           $alumno = new alumno($datos[0],$datos[1],$datos[2],$datos[3]);
+           array_push($arrayAlumnos,$alumno);
+        }
+
+        foreach($arrayAlumnos as $alumno)
+        {
+            if($alumno->DNI == $DNI)
+            {
+                
+            }
+        }
     }
 }
 ?>
