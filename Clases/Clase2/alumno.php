@@ -66,20 +66,48 @@ class alumno extends Persona
 
     public static function BorrarAlumnoTxt($dirFile,$DNI)
     {
-        $alumnos = alumno::MostrarAlumnos($dirFile);
-        $arrayAlumnos = array();
-        foreach($alumnos as $string)
+        //Traigo las lineas del archivo que contienen los alumnos volcados
+        $arrayAlumnosArchivo = alumno::MostrarAlumnos($dirFile);
+        $arrayDeAlumnos = array();
+        if($arrayAlumnosArchivo!=false)
         {
-           $datos = explode(",",$string);
-           $alumno = new alumno($datos[0],$datos[1],$datos[2],$datos[3]);
-           array_push($arrayAlumnos,$alumno);
+            foreach($arrayAlumnosArchivo as $lineasArchivo)
+            {
+                if(!empty($lineasArchivo))
+                {
+                    $arrayAlumnoDatosSeparados = explode(",",$lineasArchivo); //Separo los datos de la linea en distintos substrings para poder crear los alumnos
+                    $nuevoAlumno = new alumno($arrayAlumnoDatosSeparados[0],$arrayAlumnoDatosSeparados[1],$arrayAlumnoDatosSeparados[2],$arrayAlumnoDatosSeparados[3]); //Creo un nuevo alumno
+                    array_push($arrayDeAlumnos,$nuevoAlumno); //Guardo el nuevo alumno en un array
+                }
+            }
         }
 
-        foreach($arrayAlumnos as $alumno)
+        //Filtro el array de alumnos para ver si el que quiero borrar aparece
+        for($i = 0; $i < count($arrayDeAlumnos) ; $i++)
         {
-            if($alumno->DNI == $DNI)
+            if($arrayDeAlumnos[$i]->DNI == $DNI) //Si algun elemento del array coincide con el DNI pasado por parametro
             {
-                
+                $cadenaReemplazada = str_replace($arrayAlumnosArchivo[$i],"",$arrayAlumnosArchivo); //Reemplazo donde estaba la linea coincidente en el archivo por espacio vacio
+                file_put_contents($dirFile,$cadenaReemplazada); //Esa cadena reemplzada vuelvo a escribirla sobre el archivo.
+            }
+        }
+    }
+
+    public static function BorrarAlumnoJSON($dirFile, $DNI)
+    {
+        $arrayAlumnosArchivo = alumno::MostrarAlumnos($dirFile); //Pongo en el array de $alumnos los JSON (Un obj por indice)
+        $arrayAlumnosVariable = array(); //Array que guarda variables sacadas del JSON
+        foreach($arrayAlumnosArchivo as $JSONS)
+        {
+            array_push($arrayAlumnosVariable,json_decode($JSONS)); //Guardo en el array variables php creadas en base al JSON 
+        }
+
+        for($i = 0; $i < count($arrayAlumnosVariable); $i++)
+        {
+            if($arrayAlumnosVariable[$i]->DNI == $DNI)
+            {
+                $cadenaReemplazada = str_replace($arrayAlumnosArchivo[$i],"",$arrayAlumnosArchivo);
+                file_put_contents($dirFile,$cadenaReemplazada);
             }
         }
     }
