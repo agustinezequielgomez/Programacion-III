@@ -48,6 +48,19 @@ class alumno extends Persona
         }
     }
 
+    public static function GuardarTodosTxt($dirFile, $alumnos)
+    {
+        if(file_exists($dirFile))
+        {
+            $resource = fopen($dirFile,"w");
+            foreach($alumnos as $alumno)
+            {
+                fwrite($resource, "$alumno->Nombre".","."$alumno->Edad".","."$alumno->DNI".","."$alumno->legajo"."\r\n");
+            }
+            fclose($resource);
+        }
+    }
+
     public static function MostrarAlumnos($dirFile) //Metodo estatico
     {
         if(file_exists($dirFile)) //Chequea si el archivo existe
@@ -119,6 +132,57 @@ class alumno extends Persona
                 file_put_contents($dirFile,$cadenaReemplazada);
             }
         }
+    }
+
+    public function GuardarFoto($path,$legajo,$nombre)
+    {
+        if(file_exists($_FILES["archivo"]["tmp_name"]))
+        {
+            $punto = ".";
+            $barra = "/";
+            $nombreArchivo = "";
+            $arrayNombre = explode(".",$_FILES["archivo"]["name"]);
+            $nombreArchivo .=  $legajo .= $nombre .= $punto .= $arrayNombre[1];
+            $path .= $barra .= $nombreArchivo;
+            echo "<br>",$path;
+            if(file_exists($path))
+            {
+                echo "<br>",$path;
+                alumno::ReemplazarFoto("./ArchivosBackup",$legajo,$nombre);
+                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path);
+            }
+            else
+            {
+                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Le decis como se llama el archivo en el primer argumento y a donde va a ir a parar en el segundo (incluyendo nombre de arhcivo mas path)
+                "$this->PonerMarcaDeAgua($path)";
+            }
+        }
+    }
+
+    public function ReemplazarFoto($path,$legajo,$nombre)
+    {
+        $punto = ".";
+        $barra = "/";
+        $nombreArchivo = "";
+        $arrayNombre = explode(".",$_FILES["archivo"]["name"]);
+        $fecha = date("dmy");
+        $nombreArchivo .= $legajo .= $nombre .= $fecha .= $punto .= $arrayNombre[1];
+        $path .= $barra .= $nombreArchivo;
+        move_uploaded_file($_FILES["archivo"]["tmp_name"],$path);
+    }
+
+    public function PonerMarcaDeAgua($archivo)
+    {
+        $marca = imagecreatefrompng('./Archivos/kisspng-computer-icons-logo-clip-art-instagram-logo-5acbcae56ab134.563074611523305189437');
+        $imagen = imagecreatefromjpg($archivo);
+
+        $margenDerecho = 10;
+        $margenIzquierdo = 10;
+        $marcax = imagesx($marca);
+        $marcay = imagesy($marca);
+
+        imagecopy($imagen,$marca,imagesx($imagen) - $marcax - $margenDerecho,imagesy($imagen) - $marcay - $margenIzquierdo,0,0,$marcax,$marcay,50);
+        imagepng($imagen,"./marcadeagua.png");
     }
 }
 ?>
