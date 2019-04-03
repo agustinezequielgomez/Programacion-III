@@ -38,9 +38,13 @@ var_dump($miAlumno);
 echo "<br>JSON miAlumno:";
 echo $miAlumno->ReturnJson();
 
-$person = new Persona("a",12,42147544);
-$person->ReturnJSON();
+$miAlumno2 = new alumno("agustin",12,42147,1123);
+$alumnos = array();
+array_push($alumnos,$miAlumno);
+array_push($alumnos,$miAlumno2);
 
-$miAlumno->GuardarAlumno("C:\\xampp\htdocs\Programacion-III\Clases\Clase2\ListadoAlumnos.txt");
-$miAlumno->GuardarJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase2\ListadoAlumnos.json");
+
+$miAlumno->GuardarAlumnoTxt("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ListadoAlumnos.txt");
+$miAlumno->GuardarJSONIndividual("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ListadoAlumnos.json");
+alumno::GuardarArrayJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ArrayAlumnos.json",$alumnos);
 ?>

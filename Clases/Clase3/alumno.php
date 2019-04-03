@@ -15,7 +15,7 @@ class alumno extends Persona
         return parent::ReturnJson(); //Escribe los metodos del hijo tambien solo invocando el padre porque el padre sabe sus hijos y encodea de igual manera los atributos del hijo
     }
 
-    public function GuardarAlumno($dirFile)
+    public function GuardarAlumnoTxt($dirFile)
     {
         if(file_exists($dirFile))
         {
@@ -32,7 +32,7 @@ class alumno extends Persona
         }
     }
 
-    public function GuardarJSON($dirFile)
+    public function GuardarJSONIndividual($dirFile)
     {
         if(file_exists($dirFile))
         {
@@ -44,6 +44,22 @@ class alumno extends Persona
         {
             $resource = fopen($dirFile,"w");
             fwrite($resource, $this->ReturnJson()."\r\n");
+            fclose($resource);
+        }
+    }
+
+    public static function GuardarArrayJSON($dirFile, $array)
+    {
+        if(file_exists($dirFile))
+        {
+            $resource = fopen($dirFile, "a");
+            fwrite($resource, json_encode($array));
+            fclose($resource);
+        }
+        else
+        {
+            $resource = fopen($dirFile, "w");
+            fwrite($resource, json_encode($array));
             fclose($resource);
         }
     }
@@ -61,7 +77,7 @@ class alumno extends Persona
         }
     }
 
-    public static function MostrarAlumnos($dirFile) //Metodo estatico
+    public static function MostrarAlumnosTxt($dirFile) //Metodo estatico
     {
         if(file_exists($dirFile)) //Chequea si el archivo existe
         {
@@ -73,6 +89,33 @@ class alumno extends Persona
 
             }while(!feof($resource)); //Leo el archivo mientras no haya terminado
             return $vectorArchivo;
+        }
+        return false;
+    }
+
+    public static function MostrarAlumnosJSON($dirFile)
+    {
+        if(file_exists($dirFile))
+        {
+            $resource = fopen($dirFile,"r");
+            $vectorArchivo = array();
+            do
+            {
+                array_push($vectorArchivo,json_decode(fgets($resource)));
+            }while(!feof($resource));
+            return $vectorArchivo;
+        }
+        return false;
+    }
+
+    public static function MostrarAlumnosArrayJSON($dirFile)
+    {
+        if(file_exists($dirFile))
+        {
+            $cadenaArchivo = file_get_contents($dirFile);
+            $arrayJSON = array();
+            array_push($arrayJSON,json_decode($cadenaArchivo));
+            return $arrayJSON;
         }
         return false;
     }
