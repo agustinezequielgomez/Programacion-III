@@ -13,11 +13,11 @@ echo "<br><br>POSTS:";
 echo "<br>nombre:";
 echo $nombre = $_POST["nombre"];
 echo "<br>edad:";
-echo $edad = $_POST["edad"];
+echo $edad = (int)$_POST["edad"];
 echo "<br>dni:";
-echo $dni = $_POST["dni"];
+echo $dni = (int)$_POST["dni"];
 echo "<br>legajo:";
-echo $legajo = $_POST["legajo"];
+echo $legajo = (int)$_POST["legajo"];
 
 /*COMENTADO PORQUE LAS VARIABLES SE PASAN POR POST
 echo "<br><br>GETS:<br>";

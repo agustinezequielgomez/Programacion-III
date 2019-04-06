@@ -48,11 +48,18 @@ class alumno extends Persona
         }
     }
 
-    public static function GuardarArrayJSON($dirFile, $array)
+    public static function GuardarArrayJSON($dirFile, $array) //Posible fix: Separar el array leido y el entrante por parametro y guardar todo eso en un 3er array.
     {
         if(file_exists($dirFile))
         {
-            $resource = fopen($dirFile, "a");
+            $arrayYaExistente = alumno::MostrarAlumnosArrayJSON($dirFile);
+            foreach($arrayYaExistente as $alumno)
+            {
+                array_push($array,$alumno);
+            }
+            echo "<br><br>";
+            var_dump($array);
+            $resource = fopen($dirFile, "w");
             fwrite($resource, json_encode($array));
             fclose($resource);
         }
@@ -71,7 +78,7 @@ class alumno extends Persona
             $resource = fopen($dirFile,"w");
             foreach($alumnos as $alumno)
             {
-                fwrite($resource, "$alumno->Nombre".","."$alumno->Edad".","."$alumno->DNI".","."$alumno->legajo"."\r\n");
+                fwrite($resource, "$alumno->Nombre".","."$alumno->Edad".","."$alumno->DNI".","."$alumno->legajo");
             }
             fclose($resource);
         }
@@ -87,7 +94,7 @@ class alumno extends Persona
             {
                 array_push($vectorArchivo,fgets($resource)); //Agrego un objeto al final del array por cada linea de archivo leida
 
-            }while(!feof($resource)); //Leo el archivo mientras no haya terminado
+            }while(!(feof($resource))); //Leo el archivo mientras no haya terminado
             return $vectorArchivo;
         }
         return false;
@@ -129,36 +136,35 @@ class alumno extends Persona
         }
     }
 
-    public static function BorrarAlumnoTxt($dirFile,$DNI)
+    public static function BorrarAlumnoTxt($dirFile)
     {
-        //Traigo las lineas del archivo que contienen los alumnos volcados
-        $arrayAlumnosArchivo = alumno::MostrarAlumnos($dirFile);
-        $arrayDeAlumnos = array();
-        if($arrayAlumnosArchivo!=false)
+        $arrayAlumnos = array();
+        $lineas = alumno::MostrarAlumnosTxt($dirFile); //Guardo en un array las lineas del archivo
+        $alumnos = array();
+        foreach($lineas as $linea)
         {
-            foreach($arrayAlumnosArchivo as $lineasArchivo)
+            if(!empty($linea))
             {
-                if(!empty($lineasArchivo))
-                {
-                    $arrayAlumnoDatosSeparados = explode(",",$lineasArchivo); //Separo los datos de la linea en distintos substrings para poder crear los alumnos
-                    $nuevoAlumno = new alumno($arrayAlumnoDatosSeparados[0],$arrayAlumnoDatosSeparados[1],$arrayAlumnoDatosSeparados[2],$arrayAlumnoDatosSeparados[3]); //Creo un nuevo alumno
-                    array_push($arrayDeAlumnos,$nuevoAlumno); //Guardo el nuevo alumno en un array
-                }
+                $datos = explode(",",$linea); //Por cada linea no vacia parseo los datos que contiene
+                array_push($alumnos,new alumno($datos[0],(int)$datos[1],(int)$datos[2],(int)$datos[3])); //Guardo en un array esos alumnos creados con los datos parseados
             }
         }
 
-        //Filtro el array de alumnos para ver si el que quiero borrar aparece
-        for($i = 0; $i < count($arrayDeAlumnos) ; $i++)
-        {
-            if($arrayDeAlumnos[$i]->DNI == $DNI) //Si algun elemento del array coincide con el DNI pasado por parametro
+
+        for($i = 0; $i < sizeof($alumnos); $i++) //Recorro el array de alumnos en memoria
+        {    
+            if($alumnos[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
             {
-                $arrayDeAlumnos[$i]->BorrarArchivo($dirFile);
-                
+                unset($alumnos[$i]); //Lo saco
+                $arrayReIndexado = array_values($alumnos); //Y reordeno los indices del array
             }
         }
+
+        alumno::BorrarArchivo($dirFile); //Borro el contenido del archivo
+        alumno::GuardarTodosTxt($dirFile,$arrayReIndexado); //Lo reescribo con el array restante en memoria
     }
 
-    public static function BorrarAlumnoJSON($dirFile, $DNI)
+    public static function BorrarAlumnoJSON($dirFile)
     {
         $arrayAlumnosArchivo = alumno::MostrarAlumnos($dirFile); //Pongo en el array de $alumnos los JSON (Un obj por indice)
         $arrayAlumnosVariable = array(); //Array que guarda variables sacadas del JSON
