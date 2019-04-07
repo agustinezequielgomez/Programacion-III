@@ -9,16 +9,11 @@ foreach($vectorTxt as $alumnos)
 $vectorJSONIndiv = alumno::MostrarAlumnosJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ListadoAlumnos.json");
 foreach($vectorJSONIndiv as $alumnosJson)
 {
-    var_dump($alumnosJson); 
     echo "<br>";
+    var_dump($alumnosJson); 
 }
 
 $vectorJSONArray = alumno::MostrarAlumnosArrayJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ArrayAlumnos.json");
-foreach($vectorJSONArray as $alumnosArrayJSON)
-{
-    echo "<br>";
-    var_dump($alumnosArrayJSON);
-}
-
-echo "<br><br>", file_get_contents("php://input");
+echo "<br><br>";
+var_dump($vectorJSONArray);
 ?>

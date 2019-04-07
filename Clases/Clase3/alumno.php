@@ -15,75 +15,37 @@ class alumno extends Persona
         return parent::ReturnJson(); //Escribe los metodos del hijo tambien solo invocando el padre porque el padre sabe sus hijos y encodea de igual manera los atributos del hijo
     }
 
+
+//----------------------------------------------------------------------------------TXT--------------------------------------------------------------------------------------\\
+    //Guardo un alumno en un txt. Si existe el salto de linea va al principio. Si no existe no lleva salto de linea
     public function GuardarAlumnoTxt($dirFile)
     {
         if(file_exists($dirFile))
         {
             //resource es un valor que necesita el fwrite que inidca si se abrio o no el archivo. Es como el puntero a ese file
             $resource = fopen($dirFile,"a"); //a = agrega a un archivo ya existente
-            fwrite($resource, "$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"."\r\n"); // "\r\n" para salto de linea
+            fwrite($resource, "\r\n"."$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"); // "\r\n" para salto de linea
             fclose($resource);
         }
         else
         {
             $resource = fopen($dirFile,"w"); // w = Sobreescribe todo el archivo
-            fwrite($resource, "$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"."\r\n"); // "$this->atributo" es lo mismo que $this->atruibto. El escribir las comillas o no no hace diferencia. Si fuera '$this->atributo' escribiria eso textualmente
+            fwrite($resource, "$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"); // "$this->atributo" es lo mismo que $this->atruibto. El escribir las comillas o no no hace diferencia. Si fuera '$this->atributo' escribiria eso textualmente
             fclose($resource);
         }
     }
 
-    public function GuardarJSONIndividual($dirFile)
+    //Elimina el archivo y lo guarda otra vez con todos los alumnos desde un array en memoria. Se guardan de manera individual en un TXT
+    public static function GuardarTodosTxt($dirFile, $alumnos) 
     {
-        if(file_exists($dirFile))
+        unlink($dirFile);
+        foreach($alumnos as $alumno)
         {
-            $resource = fopen($dirFile,"a");
-            fwrite($resource, $this->ReturnJson()."\r\n");//Escribe lo que devuelve el JSON en el archivo
-            fclose($resource);
-        }
-        else
-        {
-            $resource = fopen($dirFile,"w");
-            fwrite($resource, $this->ReturnJson()."\r\n");
-            fclose($resource);
+            $alumno->GuardarAlumnoTxt($dirFile);
         }
     }
 
-    public static function GuardarArrayJSON($dirFile, $array) //Posible fix: Separar el array leido y el entrante por parametro y guardar todo eso en un 3er array.
-    {
-        if(file_exists($dirFile))
-        {
-            $arrayYaExistente = alumno::MostrarAlumnosArrayJSON($dirFile);
-            foreach($arrayYaExistente as $alumno)
-            {
-                array_push($array,$alumno);
-            }
-            echo "<br><br>";
-            var_dump($array);
-            $resource = fopen($dirFile, "w");
-            fwrite($resource, json_encode($array));
-            fclose($resource);
-        }
-        else
-        {
-            $resource = fopen($dirFile, "w");
-            fwrite($resource, json_encode($array));
-            fclose($resource);
-        }
-    }
-
-    public static function GuardarTodosTxt($dirFile, $alumnos)
-    {
-        if(file_exists($dirFile))
-        {
-            $resource = fopen($dirFile,"w");
-            foreach($alumnos as $alumno)
-            {
-                fwrite($resource, "$alumno->Nombre".","."$alumno->Edad".","."$alumno->DNI".","."$alumno->legajo");
-            }
-            fclose($resource);
-        }
-    }
-
+    //Trae las lineas de texto de manera individual (c/linea como elemento de un array) de un archivo TXT que contiene los alumnos
     public static function MostrarAlumnosTxt($dirFile) //Metodo estatico
     {
         if(file_exists($dirFile)) //Chequea si el archivo existe
@@ -100,6 +62,61 @@ class alumno extends Persona
         return false;
     }
 
+    //Crea variables Alumno en base a las lineas leidas de un archivo de texto y retorna esos alumnos en un array
+    public static function TraerAMemoriaTxt($dirFile)
+    {
+        $lineas = alumno::MostrarAlumnosTxt($dirFile); //Guardo en un array las lineas del archivo
+        $alumnos = array();
+        foreach($lineas as $linea)
+        {
+            if(!empty($linea))
+            {
+                $datos = explode(",",$linea); //Por cada linea no vacia parseo los datos que contiene
+                array_push($alumnos,new alumno($datos[0],(int)$datos[1],(int)$datos[2],(int)$datos[3])); //Guardo en un array esos alumnos creados con los datos parseados
+            }
+        }
+        return $alumnos;
+    }
+
+    //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo
+    public static function BorrarAlumnoTxt($dirFile)
+    {
+        $alumnos = alumno::TraerAMemoriaTxt($dirFile);
+        alumno::GuardarTodosTxt($dirFile,alumno::BorrarRegistro($alumnos)); //Borro el archivo y lo reescribo con el array restante en memoria
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+
+
+
+    //-----------------------------------------------------------------------JSON INDIVIDUAL---------------------------------------------------------------------------------\\
+
+    //Guarda un alumno como JSON en un archivo. Si el archivo esta creado pone salto de linea al principio, sino no pone.
+    public function GuardarJSONIndividual($dirFile)
+    {
+        if(file_exists($dirFile))
+        {
+            $resource = fopen($dirFile,"a");
+            fwrite($resource, "\r\n".$this->ReturnJson());//Escribe lo que devuelve el JSON en el archivo
+            fclose($resource);
+        }
+        else
+        {
+            $resource = fopen($dirFile,"w");
+            fwrite($resource, $this->ReturnJson());
+            fclose($resource);
+        }
+    }
+
+    //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo
+    public static function BorrarAlumnoJSON($dirFile)
+    {
+        $arrayAlumnosVariable =  alumno::MostrarAlumnosJSON($dirFile);
+        alumno::GuardarTodosJSON($dirFile,alumno::BorrarRegistro($arrayAlumnosVariable));
+    }
+    
+
+    //Lee las lineas del archivo y construye un array con esas lineas decodificadas (Como objeto stdClass)
     public static function MostrarAlumnosJSON($dirFile)
     {
         if(file_exists($dirFile))
@@ -115,73 +132,119 @@ class alumno extends Persona
         return false;
     }
 
+
+    //Borra el archivo y si el array pasado no esta vacio, reescribe el archivo con un alumno por linea codificado en JSON
+    public static function GuardarTodosJSON($dirFile, $alumnos)
+    {
+        unlink($dirFile);
+        if(!(empty($alumnos)))
+        {
+            $resource = fopen($dirFile,"w");
+            $flag = false;
+            foreach($alumnos as $alumno)
+            {
+                if(!($flag))  //Si es la primera linea que se escribe en el archivo
+                {
+                    fwrite($resource,json_encode($alumno)); //Va sin salto de linea
+                    $flag = true;
+                }
+                else
+                {
+                    fwrite($resource,"\r\n".json_encode($alumno)); //sino lleva salto de linea al principio (Para evitar una linea vacia al final del archivo que despues se leeria como nula)
+                }
+            }
+            fclose($resource);
+        }
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+    
+    
+    //-------------------------------------------------------------------------ARRAY JSON------------------------------------------------------------------------------------\\
+    
+    //Guarda los alumnos en un solo array de elementos JSON. Recibe el array de Alummnos (Clase alumno) y lo fusiona con el array ya existente en el archivo para reguardarlo como un solo array con los elementos entrantes y los ya existentes
+    public static function GuardarArrayJSON($dirFile, $array)
+    {
+        if(file_exists($dirFile))
+        {
+            $arrayYaExistente = alumno::MostrarAlumnosArrayJSON($dirFile); //Tomo los alumnos ya existentes
+            $arrayAcumulativo = array();
+            foreach($arrayYaExistente as $alumnos)
+            {
+                array_push($arrayAcumulativo,$alumnos); //Los meto en el nuevo array
+            }
+            foreach($array as $alumno) //Tomo los elementos entrantes y los meto en el nuevo array
+            {
+                array_push($arrayAcumulativo,$alumno);
+            }
+            $resource = fopen($dirFile, "w");
+            fwrite($resource, json_encode($arrayAcumulativo)); //Escribo el array fusionado
+            fclose($resource);
+        }
+        else
+        {
+            $resource = fopen($dirFile, "w");
+            fwrite($resource, json_encode($array));
+            fclose($resource);
+        }
+    }
+
+
+    //Devuelve un array de alumnos ya decodificado como stdClass 
     public static function MostrarAlumnosArrayJSON($dirFile)
     {
         if(file_exists($dirFile))
         {
-            $cadenaArchivo = file_get_contents($dirFile);
-            $arrayJSON = array();
-            array_push($arrayJSON,json_decode($cadenaArchivo));
+            $arrayJSON = json_decode(file_get_contents($dirFile));
             return $arrayJSON;
         }
         return false;
     }
 
-    public static function BorrarArchivo($path)
+    
+    //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo (Borrandolo primero. Si no hay nada que reescribir se borra el archivo directamente)
+    public static function BorrarAlumnoArrayJSON($dirFile)
     {
-        if(file_exists($path))
+        $arrayAlumnos = alumno::MostrarAlumnosArrayJSON($dirFile);
+        $arrayEscribir = alumno::BorrarRegistro($arrayAlumnos);
+        unlink($dirFile);
+        if(!(empty($arrayEscribir)))
         {
-            $resource = fopen($path,"w");
-            fclose($resource);
+            alumno::GuardarArrayJSON($dirFile,$arrayEscribir);
         }
     }
 
-    public static function BorrarAlumnoTxt($dirFile)
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+    
+    //----------------------------------------------------------------------------GENERALES----------------------------------------------------------------------------------\\
+    
+    //En base al Array que se le pasa por parametro, filtra y elimina el alumno con DNI correspondiente enviado por GET. Por ultimo reordena los indices del array para que no haya lugares vacios y se reescriban lineas vacias en los archivos
+    public static function BorrarRegistro($array)
     {
-        $arrayAlumnos = array();
-        $lineas = alumno::MostrarAlumnosTxt($dirFile); //Guardo en un array las lineas del archivo
-        $alumnos = array();
-        foreach($lineas as $linea)
-        {
-            if(!empty($linea))
-            {
-                $datos = explode(",",$linea); //Por cada linea no vacia parseo los datos que contiene
-                array_push($alumnos,new alumno($datos[0],(int)$datos[1],(int)$datos[2],(int)$datos[3])); //Guardo en un array esos alumnos creados con los datos parseados
-            }
-        }
-
-
-        for($i = 0; $i < sizeof($alumnos); $i++) //Recorro el array de alumnos en memoria
+        for($i = 0; $i < count($array); $i++) //Recorro el array de alumnos en memoria
         {    
-            if($alumnos[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
+            if($array[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
             {
-                unset($alumnos[$i]); //Lo saco
-                $arrayReIndexado = array_values($alumnos); //Y reordeno los indices del array
+                unset($array[$i]); //Lo saco
+                $arrayReIndexado = array_values($array); //Y reordeno los indices del array
             }
         }
-
-        alumno::BorrarArchivo($dirFile); //Borro el contenido del archivo
-        alumno::GuardarTodosTxt($dirFile,$arrayReIndexado); //Lo reescribo con el array restante en memoria
+        return $arrayReIndexado;
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
-    public static function BorrarAlumnoJSON($dirFile)
+
+
+    public static function ModificarAlumnoTxt($dirFile, $opcion)
     {
-        $arrayAlumnosArchivo = alumno::MostrarAlumnos($dirFile); //Pongo en el array de $alumnos los JSON (Un obj por indice)
-        $arrayAlumnosVariable = array(); //Array que guarda variables sacadas del JSON
-        foreach($arrayAlumnosArchivo as $JSONS)
-        {
-            array_push($arrayAlumnosVariable,json_decode($JSONS)); //Guardo en el array variables php creadas en base al JSON 
-        }
 
-        for($i = 0; $i < count($arrayAlumnosVariable); $i++)
-        {
-            if($arrayAlumnosVariable[$i]->DNI == $DNI)
-            {
-                $cadenaReemplazada = str_replace($arrayAlumnosArchivo[$i],"",$arrayAlumnosArchivo);
-                file_put_contents($dirFile,$cadenaReemplazada);
-            }
-        }
     }
+
+
+
+
+
 
     public function GuardarFoto($path,$legajo,$nombre)
     {
