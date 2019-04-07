@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "33854941-8252-48a5-94c0-a7a2340809bd",
+		"name": "Alumno",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Alumno",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "bbbb",
+							"type": "text"
+						},
+						{
+							"key": "edad",
+							"value": "33",
+							"type": "text"
+						},
+						{
+							"key": "dni",
+							"value": "2322",
+							"type": "text"
+						},
+						{
+							"key": "legajo",
+							"value": "1112",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase3/crearAlumno.php?nombre=Agustin&edad=19&dni=42147544&legajo=147533",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase3",
+						"crearAlumno.php"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "Agustin"
+						},
+						{
+							"key": "edad",
+							"value": "19"
+						},
+						{
+							"key": "dni",
+							"value": "42147544"
+						},
+						{
+							"key": "legajo",
+							"value": "147533"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mostrar alumnos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "Agustin",
+							"type": "text"
+						},
+						{
+							"key": "edad",
+							"value": "19",
+							"type": "text"
+						},
+						{
+							"key": "dni",
+							"value": "42147544",
+							"description": "l",
+							"type": "text"
+						},
+						{
+							"key": "legajo",
+							"value": "107335",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase3/ListarAlumnos.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase3",
+						"ListarAlumnos.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Alumnos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase3/BorrarAlumno.php?DNI=14487",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase3",
+						"BorrarAlumno.php"
+					],
+					"query": [
+						{
+							"key": "DNI",
+							"value": "14487"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Alumno",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase3/ModificarAlumno.php?DNI=42147&Opcion=1&Nombre=Josea&Edad=44&Legajo=107335",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase3",
+						"ModificarAlumno.php"
+					],
+					"query": [
+						{
+							"key": "DNI",
+							"value": "42147"
+						},
+						{
+							"key": "Opcion",
+							"value": "1"
+						},
+						{
+							"key": "Nombre",
+							"value": "Josea"
+						},
+						{
+							"key": "Edad",
+							"value": "44"
+						},
+						{
+							"key": "Legajo",
+							"value": "107335"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enviar Foto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "archivo",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase3/MoverArchivo.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase3",
+						"MoverArchivo.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

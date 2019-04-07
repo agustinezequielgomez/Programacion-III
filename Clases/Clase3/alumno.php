@@ -85,6 +85,54 @@ class alumno extends Persona
         alumno::GuardarTodosTxt($dirFile,alumno::BorrarRegistro($alumnos)); //Borro el archivo y lo reescribo con el array restante en memoria
     }
 
+    public static function ModificarAlumnoTxt($dirFile)
+    {
+        $alumnos = alumno::TraerAMemoriaTxt($dirFile);
+        $indice = alumno::BuscarIndiceArray($alumnos); //Busco el indice del alumno que coincida con el DNI pasado por $_GET
+        //Leo que se va a modificar
+        switch($_GET["Opcion"])  
+        {
+            case 1:
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                alumno::GuardarTodosTxt($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+
+            case 2:
+            $indice = alumno::BuscarIndiceArray($alumnos);
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Edad = $_GET["Edad"];
+                alumno::GuardarTodosTxt($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+            
+            case 3:
+            $indice = alumno::BuscarIndiceArray($alumnos);
+            
+            if($indice != -1)
+            {
+                $alumnos[$indice]->legajo = $_GET["Legajo"];
+                alumno::GuardarTodosTxt($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+        }
+    }
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
 
@@ -157,7 +205,49 @@ class alumno extends Persona
         }
     }
 
+    public static function ModificarAlumnoJSON($dirFile)
+    {
+        $alumnos = alumno::MostrarAlumnosJSON($dirFile);
+        $indice = alumno::BuscarIndiceArray($alumnos);
+        switch($_GET["Opcion"])
+        {
+            case 1:
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                alumno::GuardarTodosJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
 
+            case 2:
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                alumno::GuardarTodosJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+            
+            case 3:            
+            if($indice != -1)
+            {
+                $alumnos[$indice]->legajo = (int)$_GET["Legajo"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                alumno::GuardarTodosJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+        }
+    }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
     
     
@@ -215,6 +305,52 @@ class alumno extends Persona
         }
     }
 
+    public static function ModificarAlumnoArrayJSON($dirFile)
+    {
+        $alumnos = alumno::MostrarAlumnosArrayJSON($dirFile);
+        $indice = alumno::BuscarIndiceArray($alumnos);
+        switch($_GET["Opcion"])
+        {
+            case 1:
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                unlink($dirFile);
+                alumno::GuardarArrayJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+
+            case 2:
+            if($indice != -1)
+            {
+                $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                unlink($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
+                alumno::GuardarArrayJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+            
+            case 3:            
+            if($indice != -1)
+            {
+                $alumnos[$indice]->legajo = (int)$_GET["Legajo"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                unlink($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
+                alumno::GuardarArrayJSON($dirFile,$alumnos);
+            }
+            else
+            {
+                echo "El DNI pasado no existe en la base de datos";
+            }
+            break;
+        }
+    }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
     
     //----------------------------------------------------------------------------GENERALES----------------------------------------------------------------------------------\\
@@ -222,79 +358,81 @@ class alumno extends Persona
     //En base al Array que se le pasa por parametro, filtra y elimina el alumno con DNI correspondiente enviado por GET. Por ultimo reordena los indices del array para que no haya lugares vacios y se reescriban lineas vacias en los archivos
     public static function BorrarRegistro($array)
     {
-        for($i = 0; $i < count($array); $i++) //Recorro el array de alumnos en memoria
-        {    
-            if($array[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
-            {
-                unset($array[$i]); //Lo saco
-                $arrayReIndexado = array_values($array); //Y reordeno los indices del array
-            }
+        $indice = alumno::BuscarIndiceArray($array);
+        if($indice != -1)
+        {
+            unset($array[$indice]); //Lo saco
+            $arrayReIndexado = array_values($array); //Y reordeno los indices del array
+        }
+        else
+        {
+            echo "<br>El DNI pasado por parametro no se encuentra en la base de datos!";
         }
         return $arrayReIndexado;
     }
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
-
-
-    public static function ModificarAlumnoTxt($dirFile, $opcion)
+    public static function BuscarIndiceArray($alumnos)
     {
-
+        $indice = -1;
+        for($i = 0; $i < count($alumnos); $i++) //Recorro el array de alumnos en memoria
+        {    
+            if($alumnos[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
+            {
+                $indice = $i; //Devuelvo el indice para poder eliminarlo o modificarlo
+            }
+        }
+        return $indice;
     }
-
-
-
-
-
-
-    public function GuardarFoto($path,$legajo,$nombre)
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+    
+    //----------------------------------------------------------------------------FOTOS---------------------------------------------------------------------------------------\\
+    public function GuardarFoto($path)
     {
         if(file_exists($_FILES["archivo"]["tmp_name"]))
         {
-            $punto = ".";
-            $barra = "/";
             $nombreArchivo = "";
-            $arrayNombre = explode(".",$_FILES["archivo"]["name"]);
-            $nombreArchivo .=  $legajo .= $nombre .= $punto .= $arrayNombre[1];
-            $path .= $barra .= $nombreArchivo;
-            echo "<br>",$path;
-            if(file_exists($path))
+            $arrayNombre = explode(".",$_FILES["archivo"]["name"]); //Separo el nombre de la extension (La extension queda como elemento [1] del array)
+            $nombreArchivo .=  $this->legajo . $this->Nombre . '.' . $arrayNombre[1]; //Creo el nombre del archivo con el nombre del alumno, legajo y extension
+            $path .= '/' . $nombreArchivo; //Creo el path agregandole al path pasado por parametro (Carpeta Archivos) la barra y el nombre del archivo
+            if(file_exists($path)) //Si el alumno ya tiene foto de perfil
             {
-                echo "<br>",$path;
-                alumno::ReemplazarFoto("./ArchivosBackup",$legajo,$nombre);
-                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path);
+                $this->ReemplazarFoto("./ArchivosBackup"); //Reemplazo la exitente (La muevo a ArchivosBackup añadiendole al nombre la fecha)
+                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Y pongo la entrante en la carpeta archivos
             }
             else
             {
                 move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Le decis como se llama el archivo en el primer argumento y a donde va a ir a parar en el segundo (incluyendo nombre de arhcivo mas path)
-                "$this->PonerMarcaDeAgua($path)";
+                //"$this->PonerMarcaDeAgua($path)";
             }
         }
     }
 
-    public function ReemplazarFoto($path,$legajo,$nombre)
+    public function ReemplazarFoto($path)
     {
-        $punto = ".";
-        $barra = "/";
         $nombreArchivo = "";
         $arrayNombre = explode(".",$_FILES["archivo"]["name"]);
-        $fecha = date("dmy");
-        $nombreArchivo .= $legajo .= $nombre .= $fecha .= $punto .= $arrayNombre[1];
-        $path .= $barra .= $nombreArchivo;
-        move_uploaded_file($_FILES["archivo"]["tmp_name"],$path);
+        date_default_timezone_set('America/Argentina/Buenos_Aires'); //Seteo la zona horaria para que al imprimir la hora sea la hora local de argentina
+        $fecha = date("dmy\-H\.i\.s"); //Recibo la hora en formato diaMesAño-Hora.Minuto.Seugndo
+        $nombreArchivo .= $this->legajo . $this->Nombre . $fecha . '.' . $arrayNombre[1]; //Creo el nombre del archivo con el legajo, nombre, fecha y extension
+        $path .= '/' . $nombreArchivo;
+        move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Muevo la foto a archivos Backup 
     }
 
     public function PonerMarcaDeAgua($archivo)
     {
-        $marca = imagecreatefrompng('./Archivos/kisspng-computer-icons-logo-clip-art-instagram-logo-5acbcae56ab134.563074611523305189437');
-        $imagen = imagecreatefromjpg($archivo);
+        $marca = imagecreatefrompng('./Archivos/md_5aff6089d3e02.png'); //Cargo la marca de agua
+        $imagen = imagecreatefromjpeg($archivo); //Cargo la imagen base
 
-        $margenDerecho = 10;
-        $margenIzquierdo = 10;
-        $marcax = imagesx($marca);
-        $marcay = imagesy($marca);
+        $margenDerecho = 10; //Establezco margen derecho
+        $margenIzquierdo = 10; //Establezco margen izquierdo
+        $marcax = imagesx($marca); //Obtengo ancho de la foto
+        $marcay = imagesy($marca); //Obtengo alto de la foto
 
-        imagecopy($imagen,$marca,imagesx($imagen) - $marcax - $margenDerecho,imagesy($imagen) - $marcay - $margenIzquierdo,0,0,$marcax,$marcay,50);
-        imagepng($imagen,"./marcadeagua.png");
+        //Copio la marca de agua sobre la imagen base calculando la posicion basandome en los margenes y tamaños
+        imagecopy($imagen, $marca, imagesx($imagen) - $marcax - $margenDerecho, imagesy($imagen) - $marcay - $margenIzquierdo,0,0,$marcax,$marcay);
+        //Guardo la imagen con marca de agua en la ruta especificada
+        imagepng($imagen,"./Archivos/marcadeagua.png");
     }
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 }
 ?>
