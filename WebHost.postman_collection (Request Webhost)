@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "760d1f09-7dda-4005-a352-7d2f33811ecb",
+		"name": "WebHost",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Alumno Web",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "bbbb",
+							"type": "text"
+						},
+						{
+							"key": "edad",
+							"value": "33",
+							"type": "text"
+						},
+						{
+							"key": "dni",
+							"value": "2322",
+							"type": "text"
+						},
+						{
+							"key": "legajo",
+							"value": "1112",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://agustinezequielgomez.000webhostapp.com/index.php",
+					"protocol": "http",
+					"host": [
+						"agustinezequielgomez",
+						"000webhostapp",
+						"com"
+					],
+					"path": [
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Alumnos Web",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://agustinezequielgomez.000webhostapp.com/index.php",
+					"protocol": "http",
+					"host": [
+						"agustinezequielgomez",
+						"000webhostapp",
+						"com"
+					],
+					"path": [
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Alumnos Web",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://agustinezequielgomez.000webhostapp.com/index.php?DNI",
+					"protocol": "http",
+					"host": [
+						"agustinezequielgomez",
+						"000webhostapp",
+						"com"
+					],
+					"path": [
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "DNI",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Alumno Web",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://agustinezequielgomez.000webhostapp.com/ModificarAlumno.php?DNI=42147&Opcion=1&Nombre=Josea&Edad=44&Legajo=107335",
+					"protocol": "http",
+					"host": [
+						"agustinezequielgomez",
+						"000webhostapp",
+						"com"
+					],
+					"path": [
+						"ModificarAlumno.php"
+					],
+					"query": [
+						{
+							"key": "DNI",
+							"value": "42147"
+						},
+						{
+							"key": "Opcion",
+							"value": "1"
+						},
+						{
+							"key": "Nombre",
+							"value": "Josea"
+						},
+						{
+							"key": "Edad",
+							"value": "44"
+						},
+						{
+							"key": "Legajo",
+							"value": "107335"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
