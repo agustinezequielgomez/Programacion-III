@@ -38,7 +38,7 @@ class alumno extends Persona
     //Elimina el archivo y lo guarda otra vez con todos los alumnos desde un array en memoria. Se guardan de manera individual en un TXT
     public static function GuardarTodosTxt($dirFile, $alumnos) 
     {
-        unlink($dirFile);
+        alumno::VaciarArchivo($dirFile);
         foreach($alumnos as $alumno)
         {
             $alumno->GuardarAlumnoTxt($dirFile);
@@ -59,7 +59,7 @@ class alumno extends Persona
             }while(!(feof($resource))); //Leo el archivo mientras no haya terminado
             return $vectorArchivo;
         }
-        return false;
+        //return false;
     }
 
     //Crea variables Alumno en base a las lineas leidas de un archivo de texto y retorna esos alumnos en un array
@@ -109,20 +109,6 @@ class alumno extends Persona
             if($indice != -1)
             {
                 $alumnos[$indice]->Edad = $_GET["Edad"];
-                alumno::GuardarTodosTxt($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-            
-            case 3:
-            $indice = alumno::BuscarIndiceArray($alumnos);
-            
-            if($indice != -1)
-            {
-                $alumnos[$indice]->legajo = $_GET["Legajo"];
                 alumno::GuardarTodosTxt($dirFile,$alumnos);
             }
             else
@@ -184,7 +170,7 @@ class alumno extends Persona
     //Borra el archivo y si el array pasado no esta vacio, reescribe el archivo con un alumno por linea codificado en JSON
     public static function GuardarTodosJSON($dirFile, $alumnos)
     {
-        unlink($dirFile);
+        alumno::VaciarArchivo($dirFile);
         if(!(empty($alumnos)))
         {
             $resource = fopen($dirFile,"w");
@@ -227,18 +213,6 @@ class alumno extends Persona
             if($indice != -1)
             {
                 $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
-                alumno::GuardarTodosJSON($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-            
-            case 3:            
-            if($indice != -1)
-            {
-                $alumnos[$indice]->legajo = (int)$_GET["Legajo"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
                 alumno::GuardarTodosJSON($dirFile,$alumnos);
             }
             else
@@ -298,7 +272,7 @@ class alumno extends Persona
     {
         $arrayAlumnos = alumno::MostrarAlumnosArrayJSON($dirFile);
         $arrayEscribir = alumno::BorrarRegistro($arrayAlumnos);
-        unlink($dirFile);
+        alumno::VaciarArchivo($dirFile);
         if(!(empty($arrayEscribir)))
         {
             alumno::GuardarArrayJSON($dirFile,$arrayEscribir);
@@ -315,7 +289,7 @@ class alumno extends Persona
             if($indice != -1)
             {
                 $alumnos[$indice]->Nombre = $_GET["Nombre"];
-                unlink($dirFile);
+                alumno::VaciarArchivo($dirFile);
                 alumno::GuardarArrayJSON($dirFile,$alumnos);
             }
             else
@@ -328,20 +302,7 @@ class alumno extends Persona
             if($indice != -1)
             {
                 $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
-                unlink($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
-                alumno::GuardarArrayJSON($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-            
-            case 3:            
-            if($indice != -1)
-            {
-                $alumnos[$indice]->legajo = (int)$_GET["Legajo"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
-                unlink($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
+                alumno::VaciarArchivo($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
                 alumno::GuardarArrayJSON($dirFile,$alumnos);
             }
             else
@@ -363,12 +324,13 @@ class alumno extends Persona
         {
             unset($array[$indice]); //Lo saco
             $arrayReIndexado = array_values($array); //Y reordeno los indices del array
+            return $arrayReIndexado;
         }
         else
         {
             echo "<br>El DNI pasado por parametro no se encuentra en la base de datos!";
+            return -1;
         }
-        return $arrayReIndexado;
     }
 
     public static function BuscarIndiceArray($alumnos)
@@ -383,6 +345,18 @@ class alumno extends Persona
         }
         return $indice;
     }
+
+    public static function VaciarArchivo($dirFile)
+    {
+        if(file_exists($dirFile))
+        {
+            $resource = fopen($dirFile,"w");
+            fclose($resource);   
+        }
+    }
+
+    //Crear transformar alumno
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
     
     //----------------------------------------------------------------------------FOTOS---------------------------------------------------------------------------------------\\
@@ -397,6 +371,7 @@ class alumno extends Persona
             if(file_exists($path)) //Si el alumno ya tiene foto de perfil
             {
                 $this->ReemplazarFoto("./ArchivosBackup"); //Reemplazo la exitente (La muevo a ArchivosBackup añadiendole al nombre la fecha)
+                
                 move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Y pongo la entrante en la carpeta archivos
             }
             else
