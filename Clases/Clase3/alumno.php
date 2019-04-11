@@ -317,7 +317,7 @@ class alumno extends Persona
     //----------------------------------------------------------------------------GENERALES----------------------------------------------------------------------------------\\
     
     //En base al Array que se le pasa por parametro, filtra y elimina el alumno con DNI correspondiente enviado por GET. Por ultimo reordena los indices del array para que no haya lugares vacios y se reescriban lineas vacias en los archivos
-    public static function BorrarRegistro($array)
+    private static function BorrarRegistro($array)
     {
         $indice = alumno::BuscarIndiceArray($array);
         if($indice != -1)
@@ -333,7 +333,7 @@ class alumno extends Persona
         }
     }
 
-    public static function BuscarIndiceArray($alumnos)
+    private static function BuscarIndiceArray($alumnos)
     {
         $indice = -1;
         for($i = 0; $i < count($alumnos); $i++) //Recorro el array de alumnos en memoria
@@ -346,7 +346,7 @@ class alumno extends Persona
         return $indice;
     }
 
-    public static function VaciarArchivo($dirFile)
+    private static function VaciarArchivo($dirFile)
     {
         if(file_exists($dirFile))
         {
@@ -370,19 +370,18 @@ class alumno extends Persona
             $path .= '/' . $nombreArchivo; //Creo el path agregandole al path pasado por parametro (Carpeta Archivos) la barra y el nombre del archivo
             if(file_exists($path)) //Si el alumno ya tiene foto de perfil
             {
-                $this->ReemplazarFoto("./ArchivosBackup"); //Reemplazo la exitente (La muevo a ArchivosBackup añadiendole al nombre la fecha)
-                
-                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Y pongo la entrante en la carpeta archivos
+                $this->ReemplazarFoto("./ArchivosBackup"); //Reemplazo la existente (La muevo a ArchivosBackup añadiendole al nombre la fecha)             
+                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Y pongo la entrante en la carpeta archivos (Le decis como se llama el archivo en el primer argumento y a donde va a ir a parar en el segundo (incluyendo nombre de arhcivo mas path))
             }
             else
             {
-                move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Le decis como se llama el archivo en el primer argumento y a donde va a ir a parar en el segundo (incluyendo nombre de arhcivo mas path)
-                //"$this->PonerMarcaDeAgua($path)";
+                $this->PonerMarcaDeAgua($_FILES["archivo"]["tmp_name"],$path);
+                //move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); 
             }
         }
     }
 
-    public function ReemplazarFoto($path)
+    private function ReemplazarFoto($path)
     {
         $nombreArchivo = "";
         $arrayNombre = explode(".",$_FILES["archivo"]["name"]);
@@ -393,7 +392,7 @@ class alumno extends Persona
         move_uploaded_file($_FILES["archivo"]["tmp_name"],$path); //Muevo la foto a archivos Backup 
     }
 
-    public function PonerMarcaDeAgua($archivo)
+    private function PonerMarcaDeAgua($archivo,$path)
     {
         $marca = imagecreatefrompng('./Archivos/md_5aff6089d3e02.png'); //Cargo la marca de agua
         $imagen = imagecreatefromjpeg($archivo); //Cargo la imagen base
@@ -406,7 +405,7 @@ class alumno extends Persona
         //Copio la marca de agua sobre la imagen base calculando la posicion basandome en los margenes y tamaños
         imagecopy($imagen, $marca, imagesx($imagen) - $marcax - $margenDerecho, imagesy($imagen) - $marcay - $margenIzquierdo,0,0,$marcax,$marcay);
         //Guardo la imagen con marca de agua en la ruta especificada
-        imagepng($imagen,"./Archivos/marcadeagua.png");
+        imagepng($imagen,$path);
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 }
