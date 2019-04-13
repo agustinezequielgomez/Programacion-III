@@ -15,7 +15,7 @@ class alumno extends Persona
         return parent::ReturnJson(); //Escribe los metodos del hijo tambien solo invocando el padre porque el padre sabe sus hijos y encodea de igual manera los atributos del hijo
     }
 
-
+#region TXT
 //----------------------------------------------------------------------------------TXT--------------------------------------------------------------------------------------\\
     //Guardo un alumno en un txt. Si existe el salto de linea va al principio. Si no existe no lleva salto de linea
     public function GuardarAlumnoTxt($dirFile)
@@ -120,7 +120,9 @@ class alumno extends Persona
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+#endregion
 
+#region JSON INDIVIDUAL
 
 
     //-----------------------------------------------------------------------JSON INDIVIDUAL---------------------------------------------------------------------------------\\
@@ -223,8 +225,9 @@ class alumno extends Persona
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+    #endregion
     
-    
+#region ARRAY JSON
     //-------------------------------------------------------------------------ARRAY JSON------------------------------------------------------------------------------------\\
     
     //Guarda los alumnos en un solo array de elementos JSON. Recibe el array de Alummnos (Clase alumno) y lo fusiona con el array ya existente en el archivo para reguardarlo como un solo array con los elementos entrantes y los ya existentes
@@ -313,7 +316,9 @@ class alumno extends Persona
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
-    
+    #endregion
+
+#region GENERALES
     //----------------------------------------------------------------------------GENERALES----------------------------------------------------------------------------------\\
     
     //En base al Array que se le pasa por parametro, filtra y elimina el alumno con DNI correspondiente enviado por GET. Por ultimo reordena los indices del array para que no haya lugares vacios y se reescriban lineas vacias en los archivos
@@ -358,7 +363,9 @@ class alumno extends Persona
     //Crear transformar alumno
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
-    
+#endregion
+
+#region FOTOS
     //----------------------------------------------------------------------------FOTOS---------------------------------------------------------------------------------------\\
     public function GuardarFoto($path)
     {
@@ -408,5 +415,6 @@ class alumno extends Persona
         imagepng($imagen,$path);
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
+#endregion
 }
 ?>
