@@ -16,4 +16,5 @@ foreach($vectorJSONIndiv as $alumnosJson)
 $vectorJSONArray = alumno::MostrarAlumnosArrayJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ArrayAlumnos.json");
 echo "<br><br>";
 var_dump($vectorJSONArray);
+
 ?>

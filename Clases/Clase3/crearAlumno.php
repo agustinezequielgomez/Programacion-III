@@ -40,11 +40,12 @@ echo $miAlumno->ReturnJson();
 
 $miAlumno2 = new alumno("agustin",12,42147,1123);
 $alumnos = array();
-array_push($alumnos,$miAlumno);
-array_push($alumnos,$miAlumno2);
+
 
 
 $miAlumno->GuardarAlumnoTxt("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ListadoAlumnos.txt");
 $miAlumno->GuardarJSONIndividual("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ListadoAlumnos.json");
-alumno::GuardarArrayJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ArrayAlumnos.json",$alumnos);
+
+    array_push($alumnos,$miAlumno);
+    alumno::GuardarArrayJSON("C:\\xampp\htdocs\Programacion-III\Clases\Clase3\ArrayAlumnos.json",$alumnos);
 ?>

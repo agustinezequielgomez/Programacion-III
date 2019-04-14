@@ -24,24 +24,37 @@ class alumno extends Persona
         {
             //resource es un valor que necesita el fwrite que inidca si se abrio o no el archivo. Es como el puntero a ese file
             $resource = fopen($dirFile,"a"); //a = agrega a un archivo ya existente
-            fwrite($resource, "\r\n"."$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"); // "\r\n" para salto de linea
-            fclose($resource);
+            if(file_get_contents($dirFile) != "")
+            {
+                fwrite($resource, "\r\n"."$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"); // "\r\n" para salto de linea
+            }
+            else
+            {
+                fwrite($resource, "$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo");
+            }
         }
         else
         {
             $resource = fopen($dirFile,"w"); // w = Sobreescribe todo el archivo
             fwrite($resource, "$this->Nombre".","."$this->Edad".","."$this->DNI".","."$this->legajo"); // "$this->atributo" es lo mismo que $this->atruibto. El escribir las comillas o no no hace diferencia. Si fuera '$this->atributo' escribiria eso textualmente
-            fclose($resource);
         }
+        fclose($resource);
     }
 
     //Elimina el archivo y lo guarda otra vez con todos los alumnos desde un array en memoria. Se guardan de manera individual en un TXT
     public static function GuardarTodosTxt($dirFile, $alumnos) 
     {
-        alumno::VaciarArchivo($dirFile);
-        foreach($alumnos as $alumno)
+        if($alumnos!=-1)
         {
-            $alumno->GuardarAlumnoTxt($dirFile);
+            alumno::VaciarArchivo($dirFile);
+            foreach($alumnos as $alumno)
+            {
+                $alumno->GuardarAlumnoTxt($dirFile);
+            }
+        }
+        else
+        {
+            exit;
         }
     }
 
@@ -79,46 +92,37 @@ class alumno extends Persona
     }
 
     //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo
-    public static function BorrarAlumnoTxt($dirFile)
+    public static function BorrarAlumnoTxt($dirFile, $_DELETE)
     {
         $alumnos = alumno::TraerAMemoriaTxt($dirFile);
-        alumno::GuardarTodosTxt($dirFile,alumno::BorrarRegistro($alumnos)); //Borro el archivo y lo reescribo con el array restante en memoria
+        alumno::GuardarTodosTxt($dirFile,alumno::BorrarRegistro($alumnos,$_DELETE["DNI"])); //Borro el archivo y lo reescribo con el array restante en memoria
     }
 
-    public static function ModificarAlumnoTxt($dirFile)
+    public static function ModificarAlumnoTxt($dirFile, $_PUT)
     {
         $alumnos = alumno::TraerAMemoriaTxt($dirFile);
-        $indice = alumno::BuscarIndiceArray($alumnos); //Busco el indice del alumno que coincida con el DNI pasado por $_GET
+        $indice = alumno::BuscarIndiceArray($alumnos, $_PUT["DNI"]); //Busco el indice del alumno que coincida con el DNI pasado por $_GET
         //Leo que se va a modificar
-        switch($_GET["Opcion"])  
+        if($indice!= -1)
         {
-            case 1:
-            if($indice != -1)
+            switch($_PUT["opcion"])  
             {
-                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                case 1:
+                $alumnos[$indice]->Nombre = $_PUT["Nombre"];
                 alumno::GuardarTodosTxt($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-
-            case 2:
-            $indice = alumno::BuscarIndiceArray($alumnos);
-            if($indice != -1)
-            {
-                $alumnos[$indice]->Edad = $_GET["Edad"];
+                break;
+    
+                case 2:
+                $alumnos[$indice]->Edad = $_PUT["Edad"];
                 alumno::GuardarTodosTxt($dirFile,$alumnos);
+                break;
             }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
+        }
+        else
+        {
+            echo "El DNI pasado no existe en la base de datos";
         }
     }
-
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 #endregion
 
@@ -133,22 +137,28 @@ class alumno extends Persona
         if(file_exists($dirFile))
         {
             $resource = fopen($dirFile,"a");
-            fwrite($resource, "\r\n".$this->ReturnJson());//Escribe lo que devuelve el JSON en el archivo
-            fclose($resource);
+            if(file_get_contents($dirFile)!= "")
+            {
+                fwrite($resource, "\r\n".$this->ReturnJson());//Escribe lo que devuelve el JSON en el archivo
+            }
+            else
+            {
+                fwrite($resource, $this->ReturnJson());
+            }
         }
         else
         {
             $resource = fopen($dirFile,"w");
             fwrite($resource, $this->ReturnJson());
-            fclose($resource);
         }
+        fclose($resource);
     }
 
     //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo
-    public static function BorrarAlumnoJSON($dirFile)
+    public static function BorrarAlumnoJSON($dirFile,$_DELETE)
     {
-        $arrayAlumnosVariable =  alumno::MostrarAlumnosJSON($dirFile);
-        alumno::GuardarTodosJSON($dirFile,alumno::BorrarRegistro($arrayAlumnosVariable));
+        $arrayAlumnosVariable = alumno::MostrarAlumnosJSON($dirFile);
+        alumno::GuardarTodosJSON($dirFile,alumno::BorrarRegistro($arrayAlumnosVariable,$_DELETE["DNI"]));
     }
     
 
@@ -161,7 +171,7 @@ class alumno extends Persona
             $vectorArchivo = array();
             do
             {
-                array_push($vectorArchivo,json_decode(fgets($resource)));
+                array_push($vectorArchivo,alumno::objectToObject(json_decode(fgets($resource))));
             }while(!feof($resource));
             return $vectorArchivo;
         }
@@ -172,56 +182,41 @@ class alumno extends Persona
     //Borra el archivo y si el array pasado no esta vacio, reescribe el archivo con un alumno por linea codificado en JSON
     public static function GuardarTodosJSON($dirFile, $alumnos)
     {
-        alumno::VaciarArchivo($dirFile);
-        if(!(empty($alumnos)))
+        if($alumnos != -1)
         {
-            $resource = fopen($dirFile,"w");
-            $flag = false;
-            foreach($alumnos as $alumno)
+            alumno::VaciarArchivo($dirFile);
+            if(!(empty($alumnos)))
             {
-                if(!($flag))  //Si es la primera linea que se escribe en el archivo
+                foreach($alumnos as $alumno)
                 {
-                    fwrite($resource,json_encode($alumno)); //Va sin salto de linea
-                    $flag = true;
-                }
-                else
-                {
-                    fwrite($resource,"\r\n".json_encode($alumno)); //sino lleva salto de linea al principio (Para evitar una linea vacia al final del archivo que despues se leeria como nula)
+                    $alumno->GuardarJSONIndividual($dirFile);
                 }
             }
-            fclose($resource);
         }
     }
 
-    public static function ModificarAlumnoJSON($dirFile)
+    public static function ModificarAlumnoJSON($dirFile,$_PUT)
     {
         $alumnos = alumno::MostrarAlumnosJSON($dirFile);
-        $indice = alumno::BuscarIndiceArray($alumnos);
-        switch($_GET["Opcion"])
+        $indice = alumno::BuscarIndiceArray($alumnos,$_PUT["DNI"]);
+        if($indice!=-1)
         {
-            case 1:
-            if($indice != -1)
+            switch($_PUT["opcion"])
             {
-                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                case 1:
+                $alumnos[$indice]->Nombre = $_PUT["Nombre"];
                 alumno::GuardarTodosJSON($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-
-            case 2:
-            if($indice != -1)
-            {
-                $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                break;
+    
+                case 2:
+                $alumnos[$indice]->Edad = (int)$_PUT["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
                 alumno::GuardarTodosJSON($dirFile,$alumnos);
+                break;
             }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
+        }
+        else
+        {
+            echo "El DNI pasado no existe en la base de datos";
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
@@ -264,55 +259,56 @@ class alumno extends Persona
         if(file_exists($dirFile))
         {
             $arrayJSON = json_decode(file_get_contents($dirFile));
-            return $arrayJSON;
+            $arrayAlumnos = array();
+            foreach($arrayJSON as $alumno)
+            {
+                array_push($arrayAlumnos,alumno::objectToObject($alumno));
+            }
+            return $arrayAlumnos;
         }
         return false;
     }
 
     
     //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo (Borrandolo primero. Si no hay nada que reescribir se borra el archivo directamente)
-    public static function BorrarAlumnoArrayJSON($dirFile)
+    public static function BorrarAlumnoArrayJSON($dirFile,$_DELETE)
     {
         $arrayAlumnos = alumno::MostrarAlumnosArrayJSON($dirFile);
-        $arrayEscribir = alumno::BorrarRegistro($arrayAlumnos);
-        alumno::VaciarArchivo($dirFile);
-        if(!(empty($arrayEscribir)))
+        $arrayEscribir = alumno::BorrarRegistro($arrayAlumnos,$_DELETE["DNI"]);
+        if($arrayEscribir != -1)
         {
-            alumno::GuardarArrayJSON($dirFile,$arrayEscribir);
+            alumno::VaciarArchivo($dirFile);
+            if(!(empty($arrayEscribir)))
+            {
+                alumno::GuardarArrayJSON($dirFile,$arrayEscribir);
+            }
         }
     }
 
-    public static function ModificarAlumnoArrayJSON($dirFile)
+    public static function ModificarAlumnoArrayJSON($dirFile,$_PUT)
     {
         $alumnos = alumno::MostrarAlumnosArrayJSON($dirFile);
-        $indice = alumno::BuscarIndiceArray($alumnos);
-        switch($_GET["Opcion"])
+        $indice = alumno::BuscarIndiceArray($alumnos,$_PUT["DNI"]);
+        if($indice != -1)
         {
-            case 1:
-            if($indice != -1)
+            switch($_PUT["opcion"])
             {
-                $alumnos[$indice]->Nombre = $_GET["Nombre"];
+                case 1:
+                $alumnos[$indice]->Nombre = $_PUT["Nombre"];
                 alumno::VaciarArchivo($dirFile);
                 alumno::GuardarArrayJSON($dirFile,$alumnos);
-            }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
-
-            case 2:
-            if($indice != -1)
-            {
-                $alumnos[$indice]->Edad = (int)$_GET["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
+                break;
+                
+                case 2:
+                $alumnos[$indice]->Edad = (int)$_PUT["Edad"]; //Es necesario especificar el tipo de dato porque sino se guarda como string
                 alumno::VaciarArchivo($dirFile); //Es necesario borrar el archivo y reescribirlo porque sino se fusiona con lo ya existente y se duplican los registros
                 alumno::GuardarArrayJSON($dirFile,$alumnos);
+                break;
             }
-            else
-            {
-                echo "El DNI pasado no existe en la base de datos";
-            }
-            break;
+        }
+        else
+        {
+            echo "El DNI pasado no existe en la base de datos";
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
@@ -322,9 +318,9 @@ class alumno extends Persona
     //----------------------------------------------------------------------------GENERALES----------------------------------------------------------------------------------\\
     
     //En base al Array que se le pasa por parametro, filtra y elimina el alumno con DNI correspondiente enviado por GET. Por ultimo reordena los indices del array para que no haya lugares vacios y se reescriban lineas vacias en los archivos
-    private static function BorrarRegistro($array)
+    private static function BorrarRegistro($array, $DNI)
     {
-        $indice = alumno::BuscarIndiceArray($array);
+        $indice = alumno::BuscarIndiceArray($array, $DNI);
         if($indice != -1)
         {
             unset($array[$indice]); //Lo saco
@@ -338,12 +334,12 @@ class alumno extends Persona
         }
     }
 
-    private static function BuscarIndiceArray($alumnos)
+    private static function BuscarIndiceArray($alumnos, $DNI)
     {
         $indice = -1;
         for($i = 0; $i < count($alumnos); $i++) //Recorro el array de alumnos en memoria
         {    
-            if($alumnos[$i]->DNI == $_GET["DNI"]) //Si el alumno es el mismo que pasado por parametro
+            if($alumnos[$i]->DNI == $DNI) //Si el alumno es el mismo que pasado por parametro
             {
                 $indice = $i; //Devuelvo el indice para poder eliminarlo o modificarlo
             }
@@ -361,7 +357,23 @@ class alumno extends Persona
     }
 
     //Crear transformar alumno
+    private static function objectToObject($instancia) 
+    {
+        return new alumno($instancia->Nombre, $instancia->Edad,$instancia->DNI,$instancia->legajo);
+    }
 
+    public function curl_del($path)
+    {
+        $url = $this->__url.$path;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        $result = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return $result;
+    }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 #endregion
 
@@ -417,4 +429,3 @@ class alumno extends Persona
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
 #endregion
 }
-?>
