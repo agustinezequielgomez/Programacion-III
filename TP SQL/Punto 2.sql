@@ -1,4 +1,4 @@
-INSERT INTO `proovedores`(`Numero`, `Nombre`, `Domicilio`, `Localidad`) VALUES (100,"Perez","Peron 876","Quilmes"),(101,"Gimenez","Mitre 750","Avelaneda"),(102,"Aguirre","Boedo 634", "Bernal");
+INSERT INTO `proovedores`(`Numero`, `Nombre`, `Domicilio`, `Localidad`) VALUES (100,"Perez","Peron 876","Quilmes"),(101,"Gimenez","Mitre 750","Avellaneda"),(102,"Aguirre","Boedo 634", "Bernal");
 
 INSERT INTO `productos`(`pNumero`, `pNombre`, `Precio`, `Tamaño`) VALUES (1,"Caramelos",1.5,"Chico"),(2,"Cigarrillos",45.89,"Mediano"),(3,"Gaseosa",15.80,"Grande");
 
