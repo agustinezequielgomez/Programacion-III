@@ -83,17 +83,20 @@ class alumno extends Persona
     {
         $lineas = alumno::TraerLineasArchivo($dirFile); //Guardo en un array las lineas del archivo
         $alumnos = array();
-        foreach($lineas as $linea)
+        if($lineas !=NULL)
         {
-            if(!empty($linea))
+            foreach($lineas as $linea)
             {
-                $datos = explode(",",$linea); //Por cada linea no vacia parseo los datos que contiene
-                $alumno = alumno::MiConstructor((int)$datos[3],$datos[1],(int)$datos[2],(int)$datos[4]);
-                $alumno->ID = ((int)$datos[0]);
-                array_push($alumnos,$alumno); //Guardo en un array esos alumnos creados con los datos parseados
+                if(!empty($linea))
+                {
+                    $datos = explode(",",$linea); //Por cada linea no vacia parseo los datos que contiene
+                    $alumno = alumno::MiConstructor((int)$datos[3],$datos[1],(int)$datos[2],(int)$datos[4]);
+                    $alumno->ID = ((int)$datos[0]);
+                    array_push($alumnos,$alumno); //Guardo en un array esos alumnos creados con los datos parseados
+                }
             }
+            return $alumnos;
         }
-        return $alumnos;
     }
 
     //Toma los Alumnos construidos en memoria, filtra cual tiene que sacar del array, y en base a ese array con el elemento ya sacado se reescribe el archivo
@@ -139,9 +142,12 @@ class alumno extends Persona
     public static function MostrarAlumnoTxt($dirFile)
     {
         $alumnos = alumno::TraerAMemoriaTxt($dirFile);
-        foreach($alumnos as $alumno)
+        if($alumnos !=NULL)
         {
-            $alumno->MostrarAlumno();
+            foreach($alumnos as $alumno)
+            {
+                $alumno->MostrarAlumno();
+            }
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
@@ -251,9 +257,12 @@ class alumno extends Persona
     public static function MostrarAlumnosJSON($dirFile)
     {
         $alumnos = alumno::LeerArchivoJSON($dirFile);
-        foreach($alumnos as $alumno)
+        if($alumnos !=NULL)
         {
-            $alumno->MostrarAlumno();
+            foreach($alumnos as $alumno)
+            {
+                $alumno->MostrarAlumno();
+            }
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\

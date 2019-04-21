@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "ae90311c-1a30-4b3e-8def-4e8ce438a15a",
+		"name": "Alumno DB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CrearAlumnoDB",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"name": "Content-Type",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "archivo",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "DNI",
+							"value": "1111",
+							"type": "text"
+						},
+						{
+							"key": "Nombre",
+							"value": "Lucas",
+							"type": "text"
+						},
+						{
+							"key": "Edad",
+							"value": "44",
+							"type": "text"
+						},
+						{
+							"key": "Legajo",
+							"value": "2212",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase5/CrearAlumno.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase5",
+						"CrearAlumno.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MostrarAlumnoDB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase5/MostrarAlumno.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase5",
+						"MostrarAlumno.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BorrarAlumnoDB",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Legajo=2212"
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase5/BorrarAlumno.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase5",
+						"BorrarAlumno.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Alumno",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Legajo=107335&Edad=21&Nombre"
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Clases/Clase5/ModificarAlumno.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Clases",
+						"Clase5",
+						"ModificarAlumno.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Index",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "Legajo=3322&Nombre=AAAAA&Edad"
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/MetodosAlumno1erParcial/index.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"MetodosAlumno1erParcial",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
