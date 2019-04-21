@@ -130,24 +130,21 @@ class alumno extends Persona
             }
             else
             {
-                echo "<br>No se pasaron datos para modificar al alumno";
+                throw new Exception("<br>No se pasaron datos para modificar al alumno<br>");
             }
         }
         else
         {
-            echo "El Legajo pasado no existe en la base de datos";
+            throw new Exception("<br>El Legajo ingresado no existe en la base de datos<br>");
         }
     }
 
     public static function MostrarAlumnoTxt($dirFile)
     {
         $alumnos = alumno::TraerAMemoriaTxt($dirFile);
-        if($alumnos !=NULL)
+        foreach($alumnos as $alumno)
         {
-            foreach($alumnos as $alumno)
-            {
-                $alumno->MostrarAlumno();
-            }
+             $alumno->MostrarAlumno();
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------\\
@@ -245,12 +242,12 @@ class alumno extends Persona
             }
             else
             {
-                echo "<br>No se pasaron datos para modificar al Alumno<br>";
+                throw new Exception("<br>No se pasaron datos para modificar al alumno<br>");
             }
         }
         else
         {
-            echo "El Legajo pasado no existe en la base de datos";
+            throw new Exception("<br>El Legajo ingresado no existe en la base de datos<br>");
         }
     }
 
@@ -361,12 +358,12 @@ class alumno extends Persona
             }
             else
             {
-                echo "<br>No se pasaron datos para modificar al alumno<br>";
+                throw new Exception("<br>No se pasaron datos para modificar al alumno<br>");
             }
         }
         else
         {
-            echo "El Legajo pasado no existe en la base de datos";
+            throw new Exception("<br>El Legajo ingresado no existe en la base de datos<br>");
         }
     }
 
@@ -610,7 +607,7 @@ public static function BorrarAlumnoDB($_DELETE)
     }
     else
     {
-        echo "El alumno que se intenta borrar no se encuentra en la base de datos";
+        throw new Exception("<br>El alumno que se intenta borrar no se encuentra en la base de datos<br>");
     }
 }
 
@@ -672,12 +669,12 @@ public static function ModificarAlumnoDB($_PUT)
         }
         else
         {
-            echo "<br>No se ingresaron datos para modificar al alumno<br>";
+            throw new Exception("<br>No se ingresaron datos para modificar al alumno<br>");
         }
     }
     else
     {
-        echo "<br>El Legajo ingresado no se encuentra en la base de datos<br>";
+        throw new Exception("<br>El Legajo ingresado no existe en la base de datos<br>");
     }
 }
 
@@ -691,5 +688,4 @@ public function ModificarAlumnoParametros()
        return $consulta->execute();
 }
 #endregion
-
 }
