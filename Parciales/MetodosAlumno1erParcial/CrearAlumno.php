@@ -1,5 +1,6 @@
 <?php
 include_once "alumno.php";
+var_dump($_POST);
 $alumno = alumno::MiConstructor((int)$_POST["DNI"],$_POST["Nombre"],(int)$_POST["Edad"],(int)$_POST["Legajo"]);
 $ID = $alumno->GuardarUnAlumnoParametrosDB();
 $alumno->ID = $ID;
