@@ -61,7 +61,6 @@ public function __construct($id, $nombre, $email)
                   return -1;  
                 }
             }
-
         }
         return 0;
     }
@@ -90,7 +89,7 @@ public function __construct($id, $nombre, $email)
         {
             foreach($lineas as $linea)
             {
-                if(!empty($linea))
+                if(!empty($linea)||$linea == "")
                 {
                     $datos = explode(",",$linea);
                     $Proveedor = new Proveedor((int)$datos[0],$datos[1],$datos[2]);
@@ -141,6 +140,28 @@ public function __construct($id, $nombre, $email)
             $Proveedor->MostrarProveedor();
         }
     }
+
+    public function ModificarProveedor($dirFile)
+    {
+        $proveedores = Proveedor::ConstruirProveedores($dirFile);
+        $indice = Proveedor::BuscarIndiceArray($proveedores,$this->id);
+        if($indice != -1)
+        {
+            $proveedores[$indice]->GuardarFoto("./Fotos");
+            $proveedores[$indice]->nombre = $_POST["nombre"];
+            $proveedores[$indice]->email = $_POST["email"];
+            Proveedor::VaciarArchivo($dirFile);
+            foreach($proveedores as $proveedor)
+            {
+                $proveedor->cargarProveedor($dirFile);
+            }
+            $this->GuardarFoto("./Fotos");
+        }
+        else
+        {
+            echo "<br>El proveedor que intenta modificar no se encuentra en la base de datos";
+        }
+    }
 #endregion
 
 #region Foto
@@ -152,10 +173,70 @@ public function GuardarFoto($path)
         $arrayNombre = explode(".",$_FILES["foto"]["name"]);
         $nombreArchivo .=  $this->id . $this->nombre . '.' . $arrayNombre[1];
         $path .= '/' . $nombreArchivo;
-        move_uploaded_file($_FILES["foto"]["tmp_name"],$path);
+        if(file_exists($path))
+        {
+            $this->ReemplazarFoto("./backUpFotos",$path);
+        }
+        else
+        {
+            move_uploaded_file($_FILES["foto"]["tmp_name"],$path);
+        }
         return $path;
     }
 }
+
+private function ReemplazarFoto($pathBackup,$FotoExistente)
+{
+    $nombreArchivo = "";
+    $arrayNombre = explode(".",$FotoExistente);
+    date_default_timezone_set('America/Argentina/Buenos_Aires'); //Seteo la zona horaria para que al imprimir la hora sea la hora local de argentina
+    $fecha = date("d\-m\-y--H\.i\.s"); //Recibo la hora en formato diaMesAño-Hora.Minuto.Seugndo
+    $nombreArchivo .= $this->id . "_" . $fecha . '.' . $arrayNombre[2]; //Creo el nombre del archivo con el Legajo, nombre, fecha y extension
+    $pathBackup .= '/' . $nombreArchivo;        
+    rename($FotoExistente,$pathBackup); //Muevo la foto a archivos Backup 
+}
+
+public static function FotoBack($dirFile,$proveedores)
+{
+    $archivos = scandir($dirFile);
+    $proveedores = Proveedor::ConstruirProveedores($proveedores);
+    foreach($archivos as $archivo)
+    {
+        $id = explode("_",$archivo);
+        foreach($proveedores as $proveedor)
+        {
+            if($proveedor->id == $id[0])
+            {
+                $nombre = $proveedor->nombre;
+                $fecha = explode("--",$id[1]);
+                echo "<br>Nombre: ",$nombre;
+                echo "<br>Fecha: ",$fecha[0];
+            }
+        }
+    }
+}
 #endregion
+
+private static function BuscarIndiceArray($proveedores, $id)
+{
+    $indice = -1;
+    for($i = 0; $i < count($proveedores); $i++)
+    {    
+        if($proveedores[$i]->id == $id)
+        {
+            $indice = $i; 
+        }
+    }
+    return $indice;
+}
+
+private static function VaciarArchivo($dirFile)
+{
+    if(file_exists($dirFile))
+    {
+        $resource = fopen($dirFile,"w");
+        fclose($resource);   
+    }
+}
 }
 ?>

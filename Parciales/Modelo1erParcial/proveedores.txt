@@ -1,2 +1,3 @@
-2,Agustin,aaa@gmail.com,./Fotos/2Agustin.jpg
-1,Jose,pp'pp@gmail.com,./Fotos/1Jose.jpg
+1,asdasddsa,asfdufhdsif,./Fotos/1Agustin.jpg
+
+2,Jose,dddddddd,./Fotos/2Jose.jpg

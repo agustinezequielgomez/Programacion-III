@@ -25,5 +25,13 @@ switch($metodo)
     case 'listarPedidoProveedor':
     include_once "listarPedidoProveedor.php";
     break;
+
+    case 'modificarProveedor':
+    include_once "modificarProveedor.php";
+    break;
+
+    case 'fotosBack':
+    include_once "fotosBack.php";
+    break;
 }
 ?>
