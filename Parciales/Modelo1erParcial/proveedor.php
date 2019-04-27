@@ -21,32 +21,24 @@ public function __construct($id, $nombre, $email)
 #region Metodos
     public function cargarProveedor($dirFile)
     {
-        if((Proveedor::ValidarID($this->id,$dirFile))!= -1)
+        if(file_exists($dirFile))
         {
-            if(file_exists($dirFile))
+            $resource = fopen($dirFile,"a");
+            if(file_get_contents($dirFile) != "")
             {
-                $resource = fopen($dirFile,"a");
-                if(file_get_contents($dirFile) != "")
-                {
-                    fwrite($resource, "\r\n"."$this->id".","."$this->nombre".","."$this->email".","."$this->foto");
-                }
-                else
-                {
-                    fwrite($resource, "$this->id".","."$this->nombre".","."$this->email".","."$this->foto");
-                }
+                fwrite($resource, "\r\n"."$this->id".","."$this->nombre".","."$this->email".",".trim($this->foto,"\r\n"));
             }
             else
             {
-                $resource = fopen($dirFile,"w");
-                fwrite($resource, "$this->id".","."$this->nombre".","."$this->email".","."$this->foto");
+                fwrite($resource, "$this->id".","."$this->nombre".","."$this->email".",".trim($this->foto,"\r\n"));
             }
-            fclose($resource);
         }
         else
         {
-            echo "<br>El Proveedor ingresado ya existe en la base de datos";
+            $resource = fopen($dirFile,"w");
+            fwrite($resource, "$this->id".","."$this->nombre".","."$this->email".",".trim($this->foto,"\r\n"));
         }
-        
+        fclose($resource);
     }
 
     public static function ValidarID($id, $dirFile)
@@ -89,13 +81,10 @@ public function __construct($id, $nombre, $email)
         {
             foreach($lineas as $linea)
             {
-                if(!empty($linea)||$linea == "")
-                {
-                    $datos = explode(",",$linea);
-                    $Proveedor = new Proveedor((int)$datos[0],$datos[1],$datos[2]);
-                    $Proveedor->foto = $datos[3];
-                    array_push($Proveedores,$Proveedor);
-                }
+                $datos = explode(",",$linea);
+                $Proveedor = new Proveedor((int)$datos[0],$datos[1],$datos[2]);
+                $Proveedor->foto = $datos[3];
+                array_push($Proveedores,$Proveedor);
             }
             return $Proveedores;
         }
@@ -147,15 +136,15 @@ public function __construct($id, $nombre, $email)
         $indice = Proveedor::BuscarIndiceArray($proveedores,$this->id);
         if($indice != -1)
         {
-            $proveedores[$indice]->GuardarFoto("./Fotos");
+            $proveedores[$indice]->GuardarFoto("./Fotos"); //La muevo
             $proveedores[$indice]->nombre = $_POST["nombre"];
             $proveedores[$indice]->email = $_POST["email"];
+            $proveedores[$indice]->foto = $this->GuardarFoto("./Fotos"); //Guardo la foto nueva con los nuevos datos y le paso la ruta al proveedor
             Proveedor::VaciarArchivo($dirFile);
             foreach($proveedores as $proveedor)
             {
                 $proveedor->cargarProveedor($dirFile);
             }
-            $this->GuardarFoto("./Fotos");
         }
         else
         {
@@ -179,7 +168,7 @@ public function GuardarFoto($path)
         }
         else
         {
-            move_uploaded_file($_FILES["foto"]["tmp_name"],$path);
+            $this->PonerMarcaDeAgua($_FILES["foto"]["tmp_name"],$path);
         }
         return $path;
     }
@@ -190,10 +179,24 @@ private function ReemplazarFoto($pathBackup,$FotoExistente)
     $nombreArchivo = "";
     $arrayNombre = explode(".",$FotoExistente);
     date_default_timezone_set('America/Argentina/Buenos_Aires'); //Seteo la zona horaria para que al imprimir la hora sea la hora local de argentina
-    $fecha = date("d\-m\-y--H\.i\.s"); //Recibo la hora en formato diaMesAño-Hora.Minuto.Seugndo
+    $fecha = date("d\-m\-y--H\.i\.s"); //Recibo la hora en formato dia-Mes-Año--Hora.Minuto.Seugndo
     $nombreArchivo .= $this->id . "_" . $fecha . '.' . $arrayNombre[2]; //Creo el nombre del archivo con el Legajo, nombre, fecha y extension
     $pathBackup .= '/' . $nombreArchivo;        
     rename($FotoExistente,$pathBackup); //Muevo la foto a archivos Backup 
+}
+
+private function PonerMarcaDeAgua($archivo,$path)
+{
+    $marca = imagecreatefrompng('./Fotos/md_5aff6089d3e02.png');
+    $imagen = imagecreatefromjpeg($archivo);
+
+    $margenDerecho = 10; 
+    $margenIzquierdo = 10; 
+    $marcax = imagesx($marca); 
+    $marcay = imagesy($marca); 
+
+    imagecopy($imagen, $marca, imagesx($imagen) - $marcax - $margenDerecho, imagesy($imagen) - $marcay - $margenIzquierdo,0,0,$marcax,$marcay);
+    imagepng($imagen,$path);
 }
 
 public static function FotoBack($dirFile,$proveedores)
@@ -209,8 +212,12 @@ public static function FotoBack($dirFile,$proveedores)
             {
                 $nombre = $proveedor->nombre;
                 $fecha = explode("--",$id[1]);
+                date_default_timezone_set('America/Argentina/Buenos_Aires'); 
+                $dias = date_create_from_format("d-m-y",$fecha[0]);
+                $hora = explode(".",(explode(".jpg",$fecha[1])[0]));
                 echo "<br>Nombre: ",$nombre;
-                echo "<br>Fecha: ",$fecha[0];
+                echo "<br>Fecha: ",date_format($dias,"l, d")," de ",date_format($dias,"F")," de ",date_format($dias,"Y");
+                echo "<br>Hora: ",$hora[0],":",$hora[1],":",$hora[2],"<br>";
             }
         }
     }

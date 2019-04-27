@@ -112,6 +112,7 @@ class Pedidos
     {
         $pedidos = Pedidos::ConstruirPedidos($dirFilePedido);
         $proveedores = Proveedor::ConstruirProveedores($dirFileProveedor);
+        $flag = false;
         foreach($proveedores as $proveedor)
         {
             if($proveedor->id == $id)
@@ -121,9 +122,15 @@ class Pedidos
                     if($proveedor->id == $pedido->idProveedor)
                     {
                         $pedido->ListarPedidos();
+                        $flag = true;
                     }
                 }
+                break;
             }
+        }
+        if(!($flag))
+        {
+            echo "<br>El proveedor ingresado no existe<br>";
         }
     }
     #endregion

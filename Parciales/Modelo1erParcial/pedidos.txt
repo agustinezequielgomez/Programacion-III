@@ -1,3 +1,3 @@
-100,2,galletitas
-100,2,galletitas
-1000,1,caramelos
+20,1,Ropa
+50,4,Comida
+25,3,Golosinas

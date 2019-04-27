@@ -1,3 +1,5 @@
-1,asdasddsa,asfdufhdsif,./Fotos/1Agustin.jpg
-
-2,Jose,dddddddd,./Fotos/2Jose.jpg
+1,TestProveedor1,prov1@gmail.com,./Fotos/1TestProveedor1.jpg
+2,Martin,martin@persona.com,./Fotos/2Martin.jpg
+3,TestProveedor3,prov3@gmail.com,./Fotos/3TestProveedor3.jpg
+4,nuevoproveedor4.4,4,./Fotos/4nuevoproveedor4.4.jpg
+7,Agus,Agusgomez99@gmail.com,./Fotos/7Agus.jpg

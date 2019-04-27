@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "bcf48e78-fc02-4908-b90d-d083d5c01c70",
+		"name": "Proveedores/Pedidos Parcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "foto",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "nombre",
+							"value": "Proveedor7",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "777",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=cargarProveedor",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "cargarProveedor"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=consultarProveedor&nombre=Martin",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "consultarProveedor"
+						},
+						{
+							"key": "nombre",
+							"value": "Martin"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=proveedores",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "proveedores"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "producto",
+							"value": "Golosinas",
+							"type": "text"
+						},
+						{
+							"key": "cantidad",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "idProveedor",
+							"value": "3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=hacerPedido",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "hacerPedido"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=listarPedidos",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "listarPedidos"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=listarPedidoProveedor&idProveedor=4",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "listarPedidoProveedor"
+						},
+						{
+							"key": "idProveedor",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "foto",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "nombre",
+							"value": "Agus",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "Agusgomez99@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=modificarProveedor",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "modificarProveedor"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/Programacion-III/Parciales/Modelo1erParcial/nexo.php?caso=fotosBack",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"Parciales",
+						"Modelo1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "fotosBack"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
