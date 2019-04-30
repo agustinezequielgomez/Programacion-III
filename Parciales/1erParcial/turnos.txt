@@ -1,0 +1,5 @@
+acc259,10/05,ferrari,Monza,10.000km,2500
+aaa-111,10/05,Fiat,Uno,10.000km,2500
+bbb-222,05/08,Ford,Focus,20.000km,5000
+acc259,05/09,ferrari,Monza,50.000km,10000
+acc259,05/09,ferrari,Monza,50.000km,48555

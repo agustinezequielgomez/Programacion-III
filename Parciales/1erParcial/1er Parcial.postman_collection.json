@@ -1,0 +1,362 @@
+{
+	"variables": [],
+	"info": {
+		"name": "1er Parcial",
+		"_postman_id": "20e2f3a7-d135-0034-47d0-98351bd37099",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "- 1",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=cargarVehiculo",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "cargarVehiculo",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "marca",
+							"value": "Fiat",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "modelo",
+							"value": "Idea",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "785551",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "patente",
+							"value": "ccc-333",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "- 2",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=consultarVehiculo&opcion=patente&dato=aaa-111",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "consultarVehiculo",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "opcion",
+							"value": "patente",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "dato",
+							"value": "aaa-111",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "- 3",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=cargarTipoServicio",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "cargarTipoServicio",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "10.000km",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "2500",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "demora",
+							"value": "5 dias",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "- 4",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=sacarTurno",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "sacarTurno",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "patente",
+							"value": "aaa-111",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "fecha",
+							"value": "15",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "marca",
+							"value": "Fiat",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "modelo",
+							"value": "Idea",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "185000",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "tipoServicio",
+							"value": "20.100km",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "- 5",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=Turnos",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "Turnos",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "- 6",
+			"request": {
+				"url": "localhost:8080/1erParcial/nexo.php",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "7",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/1erParcial/nexo.php?caso=modificarVehiculo",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1erParcial",
+						"nexo.php"
+					],
+					"query": [
+						{
+							"key": "caso",
+							"value": "modificarVehiculo",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "foto",
+							"value": "",
+							"description": "",
+							"type": "file"
+						},
+						{
+							"key": "patente",
+							"value": "bbb-222",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "marca",
+							"value": "asdasda",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "modelo",
+							"value": "asdafg",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "1500000",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
