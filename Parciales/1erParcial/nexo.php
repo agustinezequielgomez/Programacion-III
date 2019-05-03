@@ -29,6 +29,8 @@ switch($_GET["caso"])
     include_once "modificarVehiculo.php";
     break;
 
-    
+    case "vehiculos":
+    include_once "vehiculos.php";
+    break;
 }
 ?>

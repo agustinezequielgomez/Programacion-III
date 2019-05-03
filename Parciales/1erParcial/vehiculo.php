@@ -143,7 +143,7 @@ private function ReemplazarFoto($pathBackup,$FotoExistente)
     $arrayNombre = explode(".",$FotoExistente);
     date_default_timezone_set('America/Argentina/Buenos_Aires'); //Seteo la zona horaria para que al imprimir la hora sea la hora local de argentina
     $fecha = date("d\-m\-y--H\.i\.s"); //Recibo la hora en formato dia-Mes-Año--Hora.Minuto.Seugndo
-    $nombreArchivo .= $this->patenet . "_" . $fecha . '.' . $arrayNombre[2]; //Creo el nombre del archivo con el Legajo, nombre, fecha y extension
+    $nombreArchivo .= $this->patente . "_" . $fecha . '.' . $arrayNombre[2]; //Creo el nombre del archivo con el Legajo, nombre, fecha y extension
     $pathBackup .= '/' . $nombreArchivo;        
     rename($FotoExistente,$pathBackup); //Muevo la foto a archivos Backup 
 }
@@ -206,38 +206,53 @@ private static function BuscarIndiceArray($vehiculos, $patente)
     return $indice;
 }
 
-/*public static function Vehiculos($dirFile)
+public function BuscarFoto()
+{
+    $fotos = scandir("./fotos");
+    foreach($fotos as $foto)
+    {
+        $patente = explode(".jpg",$foto);
+        if($patente[0] == $this->patente)
+        {
+            return $foto;
+        }
+    }
+}
+
+public static function Vehiculos($dirFile)
 {
     $vehiculos = Vehiculo::ConstruirVehiculos($dirFile);
     $datos = array();
     foreach($vehiculos as $vehiculo)
     {
-        array_push($datos,"<tr><td>$vehiculo->marca</td><td>$vehiculo->modelo</td><td>$vehiculo->Precio</td><td>$vehiculo->Patente</td></tr>")
+        $patente = $vehiculo->BuscarFoto();
+        array_push($datos,("\r\n<tr><td>"."$vehiculo->marca"."</td><td>"."$vehiculo->modelo"."</td><td>"."$vehiculo->precio"."</td><td>"."$vehiculo->patente"."</td><td><img src=./fotos/"."$patente"."></td></tr>"));
     }
-    $resource = fopen("index.html","a");
+    $resource = fopen("./index.html","w");
     fwrite($resource,"<!DOCTYPE html>
-    <html lang="en">
+    <html lang="."en".">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="."UTF-8".">
+        <meta name="."viewport"." content="."width=device-width, initial-scale=1.0".">
+        <meta http-equiv="."X-UA-Compatible"." content="."ie=edge".">
         <title>Document</title>
     </head>
     <body>
         <table border=1px>
         <tr>
-        <td>Marca</td><td>Modelo</td><td>Precio</td><td><td>Patente<td>");
+        <td>Marca</td><td>Modelo</td><td>Precio</td><td><td>Patente<td><td>Foto<td>
+        <tr>");
 
         foreach($datos as $dato)
         {
-            $fwrite($resource,$dato);
+            fwrite($resource,$dato);
         }
-        fwrite($resource,"</tr>
+        fwrite($resource,"
         </table> 
     </body>
     </html>");
     fclose($resource);
-}*/
+}
     #endregion
 }
 ?>
