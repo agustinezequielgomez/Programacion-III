@@ -35,7 +35,10 @@ $app->group('/Usuario', function () {
   $this->delete('/', \UsuarioApi::class . ':BorrarUno');
 
   $this->put('/', \UsuarioApi::class . ':ModificarUno');
-     
 });
+
+$app->group('/Login',function{
+    $this->post('/', \UsuarioApi::class . ':LoginUsuario')
+})
 
 $app->run();

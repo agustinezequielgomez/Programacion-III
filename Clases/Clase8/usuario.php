@@ -3,7 +3,7 @@ class usuario
 {
     public $id;
     public $nombre;
-    public $password;
+    public $pass;
 
     public function BorrarUsuario()
 	 {
@@ -11,7 +11,7 @@ class usuario
 			$consulta =$objetoAccesoDato->RetornarConsulta("
 				delete 
 				from usuario 				
-				WHERE ID=:id");	
+				WHERE id=:id");	
 				$consulta->bindValue(':id',$this->id, PDO::PARAM_INT);		
 				$consulta->execute();
 				return $consulta->rowCount();
@@ -22,9 +22,9 @@ class usuario
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 			$consulta =$objetoAccesoDato->RetornarConsulta("
 				update usuario 
-				set Nombre='$this->nombre',
-				Password='$this->password',
-				WHERE ID='$this->id'");
+				set nombre='$this->nombre',
+				pass='$this->pass',
+				WHERE id='$this->id'");
 			return $consulta->execute();
 	 }
 	
@@ -32,7 +32,7 @@ class usuario
 	 public function InsertarElUsuario()
 	 {
 				$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-				$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuario (Nombre,'Password')values('$this->nombre','$this->password')");
+				$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuario (Nombre,'pass')values('$this->nombre','$this->pass')");
                 $consulta->execute();
 				return $objetoAccesoDato->RetornarUltimoIdInsertado();
 				
@@ -44,21 +44,21 @@ class usuario
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 			$consulta =$objetoAccesoDato->RetornarConsulta("
 				update usuario 
-				set Nombre=:nombre,
-				Password=:password,
-				WHERE ID=:id");
+				set nombre=:nombre,
+				pass=:pass
+				WHERE id=:id");
 			$consulta->bindValue(':id',$this->id, PDO::PARAM_INT);
 			$consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
-			$consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
+			$consulta->bindValue(':pass', $this->pass, PDO::PARAM_STR);
 			return $consulta->execute();
 	 }
 
 	 public function InsertarElUsuarioParametros()
 	 {
 				$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-				$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuario (Nombre,'Password')values(:nombre,':password')");
+				$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuario (nombre,pass)values(:nombre,:pass)");
 				$consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
-				$consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
+				$consulta->bindValue(':pass', $this->pass, PDO::PARAM_STR);
 				$consulta->execute();		
 				return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	 }
@@ -78,7 +78,7 @@ class usuario
   	public static function TraerTodoLosUsuarios()
 	{
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("select ID , Nombre ,Password from usuario");
+			$consulta =$objetoAccesoDato->RetornarConsulta("select id , nombre , pass from usuario");
 			$consulta->execute();			
 			return $consulta->fetchAll(PDO::FETCH_CLASS, "usuario");		
 	}
@@ -86,7 +86,7 @@ class usuario
 	public static function TraerUnUsuario($id) 
 	{
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("select ID,Nombre,Password, from usuario ID = $id");
+			$consulta =$objetoAccesoDato->RetornarConsulta("select id, nombre, pass from usuario WHERE ID = $id");
 			$consulta->execute();
 			$cdBuscado= $consulta->fetchObject('usuario');
 			return $cdBuscado;				
@@ -96,7 +96,7 @@ class usuario
 
 	public function mostrarDatos()
 	{
-	  	return "Metodo mostar:".$this->nombre."  ".$this->password."  ".$this->id;
+	  	return "Metodo mostar:".$this->nombre."  ".$this->pass."  ".$this->id;
 	}
 }
 ?>

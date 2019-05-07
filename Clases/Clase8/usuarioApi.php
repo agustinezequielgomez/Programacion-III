@@ -19,12 +19,12 @@ class UsuarioApi extends usuario implements IApiUsable
      	 $ArrayDeParametros = $request->getParsedBody();
         //var_dump($ArrayDeParametros);
         $nombre= $ArrayDeParametros['nombre'];
-        $password= $ArrayDeParametros['password'];
+        $password= $ArrayDeParametros['pass'];
         
         $miusuario = new usuario();
         $miusuario->nombre=$nombre;
-        $miusuario->password=$password;
-        $miusuario->InsertarElCdParametros();
+		$miusuario->pass=$password;
+        $miusuario->InsertarElUsuarioParametros();
 
         $archivos = $request->getUploadedFiles();
         $destino="./fotos/";
@@ -36,13 +36,14 @@ class UsuarioApi extends usuario implements IApiUsable
         //var_dump($nombreAnterior);
         $extension=array_reverse($extension);
 
-        $archivos['foto']->moveTo($destino.$titulo.".".$extension[0]);
-        $response->getBody()->write("se guardo el usuario");
+        $archivos['foto']->moveTo($destino.$nombre.".".$extension[0]);
+        $response->getBody()->write("Se guardo el usuario");
 
         return $response;
     }
       public function BorrarUno($request, $response, $args) {
-     	$ArrayDeParametros = $request->getParsedBody();
+		 $ArrayDeParametros = $request->getParsedBody();
+		 //var_dump($ArrayDeParametros);
      	$id=$ArrayDeParametros['id'];
      	$usuario= new usuario();
      	$usuario->id=$id;
@@ -69,14 +70,30 @@ class UsuarioApi extends usuario implements IApiUsable
 	    $miusuario = new usuario();
 	    $miusuario->id=$ArrayDeParametros['id'];
 	    $miusuario->nombre=$ArrayDeParametros['nombre'];
-		$miusuario->password=$ArrayDeParametros['password'];
+		$miusuario->pass=$ArrayDeParametros['pass'];
 		
 	   	$resultado =$miusuario->ModificarUsuarioParametros();
 	   	$objDelaRespuesta= new stdclass();
 		//var_dump($resultado);
 		$objDelaRespuesta->resultado=$resultado;
 		return $response->withJson($objDelaRespuesta, 200);		
-    }
-
+	}
+	
+	public function LoginUsuario($request, $response, $args)
+	{
+     	//$response->getBody()->write("<h1>Modificar  uno</h1>");
+     	$ArrayDeParametros = $request->getParsedBody();
+	    //var_dump($ArrayDeParametros);    	
+	    $miusuario = new usuario();
+	    $miusuario->id=$ArrayDeParametros['id'];
+	    $miusuario->nombre=$ArrayDeParametros['nombre'];
+		$miusuario->pass=$ArrayDeParametros['pass'];
+		
+	   	$resultado = $miusuario->LoginUsuario();
+	   	$objDelaRespuesta = new stdclass();
+		//var_dump($resultado);
+		$objDelaRespuesta->resultado=$resultado;
+		return $response->withJson($objDelaRespuesta, 200);		
+	}
 
 }
