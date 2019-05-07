@@ -97,6 +97,11 @@ class usuario
 	public function mostrarDatos()
 	{
 	  	return "Metodo mostar:".$this->nombre."  ".$this->pass."  ".$this->id;
-	}
+    }
+    
+    public function LoginUsuario()
+    {
+        
+    }
 }
 ?>
