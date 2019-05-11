@@ -2,7 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require '/composer/vendor/autoload.php';
+require './composer/vendor/autoload.php';
 require './AccesoDatos.php';
 require './usuarioApi.php';
 
@@ -37,8 +37,8 @@ $app->group('/Usuario', function () {
   $this->put('/', \UsuarioApi::class . ':ModificarUno');
 });
 
-$app->group('/Login',function{
-    $this->post('/', \UsuarioApi::class . ':LoginUsuario')
-})
+$app->group('/Login',function(){
+    $this->post('/', \UsuarioApi::class . ':LoginUsuario');
+});
 
 $app->run();
