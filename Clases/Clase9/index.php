@@ -5,6 +5,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require './composer/vendor/autoload.php';
 require './AccesoDatos.php';
 require './usuarioApi.php';
+require "./autenticadorMW.php";
 
 
 $config['displayErrorDetails'] = true;
@@ -30,12 +31,12 @@ $app->group('/Usuario', function () {
  
   $this->get('/{id}', \UsuarioApi::class . ':traerUno');
 
-  $this->post('/', \UsuarioApi::class . ':CargarUno');
+  $this->post('/', \UsuarioApi::class . ':CargarUno')->add(autenticadorMW::class . ':verificarUsuarioAlta');
 
   $this->delete('/', \UsuarioApi::class . ':BorrarUno');
 
-  $this->put('/', \UsuarioApi::class . ':ModificarUno');
-});
+  $this->put('/', \UsuarioApi::class . ':ModificarUno')->add(\autenticadorMW::class . ':verificarUsuarioExistente');
+})->add(\autenticadorMW::class . ':verificarCredenciales');
 
 $app->group('/Login',function(){
     $this->post('/', \UsuarioApi::class . ':LoginUsuario');

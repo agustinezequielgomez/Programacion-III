@@ -2,9 +2,9 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require './composer/vendor/autoload.php';
-require '/clases/AccesoDatos.php';
-require '/clases/cdApi.php';
+require '../composer/vendor/autoload.php';
+require './clases/AccesoDatos.php';
+require './clases/cdApi.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -99,6 +99,7 @@ TrearTodos
 */
 /*habilito el CORS para todos*/
 $app->add(function ($req, $res, $next) {
+    $res->getBody()->write("CORS");
     $response = $next($req, $res);
     return $response
             ->withHeader('Access-Control-Allow-Origin', 'http://localhost:4200')

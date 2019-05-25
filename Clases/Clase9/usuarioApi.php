@@ -1,6 +1,7 @@
 <?php
 require_once 'usuario.php';
 require_once 'IApiUsable.php';
+require './composer/vendor/autoload.php';
 
 class UsuarioApi extends usuario implements IApiUsable
 {
@@ -21,39 +22,20 @@ class UsuarioApi extends usuario implements IApiUsable
 
 	public function CargarUno($request, $response, $args)
 	{
-		$ArrayDeParametros = $request->getParsedBody();
-		//var_dump($ArrayDeParametros);
-		$nombre = $ArrayDeParametros['nombre'];
-		$password = $ArrayDeParametros['pass'];
+		$miusuario = $request->getAttribute('usuario');
+		$nombre = $request->getAttribute('nombre');
+		$miusuario->InsertarElUsuarioParametros();
+		$archivos = $request->getUploadedFiles();
+		$destino = "./fotos/";
+		$nombreAnterior = $archivos['foto']->getClientFilename();
+		$extension = explode(".", $nombreAnterior);
+		$extension = array_reverse($extension);
 
-		$miusuario = new usuario();
-		$miusuario->nombre = $nombre;
-		$miusuario->pass = $password;
-		if ($miusuario->ValidaUser() == false && ($request->getUploadedFiles() != NULL)) 
-		{
-			$miusuario->InsertarElUsuarioParametros();
-			$archivos = $request->getUploadedFiles();
-			$destino = "./fotos/";
-			/*var_dump($archivos);
-			echo "<br>";
-			var_dump($archivos['foto']);*/
-
-			$nombreAnterior = $archivos['foto']->getClientFilename();
-			$extension = explode(".", $nombreAnterior);
-			//var_dump($nombreAnterior);
-			$extension = array_reverse($extension);
-
-			$archivos['foto']->moveTo($destino . $nombre . "." . $extension[0]);
-			$response->getBody()->write("Se guardo el usuario");
-		} 
-		else 
-		{
-			$response->getBody()->write("El usuario ya existe en la base de datos");
-		}
-
-
+		$archivos['foto']->moveTo($destino . $nombre . "." . $extension[0]);
+		$response->getBody()->write("Se guardo el usuario");
 		return $response;
 	}
+
 	public function BorrarUno($request, $response, $args)
 	{
 		$ArrayDeParametros = $request->getParsedBody();
@@ -78,26 +60,11 @@ class UsuarioApi extends usuario implements IApiUsable
 
 	public function ModificarUno($request, $response, $args)
 	{
-		$ArrayDeParametros = $request->getParsedBody();
-		//var_dump($ArrayDeParametros);    	
-		//$response->getBody()->write("<h1>Modificar  uno</h1>");
-		$miusuario = new usuario();
-		$miusuario->id = $ArrayDeParametros['id'];
-		$miusuario->nombre = $ArrayDeParametros['nombre'];
-		$miusuario->pass = $ArrayDeParametros['pass'];
-		if ($miusuario->ValidarID() == true) 
-		{
-			$resultado = $miusuario->ModificarUsuarioParametros();
-			$objDelaRespuesta = new stdclass();
-			//var_dump($resultado);
-			$objDelaRespuesta->resultado = $resultado;
-			return $response->withJson($objDelaRespuesta, 200);
-		} 
-		else 
-		{
-			$response->getBody()->write("\nEl usuario que se intenta modificar no existe en la base de datos");
-		}
-		return $response;
+		$miusuario = $request->getAttribute('usuario');
+		$resultado = $miusuario->ModificarUsuarioParametros();
+		$objDelaRespuesta = new stdclass();
+		$objDelaRespuesta->resultado = $resultado;
+		return $response->withJson($objDelaRespuesta, 200);
 	}
 
 	public function LoginUsuario($request, $response, $args)
