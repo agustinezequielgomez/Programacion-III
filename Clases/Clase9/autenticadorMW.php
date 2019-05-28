@@ -4,7 +4,8 @@ class autenticadorMW
 {
     function verificarCredenciales($request, $response, $next)
     {
-        if($request->isGet()&&$request->getParsedBody()["cargo"]=="cliente")
+        $params = $request->getParam("cargo");
+        if($request->isGet()&&$params=="cliente")
         {
             $response->getBody()->write("No posees las credenciales necesarias para acceder\n");
         }
