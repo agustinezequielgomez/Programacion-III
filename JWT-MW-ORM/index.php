@@ -23,7 +23,7 @@ $app->group("/Usuario",function()
 
 $app->group("/Login",function()
 {
-    $this->post('/',\UsuarioApi::class.':loginUsuario');
+    $this->post('/',\UsuarioApi::class.':loginUsuario')->add(\MWUsuario::class.':LoginUser');
 });
 
 $app->run();

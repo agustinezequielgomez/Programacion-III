@@ -87,5 +87,28 @@ class MWUsuario
         }
         return $response;
     }
+
+    function LoginUser($request,$response,$next)
+    {
+        $params = $request->getParsedBody();
+        $user = new Usuario();
+        $user->nombre = $params["nombre"];
+        $user->pass = $params["pass"];
+        if($user->ValidaUserExistente()==true)
+        {
+            $request = $request->withAttribute('user',$user);
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("El usuario que intenta logear no se encuentra en la base de datos");
+        }
+        return $response;
+    }
+
+    function validaUserJWT()
+    {
+        
+    }
 }
 ?>

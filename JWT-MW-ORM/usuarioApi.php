@@ -2,6 +2,8 @@
 
 require './IApi.php';
 require './usuario.php';
+require './VerificadorJWT.php';
+
 class UsuarioApi extends Usuario implements IApi
 {
     function traerTodos($request, $response, $args)
@@ -60,11 +62,10 @@ class UsuarioApi extends Usuario implements IApi
 
     function loginUsuario($request,$response,$args)
     {
-        $params = $request->getParsedBody();
-        $user = new Usuario();
-        $user->nombre = $params["nombre"];
-        $user->pass = $params["pass"];
-        return $response->withJson($user->ValidaUserExistente(),200);
+        $user = $request->getAttribute('user');
+        $response->getBody()->write(VerificadorJWT::CrearToken(["nombre"=>$user->nombre,'pass'=>$user->pass]));
+        echo VerificadorJWT::aud();
+        return $response;
     }
 }
 ?>
