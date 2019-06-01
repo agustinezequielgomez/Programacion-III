@@ -106,9 +106,19 @@ class MWUsuario
         return $response;
     }
 
-    function validaUserJWT()
+    function validarJWT($request, $response, $next)
     {
-        
+        $token = $request->getHeader('token');
+        try
+        {
+            VerificadorJWT::VerificarToken($token[0]);
+            $response = $next($request,$response);
+        }
+        catch(Exception $e)
+        {
+            $response->getBody()->write($e->getMessage());
+        }
+        return $response;
     }
 }
 ?>

@@ -64,7 +64,6 @@ class UsuarioApi extends Usuario implements IApi
     {
         $user = $request->getAttribute('user');
         $response->getBody()->write(VerificadorJWT::CrearToken(["nombre"=>$user->nombre,'pass'=>$user->pass]));
-        echo VerificadorJWT::aud();
         return $response;
     }
 }

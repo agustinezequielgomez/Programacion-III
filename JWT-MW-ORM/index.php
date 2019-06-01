@@ -19,7 +19,7 @@ $app->group("/Usuario",function()
     $this->put('/',\UsuarioApi::class .':modificarUno')->add(\MWUsuario::class.':verificarIdExistenteNoGet');
     $this->delete('/',\UsuarioApi::class .':borrarUno')->add(\MWUsuario::class.':verificarIdExistenteNoGet');
 
-});
+})->add(\MWUsuario::class.':validarJWT');
 
 $app->group("/Login",function()
 {
