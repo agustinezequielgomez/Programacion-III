@@ -1,4 +1,5 @@
 <?php
+use \App\Models\usuario as usuarioORM;
 require './AccesoDatos.php';
 class Usuario
 {

@@ -1,6 +1,6 @@
 <?php
 
-require './vendor/autoload.php';
+require '../Server/composer/vendor/autoload.php';
 
 class MWUsuario
 {

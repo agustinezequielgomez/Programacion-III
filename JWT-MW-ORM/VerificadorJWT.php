@@ -1,5 +1,5 @@
 <?php
-require_once './vendor/autoload.php';
+require '../Server/composer/vendor/autoload.php';
 use Firebase\JWT\JWT;
 
 class VerificadorJWT

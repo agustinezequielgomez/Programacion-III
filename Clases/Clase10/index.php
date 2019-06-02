@@ -2,7 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require './vendor/autoload.php';
+require '../../Server/composer/vendor/autoload.php';
 require './AccesoDatos.php';
 require './usuarioApi.php';
 require "./autenticadorMW.php";

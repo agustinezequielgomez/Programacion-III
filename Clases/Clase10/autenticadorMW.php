@@ -1,5 +1,5 @@
 <?php
-require './vendor/autoload.php';
+require '../../Server/composer/vendor/autoload.php';
 class autenticadorMW
 {
     function verificarCredenciales($request, $response, $next)

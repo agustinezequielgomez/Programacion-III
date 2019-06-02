@@ -1,7 +1,7 @@
 <?php
 require_once 'usuario.php';
 require_once 'IApiUsable.php';
-require './vendor/autoload.php';
+require_once '../../Server/composer/vendor/autoload.php';
 require './AutentificadorJWT.php';
 use Firebase\JWT\JWT;
 
@@ -72,6 +72,10 @@ class UsuarioApi extends usuario implements IApiUsable
 
 	public function LoginUsuario($request, $response, $args)
 	{
+		
+	}
+	/*public function LoginUsuario($request, $response, $args)
+	{
 		$ArrayDeParametros = $request->getParsedBody();
 		$miusuario = new usuario();
 		$miusuario->nombre = $ArrayDeParametros['nombre'];
@@ -82,5 +86,6 @@ class UsuarioApi extends usuario implements IApiUsable
 		{
 			$token = \AutentificadorJWT::crearToken($datos);
 			$response = $response->getBody()->write($token);
-	}
+	}*/
 }
+?>

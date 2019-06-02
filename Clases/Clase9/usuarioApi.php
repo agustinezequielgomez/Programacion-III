@@ -1,7 +1,7 @@
 <?php
 require_once 'usuario.php';
 require_once 'IApiUsable.php';
-require './composer/vendor/autoload.php';
+require_once '../../Server/composer/vendor/autoload.php';
 
 class UsuarioApi extends usuario implements IApiUsable
 {
