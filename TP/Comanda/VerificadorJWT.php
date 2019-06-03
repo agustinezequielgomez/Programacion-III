@@ -1,22 +1,21 @@
 <?php
-require '../Server/composer/vendor/autoload.php';
-use Firebase\JWT\JWT;
-
+require '../../Server/composer/vendor/autoload.php';
+use \Firebase\JWT\JWT;
 class VerificadorJWT
 {
-    private static $claveSecreta = 'claveSecreta';
-    private static $algoritmo = ['HS256'];
-    public static function CrearToken($datos)
+    private static $clave = 'comanda123';
+    private static $encoding = ['HS256'];
+
+    public static function crearToken($datos)
     {
-        $iat = time();
         $payload = array(
-            'iat' => $iat,
-            'exp' => $iat + (30),
-            'aud' => self::aud(),
-            'data' => $datos,
-            'app' => "Users 2019"
+            'iat'=>time(),
+            'exp'=>time()+60,
+            'aud'=>self::aud(),
+            'data'=>$datos,
+            'app'=>"Comanda 2019"
         );
-        return JWT::encode($payload,self::$claveSecreta);
+        return JWT::encode($payload,self::$clave);
     }
 
     public static function VerificarToken($token)
@@ -28,30 +27,30 @@ class VerificadorJWT
 
         try
         {
-            $tokenDecodificado = TraerPayload($token);
+            $decodificado = JWT::decode($token,self::$clave,self::$encoding);
         }
         catch(Exception $e)
         {
             throw $e;
         }
 
-        if($tokenDecodificado->aud !== VerificadorJWT::aud())
+        if($decodificado->aud != self::aud())
         {
-            throw new Exception("El usuario no se valido");
+            throw new Exception("El token fue modificado. No es valido");
         }
     }
 
     public static function TraerPayload($token)
     {
-        return JWT::decode($token,self::$claveSecreta,VerificadorJWT::$algoritmo);
+        return JWT::decode($token,self::$clave,self::$encoding);
     }
 
     public static function TraerData($token)
     {
-        return VerificadorJWT::TraerPayload($token)->data;
+        return self::TraerPayload($token)->data;
     }
 
-    public static function aud()
+    private static function aud()
     {
         $aud = '';
         
