@@ -1,1 +1,5 @@
 &Y3dnI!L1xmNn&oZeVf%
+
+Composer create-project nombreProyecto
+
+composer dump-autoload

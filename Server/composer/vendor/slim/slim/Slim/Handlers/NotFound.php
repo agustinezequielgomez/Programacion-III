@@ -32,23 +32,28 @@ class NotFound extends AbstractHandler
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $contentType = $this->determineContentType($request);
-        switch ($contentType) {
-            case 'application/json':
-                $output = $this->renderJsonNotFoundOutput();
-                break;
+        if ($request->getMethod() === 'OPTIONS') {
+            $contentType = 'text/plain';
+            $output = $this->renderPlainNotFoundOutput();
+        } else {
+            $contentType = $this->determineContentType($request);
+            switch ($contentType) {
+                case 'application/json':
+                    $output = $this->renderJsonNotFoundOutput();
+                    break;
 
-            case 'text/xml':
-            case 'application/xml':
-                $output = $this->renderXmlNotFoundOutput();
-                break;
+                case 'text/xml':
+                case 'application/xml':
+                    $output = $this->renderXmlNotFoundOutput();
+                    break;
 
-            case 'text/html':
-                $output = $this->renderHtmlNotFoundOutput($request);
-                break;
+                case 'text/html':
+                    $output = $this->renderHtmlNotFoundOutput($request);
+                    break;
 
-            default:
-                throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
+                default:
+                    throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
+            }
         }
 
         $body = new Body(fopen('php://temp', 'r+'));
@@ -60,9 +65,19 @@ class NotFound extends AbstractHandler
     }
 
     /**
+     * Render plain not found message
+     *
+     * @return string
+     */
+    protected function renderPlainNotFoundOutput()
+    {
+        return 'Not found';
+    }
+
+    /**
      * Return a response for application/json content not found
      *
-     * @return ResponseInterface
+     * @return string
      */
     protected function renderJsonNotFoundOutput()
     {
@@ -72,7 +87,7 @@ class NotFound extends AbstractHandler
     /**
      * Return a response for xml content not found
      *
-     * @return ResponseInterface
+     * @return string
      */
     protected function renderXmlNotFoundOutput()
     {
@@ -84,7 +99,7 @@ class NotFound extends AbstractHandler
      *
      * @param  ServerRequestInterface $request  The most recent Request object
      *
-     * @return ResponseInterface
+     * @return string
      */
     protected function renderHtmlNotFoundOutput(ServerRequestInterface $request)
     {
