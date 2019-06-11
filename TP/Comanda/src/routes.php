@@ -5,6 +5,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use clases\empleadoApi;
 use clases\MWComanda;
+use clases\registrosApi;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -21,6 +22,11 @@ return function (App $app) {
     $app->group('/Login',function()
     {
         $this->post('/',empleadoApi::class.':Login')->add(MWComanda::class.':MWLogin');
+    });
+
+    $app->group('/Registros',function()
+    {
+        $this->get('/',registrosApi::class.':TraerTodos');
     });
 };
 ?>

@@ -28,13 +28,13 @@ return function (App $app) {
         return $logger;
     };
 
-    /*$container['errorHandler'] = function ($c) {
+    $container['errorHandler'] = function ($c) {
         return function ($request, $response, $exception) use ($c) {
             return $response->withStatus(500)
                 ->withHeader('Content-Type', 'text/html')
                 ->write('Un error no controlado!');
         };
-    };*/
+    };
     $container['notFoundHandler'] = function ($c) {
         return function ($request, $response) use ($c) {
             return $response->withStatus(404)
@@ -51,11 +51,11 @@ return function (App $app) {
         };
     };
     
-/*    $container['phpErrorHandler'] = function ($c) {
+       $container['phpErrorHandler'] = function ($c) {
         return function ($request, $response, $error) use ($c) {
             return $response->withStatus(500)
                 ->withHeader('Content-Type', 'text/html')
                 ->write('Algo paso con tu PHP!');
         };
-    };*/
+    };
 };

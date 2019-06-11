@@ -5,6 +5,7 @@ use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\empleado;
+use App\Models\registro;
 class empleadoApi implements IApi
 {
     function TraerUno(Request $request,Response $response,$args)
@@ -43,6 +44,7 @@ class empleadoApi implements IApi
     function Login(Request $request,Response $response, $args)
     {
         $empleado = $request->getAttribute('empleado');
+        registro::crearRegistro($empleado);
         return $response->getBody()->write(VerificadorJWT::crearToken(["nombre"=>$empleado->nombre,"tipo"=>$empleado->tipo]));
     }
 }
