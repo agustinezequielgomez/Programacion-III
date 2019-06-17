@@ -51,11 +51,11 @@ return function (App $app) {
         };
     };
     
-       $container['phpErrorHandler'] = function ($c) {
+       /*$container['phpErrorHandler'] = function ($c) {
         return function ($request, $response, $error) use ($c) {
             return $response->withStatus(500)
                 ->withHeader('Content-Type', 'text/html')
                 ->write('Algo paso con tu PHP!');
         };
-    };
+    };*/
 };

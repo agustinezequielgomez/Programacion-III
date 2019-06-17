@@ -5,7 +5,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use clases\empleadoApi;
 use clases\MWComanda;
-use clases\registrosApi;
+use clases\logueosApi;
 
 return function (App $app) {
     $container = $app->getContainer();

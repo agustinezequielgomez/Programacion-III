@@ -1,6 +1,7 @@
 <?php
 namespace clases;
 use \App\Models\empleado;
+use \App\Models\logueo;
 use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -12,9 +13,10 @@ class MWComanda
         $empleado = new empleado();
         $empleado->nombre = $datos['nombre'];
         $empleado->pass = $datos['pass'];
-        if($empleado->ValidarEmpleadoExistenteLogin()!=false)
+        $empleadoValidado = $empleado->ValidarEmpleadoExistenteLogin();
+        if($empleadoValidado!=false)
         {
-            $request = $request->withAttribute('empleado',$empleado->ValidarEmpleadoExistenteLogin());
+            $request = $request->withAttribute('empleado',$empleadoValidado);
             $response = $next($request,$response);
         }
         else
