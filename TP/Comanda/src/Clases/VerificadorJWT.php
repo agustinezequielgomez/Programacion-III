@@ -10,7 +10,7 @@ class VerificadorJWT
     {
         $payload = array(
             'iat'=>time(),
-            'exp'=>time()+60,
+            'exp'=>time()+500,
             'aud'=>self::aud(),
             'data'=>$datos,
             'app'=>"Comanda 2019"

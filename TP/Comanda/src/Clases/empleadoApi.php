@@ -47,7 +47,7 @@ class empleadoApi implements IApi
     {
         $empleado = $request->getAttribute('empleado');
         logueo::crearLogueo($empleado);
-        return $response->getBody()->write(VerificadorJWT::crearToken(["nombre"=>$empleado->nombre,"tipo"=>$empleado->tipo]));
+        return $response->getBody()->write(VerificadorJWT::crearToken(["id"=>$empleado->id,"nombre"=>$empleado->nombre,"tipo"=>$empleado->tipo]));
     }
 }
 ?>

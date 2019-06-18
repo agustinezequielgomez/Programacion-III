@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2019 a las 05:47:55
+-- Tiempo de generación: 18-06-2019 a las 05:49:45
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.3
 
@@ -25,34 +25,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `choperas`
+-- Estructura de tabla para la tabla `alimentos`
 --
 
-CREATE TABLE `choperas` (
+CREATE TABLE `alimentos` (
   `id` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
-  `nombre_item` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
-  `tiempo_estimado` time NOT NULL,
-  `tiempo_real` time NOT NULL,
-  `id_empleado` int(11) NOT NULL,
-  `created_at` date NOT NULL,
-  `updated_at` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `comida`
---
-
-CREATE TABLE `comida` (
-  `id` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL,
-  `nombre_item` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
-  `tiempo_estimado` time NOT NULL,
-  `tiempo_real` time NOT NULL,
+  `tipo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre_alimento` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `estado` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `tiempo_comienzo` datetime NOT NULL,
+  `tiempo_estimado` datetime NOT NULL,
+  `tiempo_real` datetime NOT NULL,
   `id_empleado` int(11) NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
@@ -87,16 +71,39 @@ INSERT INTO `empleados` (`id`, `nombre`, `pass`, `tipo`, `updated_at`, `created_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `logs`
+-- Estructura de tabla para la tabla `logueos`
 --
 
-CREATE TABLE `logs` (
+CREATE TABLE `logueos` (
   `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `fecha_ingreso` datetime NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `logueos`
+--
+
+INSERT INTO `logueos` (`id`, `id_usuario`, `nombre`, `fecha_ingreso`, `created_at`, `updated_at`) VALUES
+(1, 1, 'admin', '2019-06-17 17:09:55', '2019-06-17', '2019-06-17'),
+(2, 1, 'admin', '2019-06-17 17:10:46', '2019-06-17', '2019-06-17'),
+(3, 1, 'admin', '2019-06-17 17:13:31', '2019-06-17', '2019-06-17'),
+(4, 1, 'admin', '2019-06-17 17:14:41', '2019-06-17', '2019-06-17'),
+(5, 2, 'Juan Gomez', '2019-06-17 17:15:18', '2019-06-17', '2019-06-17'),
+(6, 2, 'Juan Gomez', '2019-06-17 17:15:24', '2019-06-17', '2019-06-17'),
+(7, 2, 'Juan Gomez', '2019-06-17 18:37:00', '2019-06-17', '2019-06-17'),
+(8, 2, 'Juan Gomez', '2019-06-17 18:38:22', '2019-06-17', '2019-06-17'),
+(9, 2, 'Juan Gomez', '2019-06-17 18:39:26', '2019-06-17', '2019-06-17'),
+(10, 2, 'Juan Gomez', '2019-06-17 18:40:47', '2019-06-17', '2019-06-17'),
+(11, 2, 'Juan Gomez', '2019-06-17 18:43:42', '2019-06-17', '2019-06-17'),
+(12, 2, 'Juan Gomez', '2019-06-17 20:05:13', '2019-06-17', '2019-06-17'),
+(13, 2, 'Juan Gomez', '2019-06-17 20:18:25', '2019-06-17', '2019-06-17'),
+(14, 2, 'Juan Gomez', '2019-06-17 20:19:57', '2019-06-17', '2019-06-17'),
+(15, 2, 'Juan Gomez', '2019-06-17 20:28:32', '2019-06-17', '2019-06-17'),
+(16, 2, 'Juan Gomez', '2019-06-17 20:40:17', '2019-06-17', '2019-06-17');
 
 -- --------------------------------------------------------
 
@@ -126,25 +133,7 @@ CREATE TABLE `pedidos` (
   `foto` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `codigo_pedido` int(11) NOT NULL,
   `id_empleado` int(11) NOT NULL,
-  `importa` int(11) NOT NULL,
-  `created_at` date NOT NULL,
-  `updated_at` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `postres`
---
-
-CREATE TABLE `postres` (
-  `id` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL,
-  `nombre_item` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
-  `tiempo_estimado` time NOT NULL,
-  `tiempo_real` time NOT NULL,
-  `id_empleado` int(11) NOT NULL,
+  `importe` int(11) NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -167,32 +156,14 @@ CREATE TABLE `rates` (
   `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `vinos`
---
-
-CREATE TABLE `vinos` (
-  `id` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL,
-  `nombre_item` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
-  `tiempo_estimado` time NOT NULL,
-  `tiempo_real` time NOT NULL,
-  `id_empleado` int(11) NOT NULL,
-  `created_at` date NOT NULL,
-  `updated_at` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `comida`
+-- Indices de la tabla `alimentos`
 --
-ALTER TABLE `comida`
+ALTER TABLE `alimentos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -202,9 +173,9 @@ ALTER TABLE `empleados`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `logs`
+-- Indices de la tabla `logueos`
 --
-ALTER TABLE `logs`
+ALTER TABLE `logueos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -230,9 +201,9 @@ ALTER TABLE `rates`
 --
 
 --
--- AUTO_INCREMENT de la tabla `comida`
+-- AUTO_INCREMENT de la tabla `alimentos`
 --
-ALTER TABLE `comida`
+ALTER TABLE `alimentos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -242,10 +213,10 @@ ALTER TABLE `empleados`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `logs`
+-- AUTO_INCREMENT de la tabla `logueos`
 --
-ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `logueos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `mesa`

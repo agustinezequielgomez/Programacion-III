@@ -6,6 +6,7 @@ use Slim\Http\Response;
 use clases\empleadoApi;
 use clases\MWComanda;
 use clases\logueosApi;
+use clases\pedidoApi;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -26,7 +27,12 @@ return function (App $app) {
 
     $app->group('/Registros',function()
     {
-        $this->get('/',registrosApi::class.':TraerTodos');
+        $this->get('/',logueosApi::class.':TraerTodos');
+    })->add(MWComanda::class.':MWVerificarCredenciales');
+
+    $app->group('/Pedidos',function()
+    {
+        $this->post('/',pedidoApi::class.':EnviarUno');
     });
 };
 ?>

@@ -9,6 +9,5 @@ interface IApi
     public function EnviarUno(Request $request,Response $response,$args);
     public function ModificarUno(Request $request,Response $response,$args);
     public function BorrarUno(Request $request,Response $response,$args);
-    public function Login(Request $request,Response $response,$args);
 }
 ?>
