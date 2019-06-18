@@ -30,7 +30,8 @@ class pedidoApi implements IApi
         $pedido->codigo_pedido = pedido::generarCodigoDePedido();
         $pedido->id_empleado = $idMozo;
         $pedido->importe = pedido::calcularImporte($alimentos);
-        var_dump($pedido);
+        $pedido->foto = $pedido->subirFoto($request->getUploadedFiles(),"../files/fotos/");
+        $pedido->save();
     }
 
     function ModificarUno(Request $request,Response $response, $args)
