@@ -7,6 +7,7 @@ use clases\empleadoApi;
 use clases\MWComanda;
 use clases\logueosApi;
 use clases\pedidoApi;
+use clases\alimentoApi;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -33,6 +34,11 @@ return function (App $app) {
     $app->group('/Pedidos',function()
     {
         $this->post('/',pedidoApi::class.':EnviarUno');
+    });
+
+    $app->group('/Alimentos',function()
+    {
+        $this->get('/',alimentoApi::class.':verAlimentos');
     });
 };
 ?>

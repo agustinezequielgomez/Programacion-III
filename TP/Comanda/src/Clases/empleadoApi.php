@@ -5,7 +5,6 @@ use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\empleado;
-use App\Models\registro;
 use App\Models\logueo;
 
 class empleadoApi implements IApi

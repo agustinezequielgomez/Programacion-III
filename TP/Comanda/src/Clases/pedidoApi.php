@@ -5,6 +5,7 @@ use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\pedido;
+use App\Models\alimento;
 
 class pedidoApi implements IApi
 {
@@ -32,6 +33,7 @@ class pedidoApi implements IApi
         $pedido->importe = pedido::calcularImporte($alimentos);
         $pedido->foto = $pedido->subirFoto($request->getUploadedFiles(),"../files/fotos/");
         $pedido->save();
+        alimento::cargarAlimentos($alimentos,$pedido);
     }
 
     function ModificarUno(Request $request,Response $response, $args)
