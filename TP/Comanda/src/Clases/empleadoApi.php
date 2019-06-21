@@ -24,6 +24,7 @@ class empleadoApi implements IApi
     function EnviarUno(Request $request,Response $response, $args)
     {
         $empleado = $request->getAttribute('empleado');
+        $empleado->estado = "Activo";
         $empleado->save();
         $response->getBody()->write("Empleado dado de alta exitosamente");
         return $response;
@@ -47,6 +48,22 @@ class empleadoApi implements IApi
         $empleado = $request->getAttribute('empleado');
         logueo::crearLogueo($empleado);
         return $response->getBody()->write(VerificadorJWT::crearToken(["id"=>$empleado->id,"nombre"=>$empleado->nombre,"tipo"=>$empleado->tipo]));
+    }
+
+    function SuspenderEmpleado(Request $request,Response $response, $args)
+    {
+        $empleado = empleado::find($request->getAttribute('id'));
+        $empleado->estado = "Suspendido";
+        $empleado->save();
+        return $response->getBody()->write("Empleado supendido exitosamente");
+    }
+
+    function ActivarEmpleado(Request $request,Response $response, $args)
+    {
+        $empleado = empleado::find($request->getAttribute('id'));
+        $empleado->estado = "Activo";
+        $empleado->save();
+        return $response->getBody()->write("Empleado activado exitosamente");
     }
 }
 ?>

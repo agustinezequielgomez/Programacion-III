@@ -4,43 +4,55 @@ use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\alimento;
+use clases\pedidoApi;
 
 class alimentoApi
 {
-    static function prepararAlimento(Request $request, Response $response, array $args)
+    static function prepararAlimento(Request $request, Response $response, array $args) //Pasar alimento a "En preparacion"
     {
-        $token = $request->getHeader('token')[0];
-
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $id_pedido = $request->getParsedBody()["id_pedido"];
+        $minutos_estimados = $request->getParsedBody()["tiempo_estimado"];
+        $empleado = VerificadorJWT::TraerData($request->getHeader('token')[0]);
+        $alimentos = alimento::obtenerAlimentoBasadoEnPuesto($empleado->tipo);
+        foreach($alimentos as $alimento)
+        {
+            if($alimento->id_pedido == $id_pedido)
+            {
+                $alimento->id_empleado = $empleado->id;
+                $alimento->estado = "En preparacion";
+                $alimento->tiempo_comienzo = date('H:i:s');
+                $alimento->tiempo_estimado = date_add(date_create('now'),$minutos_estimados.'M');
+                $alimento->save();
+            }
+        }
+        $request = $request->withAttribute('id',$id_pedido);
+        $request = $request->withAttribute('estado',"En preparacion");
+        pedidoApi::actualizarEstadoPedido($request,$response,$args);
+        return $response->getBody()->write("\nPedido en preparacion");
     }
 
-    static function verAlimentos(Request $request, Response $response, array $args)
+    static function cancelarAlimentos(Request $request, Response $response, array $args) //Pasar alimentos a "Cancelar"
+    {
+        $alimento = new alimento();
+        $idPedido = $request->getAttribute('id_pedido');
+        $alimentos = $alimento->where('id_pedido',$idPedido)->get();
+        foreach($alimentos as $alimento)
+        {
+            $alimento->estado = "Cancelado";
+            $alimento->save();
+        }
+    }
+
+    function verAlimentos(Request $request, Response $response, array $args)
     {
         $token = $request->getHeader('token')[0];
         $puestoEmpleado = VerificadorJWT::TraerData($token)->tipo;
-        echo $puestoEmpleado;
         $alimento = new alimento();
-        $respuesta;
-        switch($puestoEmpleado)
-        {
-            case "bartender":
-            $respuesta = $alimento->where('tipo','vino')->get();
-            $response->getBody()->write($respuesta->toJson());
-            break;
-
-            case "cerveceros":
-            $respuesta = $alimento->where('tipo','=','cerveza');
-            $response->getBody()->write($respuesta->toJson());
-            break;
-
-            case "cocineros":
-            $response->getBody()->write(($alimento->where('tipo','=','comida')->orWhere('tipo','=','postre'))->toJson());
-            break;
-
-            case "socios":
-            $response->getBody()->write(($alimento::all())->toJson());
-            break;
-        }
+        $response->getBody()->write((alimento::obtenerAlimentoBasadoEnPuesto($puestoEmpleado))->toJson());
         return $response;
     }
+
+
 }
 ?>

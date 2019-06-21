@@ -19,6 +19,9 @@ return function (App $app) {
         $this->post('/',empleadoApi::class.':EnviarUno')->add(MWComanda::class.':MWValidarAlta');
         $this->put('/',empleadoApi::class.':ModificarUno')->add(MWComanda::class.':MWValidarAlta')->add(MWComanda::class.':MWValidarIdExistenteNoGet');
         $this->delete('/',empleadoApi::class.':BorrarUno')->add(MWComanda::class.':MWValidarIdExistenteNoGet');
+        $this->put('/Suspender',empleadoApi::class.':SuspenderEmpleado')->add(MWComanda::class.':MWValidarIdExistenteNoGet');
+        $this->put('/Activar',empleadoApi::class.':ActivarEmpleado')->add(MWComanda::class.':MWValidarIdExistenteNoGet');
+
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
     
     $app->group('/Login',function()
@@ -33,12 +36,16 @@ return function (App $app) {
 
     $app->group('/Pedidos',function()
     {
+        $this->get('/',pedidoApi::class.':TraerTodos');
+        $this->get('/{id}',pedidoApi::class.':TraerUno');
         $this->post('/',pedidoApi::class.':EnviarUno');
+        $this->delete('/',pedidoApi::class.':CancelarUno');
     });
 
     $app->group('/Alimentos',function()
     {
         $this->get('/',alimentoApi::class.':verAlimentos');
+        $this->post('/',alimentoApi::class.':prepararAlimento');
     });
 };
 ?>

@@ -1,22 +1,29 @@
 <?php
 namespace clases;
-use clases\IApi;
 use clases\VerificadorJWT;
+use clases\alimentoApi;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\pedido;
 use App\Models\alimento;
 
-class pedidoApi implements IApi
+class pedidoApi
 {
     function TraerUno(Request $request,Response $response,$args)
     {
-
+        return (pedido::find($args['id']))->toJson();
     }
 
-    function BorrarUno(Request $request, Response $response, $args)
+    function CancelarUno(Request $request, Response $response, $args)
     {
-
+        $codigo_pedido = $request->getParsedBody()["codigo_pedido"];
+        $pedido = new pedido();
+        $pedidoACancelar = $pedido->where("codigo_pedido",$codigo_pedido)->first();
+        $pedidoACancelar->estado = "Cancelado";
+        $request = $request->withAttribute('id_pedido',$pedidoACancelar->id);
+        alimentoApi::cancelarAlimentos($request,$response,$args);
+        $pedidoACancelar->save();
+        return $response->getBody()->write("\nPedido cancelado exitosamente");
     }
     
     function EnviarUno(Request $request,Response $response, $args)
@@ -34,6 +41,7 @@ class pedidoApi implements IApi
         $pedido->foto = $pedido->subirFoto($request->getUploadedFiles(),"../files/fotos/");
         $pedido->save();
         alimento::cargarAlimentos($alimentos,$pedido);
+        return $response->getBody()->write("\nPedido realizado con exito. Su codigo de pedido es: ".$pedido->codigo_pedido);
     }
 
     function ModificarUno(Request $request,Response $response, $args)
@@ -41,9 +49,16 @@ class pedidoApi implements IApi
 
     }
     
+    static function actualizarEstadoPedido(Request $request, Response $response, $args)
+    {
+        $id = $request->getAttribute('id');
+        $estado = $request->getAttribute('estado');
+        return pedido::where('id',$id)->update(['estado'=>$estado]);
+    }
+
     function TraerTodos(Request $request,Response $response, $args)
     {
-
+        return $response->getBody()->write((pedido::all())->toJson());
     }
 }
 ?>

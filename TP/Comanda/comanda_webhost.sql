@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2019 a las 07:10:10
+-- Tiempo de generación: 18-06-2019 a las 05:49:45
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.3
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `comanda`
+-- Base de datos: `id9074800_comanda`
 --
 
 -- --------------------------------------------------------
@@ -34,31 +34,13 @@ CREATE TABLE `alimentos` (
   `tipo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `nombre_alimento` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `estado` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `tiempo_comienzo` time NOT NULL,
-  `tiempo_estimado` time NOT NULL,
-  `tiempo_real` time NOT NULL,
+  `tiempo_comienzo` datetime NOT NULL,
+  `tiempo_estimado` datetime NOT NULL,
+  `tiempo_real` datetime NOT NULL,
   `id_empleado` int(11) NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `alimentos`
---
-
-INSERT INTO `alimentos` (`id`, `id_pedido`, `tipo`, `nombre_alimento`, `estado`, `tiempo_comienzo`, `tiempo_estimado`, `tiempo_real`, `id_empleado`, `created_at`, `updated_at`) VALUES
-(1, 1, 'comida', 'empanadas', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(2, 1, 'comida', 'ñoquis', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(3, 1, 'comida', 'pizza', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(4, 1, 'comida', 'fideos', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(5, 1, 'vino', 'tinto', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(6, 1, 'trago', 'cuba libre', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(7, 1, 'cerveza', 'colorada', 'En preparacion', '22:00:24', '00:00:00', '00:00:00', 14, '2019-06-20', '2019-06-20'),
-(8, 1, 'postre', 'flan con dulce de leche', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(9, 2, 'comida', 'langosta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(10, 2, 'comida', 'milanesa con pure', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(11, 2, 'cerveza', 'tirada', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(12, 2, 'postre', 'chocotorta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20');
 
 -- --------------------------------------------------------
 
@@ -71,7 +53,6 @@ CREATE TABLE `empleados` (
   `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `pass` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `tipo` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `estado` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
   `updated_at` date NOT NULL,
   `created_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -80,13 +61,12 @@ CREATE TABLE `empleados` (
 -- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleados` (`id`, `nombre`, `pass`, `tipo`, `estado`, `updated_at`, `created_at`) VALUES
-(1, 'admin', 'sysadmin', 'administrador', 'Activo', '0000-00-00', '0000-00-00'),
-(9, 'Juan Gomez', 'Mozo123', 'mozo', 'Activo', '2019-06-20', '2019-06-20'),
-(11, 'Maria Rodriguez', 'Bartender123', 'bartender', 'Suspendido', '2019-06-20', '2019-06-20'),
-(12, 'Camila Gonzalez', 'Cocinero123', 'cocinero', 'Activo', '2019-06-20', '2019-06-20'),
-(13, 'Jose Walter', 'Socio123', 'socio', 'Activo', '2019-06-20', '2019-06-20'),
-(14, 'Juan Cruz', 'Cervezero123', 'cervecero', 'Activo', '2019-06-21', '2019-06-21');
+INSERT INTO `empleados` (`id`, `nombre`, `pass`, `tipo`, `updated_at`, `created_at`) VALUES
+(1, 'admin', 'sysadmin', 'administrador', '0000-00-00', '0000-00-00'),
+(2, 'Juan Gomez', 'Juancito123', 'mozos', '0000-00-00', '0000-00-00'),
+(4, 'admin5', 'sysadmin2019', 'administrador', '0000-00-00', '0000-00-00'),
+(6, 'adminTest23', 'TestAdmin2', 'administrador', '2019-06-09', '0000-00-00'),
+(8, 'Alberto', 'Albert123', 'bartender', '2019-06-09', '2019-06-09');
 
 -- --------------------------------------------------------
 
@@ -123,29 +103,7 @@ INSERT INTO `logueos` (`id`, `id_usuario`, `nombre`, `fecha_ingreso`, `created_a
 (13, 2, 'Juan Gomez', '2019-06-17 20:18:25', '2019-06-17', '2019-06-17'),
 (14, 2, 'Juan Gomez', '2019-06-17 20:19:57', '2019-06-17', '2019-06-17'),
 (15, 2, 'Juan Gomez', '2019-06-17 20:28:32', '2019-06-17', '2019-06-17'),
-(16, 2, 'Juan Gomez', '2019-06-17 20:40:17', '2019-06-17', '2019-06-17'),
-(17, 1, 'admin', '2019-06-20 12:29:31', '2019-06-20', '2019-06-20'),
-(18, 8, 'Alberto', '2019-06-20 12:32:18', '2019-06-20', '2019-06-20'),
-(19, 1, 'admin', '2019-06-20 12:34:07', '2019-06-20', '2019-06-20'),
-(20, 11, 'Maria Rodriguez', '2019-06-20 12:38:32', '2019-06-20', '2019-06-20'),
-(21, 9, 'Juan Gomez', '2019-06-20 13:31:46', '2019-06-20', '2019-06-20'),
-(22, 11, 'Maria Rodriguez', '2019-06-20 13:33:17', '2019-06-20', '2019-06-20'),
-(23, 11, 'Maria Rodriguez', '2019-06-20 13:38:09', '2019-06-20', '2019-06-20'),
-(24, 1, 'admin', '2019-06-20 14:13:25', '2019-06-20', '2019-06-20'),
-(25, 1, 'admin', '2019-06-20 14:37:23', '2019-06-20', '2019-06-20'),
-(26, 1, 'admin', '2019-06-20 17:38:59', '2019-06-20', '2019-06-20'),
-(27, 13, 'Jose Walter', '2019-06-20 17:39:38', '2019-06-20', '2019-06-20'),
-(28, 1, 'admin', '2019-06-20 17:46:08', '2019-06-20', '2019-06-20'),
-(29, 1, 'admin', '2019-06-20 18:30:10', '2019-06-20', '2019-06-20'),
-(30, 13, 'Jose Walter', '2019-06-20 18:32:40', '2019-06-20', '2019-06-20'),
-(31, 13, 'Jose Walter', '2019-06-20 20:45:54', '2019-06-20', '2019-06-20'),
-(32, 13, 'Jose Walter', '2019-06-20 20:46:08', '2019-06-20', '2019-06-20'),
-(33, 1, 'admin', '2019-06-20 20:46:29', '2019-06-20', '2019-06-20'),
-(34, 11, 'Maria Rodriguez', '2019-06-20 20:47:15', '2019-06-20', '2019-06-20'),
-(35, 1, 'admin', '2019-06-20 21:37:51', '2019-06-20', '2019-06-20'),
-(36, 14, 'Juan Cruz', '2019-06-20 21:39:28', '2019-06-20', '2019-06-20'),
-(37, 14, 'Juan Cruz', '2019-06-20 21:53:22', '2019-06-20', '2019-06-20'),
-(38, 14, 'Juan Cruz', '2019-06-20 22:03:46', '2019-06-20', '2019-06-20');
+(16, 2, 'Juan Gomez', '2019-06-17 20:40:17', '2019-06-17', '2019-06-17');
 
 -- --------------------------------------------------------
 
@@ -173,20 +131,12 @@ CREATE TABLE `pedidos` (
   `n_mesa` int(11) NOT NULL,
   `estado` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `foto` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `codigo_pedido` varchar(7) COLLATE utf8_spanish2_ci NOT NULL,
+  `codigo_pedido` int(11) NOT NULL,
   `id_empleado` int(11) NOT NULL,
   `importe` int(11) NOT NULL,
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`id`, `n_mesa`, `estado`, `foto`, `codigo_pedido`, `id_empleado`, `importe`, `created_at`, `updated_at`) VALUES
-(1, 1, 'En preparacion', '../files/fotos/Mesa_1_Pedido_2ZmtK.PNG', '2ZmtK', 11, 1220, '2019-06-20', '2019-06-20'),
-(2, 5, 'Pendiente', '../files/fotos/Mesa_5_Pedido_216VG.PNG', '216VG', 1, 470, '2019-06-20', '2019-06-20');
 
 -- --------------------------------------------------------
 
@@ -254,19 +204,19 @@ ALTER TABLE `rates`
 -- AUTO_INCREMENT de la tabla `alimentos`
 --
 ALTER TABLE `alimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `logueos`
 --
 ALTER TABLE `logueos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `mesa`
@@ -278,7 +228,7 @@ ALTER TABLE `mesa`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `rates`

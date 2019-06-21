@@ -11,7 +11,7 @@ class pedido extends \Illuminate\Database\Eloquent\Model
     public static function procesarPedidos($pedidos)
     {
         $pedidosParsed = array();
-        $alimentos = ["comida","vino","cerveza","postre"];
+        $alimentos = ["comida","vino","trago","cerveza","postre"];
         foreach($alimentos as $alimento)
         {
             if($pedidos[$alimento]!=NULL)
@@ -28,7 +28,7 @@ class pedido extends \Illuminate\Database\Eloquent\Model
 
     public static function calcularImporte($alimentos)
     {
-        return ((sizeof($alimentos["comida"])*150)+(sizeof($alimentos["vino"])*200)+(sizeof($alimentos["cerveza"])*100)+(sizeof($alimentos["postre"])*70));
+        return ((sizeof($alimentos["comida"])*150)+(sizeof($alimentos["vino"])*200)+(sizeof($alimentos["trago"])*250)+(sizeof($alimentos["cerveza"])*100)+(sizeof($alimentos["postre"])*70));
     }
 
     public function subirFoto($archivos,$path)
