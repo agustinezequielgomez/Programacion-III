@@ -10,11 +10,7 @@ class alimento extends \Illuminate\Database\Eloquent\Model
         {
             foreach($alimentos[$tipoAlimento] as $alimentoPedido)
             {
-                $alimento = new alimento();
-                $alimento->id_pedido = $pedido->id;
-                $alimento->tipo = $tipoAlimento;
-                $alimento->nombre_alimento = $alimentoPedido;
-                $alimento->estado = "Pendiente";
+                $alimento = new alimento(["id_pedido"=>$pedido->id,"tipo"=>$tipoAlimento,"nombre_alimento"=>$alimentoPedido,"estado"=>"Pendiente"]);
                 $alimento->save();
             }            
         }
@@ -35,7 +31,7 @@ class alimento extends \Illuminate\Database\Eloquent\Model
             break;
 
             case "cocinero":
-            $respuesta = $alimento->where('tipo','=','comida')->where('estado','Pendiente')->get();
+            $respuesta = $alimento->where('tipo','=','comida')->orWhere('tipo','postre')->where('estado','Pendiente')->get();
             break;
 
             case "socio":
@@ -45,9 +41,26 @@ class alimento extends \Illuminate\Database\Eloquent\Model
         return $respuesta;
     }
 
-    static function calcularTiempoEstimado()
+    static function calcularTiempoEstimado($puestoEmpleado)
     {
-        
+        $tiempoBase;
+        switch($puestoEmpleado)
+        {
+            case "bartender":
+            $tiempoBase = 5;
+            break;
+
+            case "cervecero":
+            $tiempoBase = 2;
+            break;
+
+            case "cocinero":
+            $tiempoBase = 10;
+            break;
+        }
+        $disponibles = empleado::BuscarEmpleadoDisponible($puestoEmpleado);
+        $estimado = $tiempoBase/$disponibles;
+        return date('H:i:s',strtotime('+'.round($estimado).' minutes',strtotime(date('H:i:s'))));
     }
 }
 ?>

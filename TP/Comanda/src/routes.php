@@ -32,7 +32,7 @@ return function (App $app) {
     $app->group('/Registros',function()
     {
         $this->get('/',logueosApi::class.':TraerTodos');
-    })->add(MWComanda::class.':MWVerificarCredenciales');
+    })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Pedidos',function()
     {
@@ -40,12 +40,12 @@ return function (App $app) {
         $this->get('/{id}',pedidoApi::class.':TraerUno');
         $this->post('/',pedidoApi::class.':EnviarUno');
         $this->delete('/',pedidoApi::class.':CancelarUno');
-    });
+    })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Alimentos',function()
     {
         $this->get('/',alimentoApi::class.':verAlimentos');
         $this->post('/',alimentoApi::class.':prepararAlimento');
-    });
+    })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 };
 ?>

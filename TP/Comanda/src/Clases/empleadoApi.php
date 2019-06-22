@@ -52,17 +52,13 @@ class empleadoApi implements IApi
 
     function SuspenderEmpleado(Request $request,Response $response, $args)
     {
-        $empleado = empleado::find($request->getAttribute('id'));
-        $empleado->estado = "Suspendido";
-        $empleado->save();
+        empleado::where('id',$request->getAttribute('id'))->update(['estado'=>'Suspendido']);
         return $response->getBody()->write("Empleado supendido exitosamente");
     }
 
     function ActivarEmpleado(Request $request,Response $response, $args)
     {
-        $empleado = empleado::find($request->getAttribute('id'));
-        $empleado->estado = "Activo";
-        $empleado->save();
+        empleado::where('id',$request->getAttribute('id'))->update(['estado'=>'Activo']);
         return $response->getBody()->write("Empleado activado exitosamente");
     }
 }

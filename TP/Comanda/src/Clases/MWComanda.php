@@ -16,8 +16,15 @@ class MWComanda
         $empleadoValidado = $empleado->ValidarEmpleadoExistenteLogin();
         if($empleadoValidado!=false)
         {
-            $request = $request->withAttribute('empleado',$empleadoValidado);
-            $response = $next($request,$response);
+            if($empleadoValidado->estado!='Suspendido')
+            {
+                $request = $request->withAttribute('empleado',$empleadoValidado);
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("<br>Login denegado. Su usuario esta suspendido.");
+            }
         }
         else
         {
@@ -45,13 +52,41 @@ class MWComanda
     {
         $token = $request->getHeader('token')[0];
         $data = VerificadorJWT::TraerData($token);
-        if($data->tipo=="administrador")
+        switch($data->tipo)
         {
-            $response = $next($request,$response);
-        }
-        else
-        {
-            $response->getBody()->write("No posees las credenciales necesarias para estas acciones");
+            case "administrador":
+            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/')
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("No posees las credenciales necesarias para estas acciones");
+            }
+            break;
+
+            case "cocinero":
+            case "bartender":
+            case "cervecero":
+            if($request->getUri()->getPath()=='Alimentos/')
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("No posees las credenciales necesarias para estas acciones");
+            }
+            break;
+
+            case "mozo":
+            if($request->getUri()->getPath()=='Pedidos/')
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("No posees las credenciales necesarias para estas acciones");
+            }
         }
         return $response;
     }

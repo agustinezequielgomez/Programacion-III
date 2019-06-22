@@ -17,12 +17,9 @@ class pedidoApi
     function CancelarUno(Request $request, Response $response, $args)
     {
         $codigo_pedido = $request->getParsedBody()["codigo_pedido"];
-        $pedido = new pedido();
-        $pedidoACancelar = $pedido->where("codigo_pedido",$codigo_pedido)->first();
-        $pedidoACancelar->estado = "Cancelado";
-        $request = $request->withAttribute('id_pedido',$pedidoACancelar->id);
+        pedido::where('codigo_pedido',$codigo_pedido)->update(['estado','Cancelado']);
+        $request = $request->withAttribute('id_pedido',pedido::select('id')->where('codigo_pedido',$codigo_pedido));
         alimentoApi::cancelarAlimentos($request,$response,$args);
-        $pedidoACancelar->save();
         return $response->getBody()->write("\nPedido cancelado exitosamente");
     }
     
