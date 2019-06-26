@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2019 a las 07:10:10
+-- Tiempo de generación: 26-06-2019 a las 05:57:42
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.3
 
@@ -47,18 +47,20 @@ CREATE TABLE `alimentos` (
 --
 
 INSERT INTO `alimentos` (`id`, `id_pedido`, `tipo`, `nombre_alimento`, `estado`, `tiempo_comienzo`, `tiempo_estimado`, `tiempo_real`, `id_empleado`, `created_at`, `updated_at`) VALUES
-(1, 1, 'comida', 'empanadas', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(2, 1, 'comida', 'ñoquis', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(3, 1, 'comida', 'pizza', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(4, 1, 'comida', 'fideos', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(5, 1, 'vino', 'tinto', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(6, 1, 'trago', 'cuba libre', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(7, 1, 'cerveza', 'colorada', 'En preparacion', '22:00:24', '00:00:00', '00:00:00', 14, '2019-06-20', '2019-06-20'),
-(8, 1, 'postre', 'flan con dulce de leche', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(9, 2, 'comida', 'langosta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(10, 2, 'comida', 'milanesa con pure', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(11, 2, 'cerveza', 'tirada', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20'),
-(12, 2, 'postre', 'chocotorta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-20');
+(1, 1, 'comida', 'empanadas', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(2, 1, 'comida', 'ñoquis', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(3, 1, 'comida', 'pizza', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(4, 1, 'comida', 'fideos', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(5, 1, 'vino', 'tinto', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(6, 1, 'trago', 'cuba libre', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(7, 1, 'cerveza', 'colorada', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(8, 1, 'postre', 'flan con dulce de leche', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(9, 2, 'comida', 'langosta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(10, 2, 'comida', 'milanesa con pure', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(11, 2, 'cerveza', 'tirada', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(12, 2, 'postre', 'chocotorta', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-20', '2019-06-22'),
+(13, 3, 'comida', 'milanesa', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-22', '2019-06-22'),
+(14, 3, 'postre', 'chessecake', 'Pendiente', '00:00:00', '00:00:00', '00:00:00', 0, '2019-06-22', '2019-06-22');
 
 -- --------------------------------------------------------
 
@@ -86,7 +88,10 @@ INSERT INTO `empleados` (`id`, `nombre`, `pass`, `tipo`, `estado`, `updated_at`,
 (11, 'Maria Rodriguez', 'Bartender123', 'bartender', 'Suspendido', '2019-06-20', '2019-06-20'),
 (12, 'Camila Gonzalez', 'Cocinero123', 'cocinero', 'Activo', '2019-06-20', '2019-06-20'),
 (13, 'Jose Walter', 'Socio123', 'socio', 'Activo', '2019-06-20', '2019-06-20'),
-(14, 'Juan Cruz', 'Cervezero123', 'cervecero', 'Activo', '2019-06-21', '2019-06-21');
+(14, 'Juan Cruz', 'Cervezero123', 'cervecero', 'Activo', '2019-06-21', '2019-06-21'),
+(15, 'Roberto Gomez', 'Cervezero123', 'cervecero', 'Activo', '2019-06-22', '2019-06-22'),
+(16, 'Belen Herrera', 'Cocinero123', 'cocinero', 'Activo', '2019-06-22', '2019-06-22'),
+(17, 'Jose Artigas', 'Cocinero123', 'cocinero', 'Activo', '2019-06-22', '2019-06-22');
 
 -- --------------------------------------------------------
 
@@ -145,7 +150,40 @@ INSERT INTO `logueos` (`id`, `id_usuario`, `nombre`, `fecha_ingreso`, `created_a
 (35, 1, 'admin', '2019-06-20 21:37:51', '2019-06-20', '2019-06-20'),
 (36, 14, 'Juan Cruz', '2019-06-20 21:39:28', '2019-06-20', '2019-06-20'),
 (37, 14, 'Juan Cruz', '2019-06-20 21:53:22', '2019-06-20', '2019-06-20'),
-(38, 14, 'Juan Cruz', '2019-06-20 22:03:46', '2019-06-20', '2019-06-20');
+(38, 14, 'Juan Cruz', '2019-06-20 22:03:46', '2019-06-20', '2019-06-20'),
+(39, 14, 'Juan Cruz', '2019-06-21 21:25:00', '2019-06-21', '2019-06-21'),
+(40, 14, 'Juan Cruz', '2019-06-21 21:38:11', '2019-06-21', '2019-06-21'),
+(41, 14, 'Juan Cruz', '2019-06-21 22:04:03', '2019-06-21', '2019-06-21'),
+(42, 14, 'Juan Cruz', '2019-06-21 22:13:44', '2019-06-21', '2019-06-21'),
+(43, 14, 'Juan Cruz', '2019-06-21 22:21:59', '2019-06-21', '2019-06-21'),
+(44, 14, 'Juan Cruz', '2019-06-22 00:59:21', '2019-06-22', '2019-06-22'),
+(45, 1, 'admin', '2019-06-22 01:01:01', '2019-06-22', '2019-06-22'),
+(46, 14, 'Juan Cruz', '2019-06-22 01:02:29', '2019-06-22', '2019-06-22'),
+(47, 15, 'Roberto Gomez', '2019-06-22 01:07:11', '2019-06-22', '2019-06-22'),
+(48, 15, 'Roberto Gomez', '2019-06-22 01:15:34', '2019-06-22', '2019-06-22'),
+(49, 15, 'Roberto Gomez', '2019-06-22 01:31:15', '2019-06-22', '2019-06-22'),
+(50, 14, 'Juan Cruz', '2019-06-22 01:31:48', '2019-06-22', '2019-06-22'),
+(51, 15, 'Roberto Gomez', '2019-06-22 01:36:29', '2019-06-22', '2019-06-22'),
+(52, 15, 'Roberto Gomez', '2019-06-22 11:25:41', '2019-06-22', '2019-06-22'),
+(53, 15, 'Roberto Gomez', '2019-06-22 11:49:39', '2019-06-22', '2019-06-22'),
+(54, 14, 'Juan Cruz', '2019-06-22 11:50:22', '2019-06-22', '2019-06-22'),
+(55, 1, 'admin', '2019-06-22 11:52:32', '2019-06-22', '2019-06-22'),
+(56, 17, 'Jose Artigas', '2019-06-22 11:54:14', '2019-06-22', '2019-06-22'),
+(57, 17, 'Jose Artigas', '2019-06-22 12:04:36', '2019-06-22', '2019-06-22'),
+(58, 16, 'Belen Herrera', '2019-06-22 12:05:23', '2019-06-22', '2019-06-22'),
+(59, 12, 'Camila Gonzalez', '2019-06-22 12:06:33', '2019-06-22', '2019-06-22'),
+(60, 12, 'Camila Gonzalez', '2019-06-22 12:20:36', '2019-06-22', '2019-06-22'),
+(61, 12, 'Camila Gonzalez', '2019-06-22 12:23:50', '2019-06-22', '2019-06-22'),
+(62, 17, 'Jose Artigas', '2019-06-22 12:26:41', '2019-06-22', '2019-06-22'),
+(63, 12, 'Camila Gonzalez', '2019-06-22 12:27:06', '2019-06-22', '2019-06-22'),
+(64, 12, 'Camila Gonzalez', '2019-06-22 12:30:22', '2019-06-22', '2019-06-22'),
+(65, 12, 'Camila Gonzalez', '2019-06-22 12:37:18', '2019-06-22', '2019-06-22'),
+(66, 12, 'Camila Gonzalez', '2019-06-22 12:45:10', '2019-06-22', '2019-06-22'),
+(67, 12, 'Camila Gonzalez', '2019-06-22 13:00:17', '2019-06-22', '2019-06-22'),
+(68, 1, 'admin', '2019-06-22 13:00:36', '2019-06-22', '2019-06-22'),
+(69, 1, 'admin', '2019-06-22 13:03:54', '2019-06-22', '2019-06-22'),
+(70, 1, 'admin', '2019-06-22 13:05:04', '2019-06-22', '2019-06-22'),
+(71, 12, 'Camila Gonzalez', '2019-06-22 13:05:34', '2019-06-22', '2019-06-22');
 
 -- --------------------------------------------------------
 
@@ -185,8 +223,9 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `n_mesa`, `estado`, `foto`, `codigo_pedido`, `id_empleado`, `importe`, `created_at`, `updated_at`) VALUES
-(1, 1, 'En preparacion', '../files/fotos/Mesa_1_Pedido_2ZmtK.PNG', '2ZmtK', 11, 1220, '2019-06-20', '2019-06-20'),
-(2, 5, 'Pendiente', '../files/fotos/Mesa_5_Pedido_216VG.PNG', '216VG', 1, 470, '2019-06-20', '2019-06-20');
+(1, 1, 'En preparacion', '../files/fotos/Mesa_1_Pedido_2ZmtK.PNG', '2ZmtK', 11, 1220, '2019-06-20', '2019-06-22'),
+(2, 5, 'En preparacion', '../files/fotos/Mesa_5_Pedido_216VG.PNG', '216VG', 1, 470, '2019-06-20', '2019-06-22'),
+(3, 5, 'En preparacion', '../files/fotos/Mesa_5_Pedido_qjFeI.PNG', 'qjFeI', 14, 220, '2019-06-22', '2019-06-22');
 
 -- --------------------------------------------------------
 
@@ -254,19 +293,19 @@ ALTER TABLE `rates`
 -- AUTO_INCREMENT de la tabla `alimentos`
 --
 ALTER TABLE `alimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `logueos`
 --
 ALTER TABLE `logueos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `mesa`
@@ -278,7 +317,7 @@ ALTER TABLE `mesa`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `rates`
