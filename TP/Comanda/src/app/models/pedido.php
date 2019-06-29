@@ -41,5 +41,14 @@ class pedido extends \Illuminate\Database\Eloquent\Model
         $archivos["foto"]->moveTo($path);
         return $path;
     }
+
+    public static function verificarEstimadoMaximo($id, $tiempo_estimado)
+    {
+        $tiempo_estimado = \DateTime::createFromFormat('H:i:s',$tiempo_estimado);
+        $tiempo_estimado_actual = \DateTime::createFromFormat('H:i:s',(pedido::select('tiempo_estimado')->where('id',$id)->get()[0])->tiempo_estimado);
+        return ($tiempo_estimado>$tiempo_estimado_actual);
+
+    }
+
 }
 ?>

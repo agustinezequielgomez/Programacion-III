@@ -5,6 +5,9 @@ use \App\Models\logueo;
 use clases\VerificadorJWT;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Models\alimento;
+use App\Models\pedido;
+
 class MWComanda
 {
     function MWLogin(Request $request,Response $response,$next)
@@ -147,6 +150,36 @@ class MWComanda
         else
         {
             $response->getBody()->write("El tipo de empleado que quiere dar de alta no es valido");
+        }
+        return $response;
+    }
+
+    function MWValidarAlimentosEnPreparacion(Request $request,Response $response,$next)
+    {
+        $empleado = VerificadorJWT::TraerData($request->getHeader('token')[0]);
+        if(alimento::where('id_empleado',$empleado->id)->count()>0)
+        {
+            $request = $request->withAttribute('empleado',$empleado);
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("El empleado no tiene alimentos en preparacion");
+        }
+        return $response;
+    }
+
+    function MWValidarPedidoExistente(Request $request,Response $response,$next)
+    {
+        $id_pedido = $request->getParsedBody()['id_pedido'];
+        if(pedido::where('id',$id_pedido)->count()>0)
+        {
+            $request = $request->withAttribute('id_pedido',$id_pedido);
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("El pedido seleccionado no existe.");
         }
         return $response;
     }

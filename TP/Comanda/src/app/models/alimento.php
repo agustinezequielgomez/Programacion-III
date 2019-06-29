@@ -41,26 +41,26 @@ class alimento extends \Illuminate\Database\Eloquent\Model
         return $respuesta;
     }
 
-    static function calcularTiempoEstimado($puestoEmpleado)
+    static function calcularTiempoEstimado($puestoEmpleado,$tiempo_estimado)
     {
-        $tiempoBase;
-        switch($puestoEmpleado)
-        {
-            case "bartender":
-            $tiempoBase = 5;
-            break;
-
-            case "cervecero":
-            $tiempoBase = 2;
-            break;
-
-            case "cocinero":
-            $tiempoBase = 10;
-            break;
-        }
         $disponibles = empleado::BuscarEmpleadoDisponible($puestoEmpleado);
-        $estimado = $tiempoBase/$disponibles;
+        $estimado = $tiempo_estimado/$disponibles;
         return date('H:i:s',strtotime('+'.round($estimado).' minutes',strtotime(date('H:i:s'))));
+    }
+
+    static function verificarAlimentosListos($id_pedido)
+    {
+        $alimentos = alimento::where('id_pedido',$id_pedido)->get();
+        $flag = true;
+        foreach($alimentos as $alimento)
+        {
+            if($alimento->estado != "Listo para servir")
+            {
+                $flag = false;
+                break;
+            }
+        }
+        return $flag;
     }
 }
 ?>

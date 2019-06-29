@@ -39,13 +39,15 @@ return function (App $app) {
         $this->get('/',pedidoApi::class.':TraerTodos');
         $this->get('/{id}',pedidoApi::class.':TraerUno');
         $this->post('/',pedidoApi::class.':EnviarUno');
-        $this->delete('/',pedidoApi::class.':CancelarUno');
+        $this->delete('/',pedidoApi::class.':CancelarUno')->add(MWComanda::class.':MWValidarPedidoExistente');
+        $this->put('/',pedidoApi::class.':entregarPedido')->add(MWComanda::class.':MWValidarPedidoExistente');
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Alimentos',function()
     {
         $this->get('/',alimentoApi::class.':verAlimentos');
         $this->post('/',alimentoApi::class.':prepararAlimento');
+        $this->put('/',alimentoApi::class.':terminarPreparacion')->add(MWComanda::class.':MWValidarAlimentosEnPreparacion');
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 };
 ?>

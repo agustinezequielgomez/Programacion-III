@@ -16,11 +16,11 @@ class pedidoApi
 
     function CancelarUno(Request $request, Response $response, $args)
     {
-        $codigo_pedido = $request->getParsedBody()["codigo_pedido"];
-        pedido::where('codigo_pedido',$codigo_pedido)->update(['estado','Cancelado']);
-        $request = $request->withAttribute('id_pedido',pedido::select('id')->where('codigo_pedido',$codigo_pedido));
+        $id_pedido = $request->getAttribute("id_pedido");
+        pedido::where('id',$id_pedido)->update(['estado'=>'Cancelado']);
+        $request = $request->withAttribute('id_pedido',$id_pedido);
         alimentoApi::cancelarAlimentos($request,$response,$args);
-        return $response->getBody()->write("\nPedido cancelado exitosamente");
+        return $response->getBody()->write("Pedido cancelado exitosamente");
     }
     
     function EnviarUno(Request $request,Response $response, $args)
@@ -36,6 +36,7 @@ class pedidoApi
         $pedido->id_empleado = $idMozo;
         $pedido->importe = pedido::calcularImporte($alimentos);
         $pedido->foto = $pedido->subirFoto($request->getUploadedFiles(),"../files/fotos/");
+        $pedido->pedido_realizado = date('H:i:s');
         $pedido->save();
         alimento::cargarAlimentos($alimentos,$pedido);
         return $response->getBody()->write("\nPedido realizado con exito. Su codigo de pedido es: ".$pedido->codigo_pedido);
@@ -50,12 +51,48 @@ class pedidoApi
     {
         $id = $request->getAttribute('id');
         $estado = $request->getAttribute('estado');
-        return pedido::where('id',$id)->update(['estado'=>$estado]);
+        $tiempo_estimado = $request->getAttribute('estimado');
+        switch($estado)
+        {
+            case "En preparacion":
+            if((pedido::select('estado')->where('id',$id)->get())[0]->estado!="En preparacion")
+            {
+                pedido::where('id',$id)->update(['estado'=>$estado,'pedido_en_preparacion'=>date('H:i:s'),'tiempo_estimado'=>$tiempo_estimado]);
+            }
+            else if(pedido::verificarEstimadoMaximo($id,$tiempo_estimado)==true)
+            {
+                pedido::where('id',$id)->update(['tiempo_estimado'=>$tiempo_estimado]);
+            }
+            break;
+
+            case "Listo para servir":
+            pedido::where('id',$id)->update(['estado'=>$estado,'pedido_listo_para_servir'=>date('H:i:s')]);
+            break;
+        }
     }
 
     function TraerTodos(Request $request,Response $response, $args)
     {
         return $response->getBody()->write((pedido::all())->toJson());
+    }
+
+    static function entregarPedido(Request $request,Response $response, $args)
+    {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $id = $request->getAttribute('id_pedido');
+        if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Listo para servir")
+        {
+            pedido::where('id',$id)->update(["estado"=>"Entregado","pedido_entregado"=>date('H:i:s')]);
+        }
+        else if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Entregado")
+        {
+            return $response->getBody()->write('El pedido ya fue entregado');
+        }
+        else
+        {
+            return $response->getBody()->write('El pedido no esta listo para ser entregado');
+        }
+        return $response->getBody()->write("Pedido entregado con exito");
     }
 }
 ?>
