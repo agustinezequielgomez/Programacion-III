@@ -10,7 +10,11 @@ class alimento extends \Illuminate\Database\Eloquent\Model
         {
             foreach($alimentos[$tipoAlimento] as $alimentoPedido)
             {
-                $alimento = new alimento(["id_pedido"=>$pedido->id,"tipo"=>$tipoAlimento,"nombre_alimento"=>$alimentoPedido,"estado"=>"Pendiente"]);
+                $alimento = new alimento();
+                $alimento->id_pedido = $pedido->id;
+                $alimento->tipo = $tipoAlimento;
+                $alimento->nombre_alimento = $alimentoPedido;
+                $alimento->estado = "Pendiente";
                 $alimento->save();
             }            
         }

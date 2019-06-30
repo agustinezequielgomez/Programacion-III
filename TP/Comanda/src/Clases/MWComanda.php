@@ -7,6 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Models\alimento;
 use App\Models\pedido;
+use App\Models\menu;
 
 class MWComanda
 {
@@ -58,7 +59,7 @@ class MWComanda
         switch($data->tipo)
         {
             case "administrador":
-            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/')
+            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/'||$request->getUri()->getPath()=='Menu/')
             {
                 $response = $next($request,$response);
             }
@@ -83,6 +84,17 @@ class MWComanda
 
             case "mozo":
             if($request->getUri()->getPath()=='Pedidos/')
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("No posees las credenciales necesarias para estas acciones");
+            }
+            break;
+
+            case "socio":
+            if($request->getUri()->getPath()=='Menu/')
             {
                 $response = $next($request,$response);
             }
@@ -180,6 +192,50 @@ class MWComanda
         else
         {
             $response->getBody()->write("El pedido seleccionado no existe.");
+        }
+        return $response;
+    }
+
+    function MWValidarComidaExistente(Request $request,Response $response,$next)
+    {
+        $alimentos = pedido::procesarPedidos($request->getParsedBody());
+        $alimentosValidados = menu::verificarAlimentoExistente($alimentos);
+        if($alimentosValidados === true)
+        {
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("No se encontraron los siguientes alimentos en nuestro menu:<br>".json_encode($alimentosValidados));
+        }
+        return $response;
+    }
+
+    function MWValidarTipoAlimento(Request $request,Response $response,$next)
+    {
+        $tipo = $request->getParsedBody()["tipo"];
+        if($tipo != "comida" && $tipo!="trago" && $tipo!="vino" && $tipo!="postre" && $tipo!="cerveza")
+        {
+            $response->getBody()->write("El tipo de alimento que queres guardar no es valido");
+        } 
+        else
+        {
+            $response = $next($request,$response);
+        }
+        return $response;
+    }
+
+    function MWValidarIdAlimentoMenu(Request $request,Response $response,$next)
+    {
+        $alimento = menu::find($request->getParsedBody()["id"]);
+        if($alimento!=null)
+        {
+            $request = $request->withAttribute('menu',$alimento);
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("El alimento del menu no existe");
         }
         return $response;
     }

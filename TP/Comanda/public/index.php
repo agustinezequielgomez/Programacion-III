@@ -9,6 +9,7 @@ if (PHP_SAPI == 'cli-server') {
     }
 }
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 require __DIR__ . '/../vendor/autoload.php';
 
 session_start();

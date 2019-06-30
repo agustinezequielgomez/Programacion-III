@@ -28,7 +28,17 @@ class pedido extends \Illuminate\Database\Eloquent\Model
 
     public static function calcularImporte($alimentos)
     {
-        return ((sizeof($alimentos["comida"])*150)+(sizeof($alimentos["vino"])*200)+(sizeof($alimentos["trago"])*250)+(sizeof($alimentos["cerveza"])*100)+(sizeof($alimentos["postre"])*70));
+        $precioTotal = 0;
+        $tiposDeAlimento = array_keys($alimentos);
+        foreach($tiposDeAlimento as $tipoDeAlimento)
+        {
+            foreach($alimentos[$tipoDeAlimento] as $alimento)
+            {
+                $precioTotal += (menu::where('tipo',$tipoDeAlimento)->where('nombre',$alimento)->first())->precio;
+            }
+        }
+        echo $precioTotal;
+        return $precioTotal;
     }
 
     public function subirFoto($archivos,$path)
@@ -47,7 +57,6 @@ class pedido extends \Illuminate\Database\Eloquent\Model
         $tiempo_estimado = \DateTime::createFromFormat('H:i:s',$tiempo_estimado);
         $tiempo_estimado_actual = \DateTime::createFromFormat('H:i:s',(pedido::select('tiempo_estimado')->where('id',$id)->get()[0])->tiempo_estimado);
         return ($tiempo_estimado>$tiempo_estimado_actual);
-
     }
 
 }
