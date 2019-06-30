@@ -9,6 +9,8 @@ use clases\logueosApi;
 use clases\pedidoApi;
 use clases\alimentoApi;
 use clases\menuApi;
+use clases\mesaApi;
+use clases\rateApi;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -40,16 +42,16 @@ return function (App $app) {
         $this->get('/',pedidoApi::class.':TraerTodos');
         $this->get('/TiempoEstimado',pedidoApi::class.':ConsultarTiempoEstimado')->add(MWComanda::class.':MWValidarCodigoDePedidoExistente');
         $this->get('/{id}',pedidoApi::class.':TraerUno');
-        $this->post('/',pedidoApi::class.':EnviarUno')->add(MWComanda::class.':MWValidarComidaExistente');
+        $this->post('/',pedidoApi::class.':EnviarUno')->add(MWComanda::class.':MWValidarComidaExistente')->add(MWComanda::class.':MWValidarMesa');
         $this->delete('/',pedidoApi::class.':CancelarUno')->add(MWComanda::class.':MWValidarPedidoExistente');
-        $this->put('/',pedidoApi::class.':entregarPedido')->add(MWComanda::class.':MWValidarPedidoExistente');
+        $this->put('/',pedidoApi::class.':entregarPedido')->add(MWComanda::class.':MWValidarEntregaPedido')->add(MWComanda::class.':MWValidarPedidoExistente');
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Alimentos',function()
     {
         $this->get('/',alimentoApi::class.':verAlimentos');
-        $this->post('/',alimentoApi::class.':prepararAlimento')->add(MWComanda::class.':MWValidarPreparacionDeAlimento');
-        $this->put('/',alimentoApi::class.':terminarPreparacion')->add(MWComanda::class.':MWValidarAlimentosEnPreparacion');
+        $this->post('/',alimentoApi::class.':prepararAlimento')->add(MWComanda::class.':MWValidarPreparacionDeAlimento')->add(MWComanda::class.':MWValidarPedidoExistente');
+        $this->put('/',alimentoApi::class.':terminarPreparacion')->add(MWComanda::class.':MWValidarAlimentosEnPreparacion');//->add(MWComanda::class.':MWValidarPedidoExistente');
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Menu',function()
@@ -59,5 +61,16 @@ return function (App $app) {
         $this->put('/',menuApi::class.':ModificarUno')->add(MWComanda::class.':MWValidarTipoAlimento')->add(MWComanda::class.':MWValidarIdAlimentoMenu');
         $this->delete('/',menuApi::class.':BorrarUno')->add(MWComanda::class.':MWValidarIdAlimentoMenu');
     })->add(MWComanda::class.':MWVerificarCredenciales');
+
+    $app->group('/Mesa',function()
+    {
+        $this->post('/',mesaApi::class.':EnviarUno');
+        $this->post('/Cobro',mesaApi::class.':cobrarMesa')->add(MWComanda::class.':MWValidarMesa');
+    })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
+
+    $app->group('/Rate',function()
+    {
+        $this->post('/',rateApi::class.':EnviarPuntuacion')->add(MWComanda::class.':MWValidarPuntuaciones')->add(MWComanda::class.':MWValidarMesaRate');
+    });
 };
 ?>

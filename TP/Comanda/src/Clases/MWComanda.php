@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use App\Models\alimento;
 use App\Models\pedido;
 use App\Models\menu;
+use App\Models\mesa;
 
 class MWComanda
 {
@@ -69,7 +70,7 @@ class MWComanda
         switch($data->tipo)
         {
             case "administrador":
-            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/'||$request->getUri()->getPath()=='Menu/')
+            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/'||$request->getUri()->getPath()=='Menu/' || $request->getUri()->getPath()=='Mesa/')
             {
                 $response = $next($request,$response);
             }
@@ -93,7 +94,7 @@ class MWComanda
             break;
 
             case "mozo":
-            if($request->getUri()->getPath()=='Pedidos/' && $request->getUri()->getPath()=='Pedidos/TiempoEstimado')
+            if($request->getUri()->getPath()=='Pedidos/' && $request->getUri()->getPath()!='Pedidos/TiempoEstimado' || $request->getUri()->getPath()=='Mesa/Cobro')
             {
                 $response = $next($request,$response);
             }
@@ -104,7 +105,7 @@ class MWComanda
             break;
 
             case "socio":
-            if($request->getUri()->getPath()=='Menu/'|| $request->getUri()->getPath()=='Pedidos/' && $request->getMethod()=="GET")
+            if($request->getUri()->getPath()=='Menu/'|| $request->getUri()->getPath()=='Pedidos/' && $request->getMethod()=="GET" || $request->getUri()->getPath()=='Mesa/')
             {
                 $response = $next($request,$response);
             }
@@ -221,6 +222,24 @@ class MWComanda
         return $response;
     }
 
+    function MWValidarEntregaPedido(Request $request,Response $response,$next)
+    {
+        $id = $request->getAttribute('id_pedido');
+        if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Listo para servir")
+        {
+            $response = $next($request,$response);
+        }
+        else if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Entregado")
+        {
+            return $response->getBody()->write('El pedido ya fue entregado');
+        }
+        else
+        {
+            return $response->getBody()->write('El pedido no esta listo para ser entregado');
+        }
+        return $response;
+    }
+
     function MWValidarTipoAlimento(Request $request,Response $response,$next)
     {
         $tipo = $request->getParsedBody()["tipo"];
@@ -253,15 +272,24 @@ class MWComanda
     function MWValidarCodigoDePedidoExistente(Request $request,Response $response,$next)
     {
         $codigo_de_pedido = $request->getParam("codigo_de_pedido");
-        $n_mesa = $request->getParam("n_mesa");
-        if((pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->count())>0)
+        $codgio_mesa = $request->getParam("codigo_mesa");
+        if(((mesa::where('codigo_identificacion',$codgio_mesa))->count())>0)
         {
-            $request = $request->withAttribute('pedido',pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->first());
-            $response = $next($request,$response);
+            $n_mesa = (mesa::select('id')->where('codigo_identificacion',$codgio_mesa)->get())[0]->id;
+            if((pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->count())>0)
+            {
+                $request = $request->withAttribute('pedido',pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->first());
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("El codigo de pedido ingresado no es correcto. Intentelo nuevamente");
+            }
+
         }
         else
         {
-            $response->getBody()->write("El codigo de pedido ingresado no es correcto. Intentelo nuevamente");
+            $response->getBody()->write("El codigo de mesa ingresado no es correcto. Intentelo nuevamente");
         }
         return $response;
     }
@@ -273,14 +301,7 @@ class MWComanda
         $id_pedido = $request->getParsedBody()['id_pedido'];
         if((alimento::where('id_empleado',$data->id)->where('estado','En preparacion')->count())==0)
         {
-            if(alimento::where('id_pedido',$id_pedido)->where('estado','!=','Pendiente')->count()==0)
-            {
-                $response = $next($request,$response);
-            }
-            else
-            {
-                $response->getBody()->write("Solo se pueden preparar alimentos pendientes");
-            }
+             $response = $next($request,$response);
         }
         else
         {
@@ -288,5 +309,75 @@ class MWComanda
         }
         return $response;
     }
+
+    function MWValidarMesa(Request $request,Response $response,$next)
+    {
+        $id_mesa = $request->getParsedBody()["n_mesa"];
+        if(mesa::find($id_mesa)!=NULL)
+        {
+            if((mesa::find($id_mesa))->estado=="cerrada" && $request->getUri()->getPath()=='Pedidos/')
+            {
+                $response = $next($request,$response);
+            }
+            else if((mesa::find($id_mesa))->estado=="con cliente comiendo" && $request->getUri()->getPath()=='Mesa/Cobro')
+            {
+                $request = $request->withAttribute('id_mesa',$id_mesa);
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("La mesa que selecciono esta ocupada");
+            }
+        }
+        else
+        {
+            $response->getBody()->write("La mesa que selecciono no existe");
+        }
+        return $response;
+    }
+
+    function MWValidarMesaRate(Request $request,Response $response,$next)
+    {
+        $codigo_identificacion = $request->getParsedBody()["codigo_identificacion"];
+        if((mesa::where('codigo_identificacion',$codigo_identificacion)->get())[0]!=NULL)
+        {
+            if((mesa::where('codigo_identificacion',$codigo_identificacion)->get())[0]->estado == "con cliente pagando")
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("Debe pagar el pedido para poder puntuar la mesa");
+            }
+        }
+        else
+        {
+            $response->getBody()->write("el codigo de mesa ingresado no es correcto");
+        }
+        return $response;
+    }
+
+    function MWValidarPuntuaciones(Request $request,Response $response,$next)
+    {
+        $comentario = $request->getParsedBody()["comentario"];
+
+        if(strlen($comentario)<=66)
+        {
+            if(($request->getParsedBody()["rate_mesa"] >= 0 && $request->getParsedBody()["rate_mesa"] <= 10) && ($request->getParsedBody()["rate_mozo"] >= 0 && $request->getParsedBody()["rate_mozo"] <= 10)&& ($request->getParsedBody()["rate_cocinero"] >= 0 && $request->getParsedBody()["rate_cocinero"] <= 10) && ($request->getParsedBody()["rate_restaurant"] >= 0 && $request->getParsedBody()["rate_restaurant"] <= 10))
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("Las puntuaciones deben estar entre 0 y 10");
+            }
+        }
+        else
+        {
+            $response->getBody()->write("El comentario puede tener una longitud maxima de 66 caracteres");
+        }
+        return $response;
+    }
+    
 }
 ?>

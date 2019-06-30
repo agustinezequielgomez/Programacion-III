@@ -29,15 +29,11 @@ class pedidoApi
         $idMozo = (VerificadorJWT::TraerData($tokenMozo))->id;
         $atributos = $request->getParsedBody();
         $alimentos = pedido::procesarPedidos($atributos);
-        $pedido = new pedido();
-        $pedido->n_mesa = $atributos["n_mesa"];
-        $pedido->estado = "Pendiente";
-        $pedido->codigo_pedido = pedido::generarCodigoDePedido();
-        $pedido->id_empleado = $idMozo;
-        $pedido->importe = pedido::calcularImporte($alimentos);
+        $pedido = new pedido(['n_mesa'=>$atributos["n_mesa"],'estado'=>"Pendiente","codigo_pedido"=>pedido::generarCodigoDePedido(),"id_empleado"=>$idMozo,"importe"=>pedido::calcularImporte($alimentos),"pedido_realizado"=>date('H:i:s')]);
         $pedido->foto = $pedido->subirFoto($request->getUploadedFiles(),"../files/fotos/");
-        $pedido->pedido_realizado = date('H:i:s');
         $pedido->save();
+        $request = $request->withAttributes(["id_mesa"=>$atributos["n_mesa"],"estado"=>"con cliente esperando pedido",'id_pedido'=>$pedido->id]);
+        mesaApi::ActualizarEstado($request,$response,$args);
         alimento::cargarAlimentos($alimentos,$pedido);
         return $response->getBody()->write("\nPedido realizado con exito. Su codigo de pedido es: ".$pedido->codigo_pedido);
     }
@@ -94,20 +90,10 @@ class pedidoApi
 
     static function entregarPedido(Request $request,Response $response, $args)
     {
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $id = $request->getAttribute('id_pedido');
-        if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Listo para servir")
-        {
-            pedido::where('id',$id)->update(["estado"=>"Entregado","pedido_entregado"=>date('H:i:s')]);
-        }
-        else if((pedido::select('estado')->where('id',$id)->get())[0]->estado == "Entregado")
-        {
-            return $response->getBody()->write('El pedido ya fue entregado');
-        }
-        else
-        {
-            return $response->getBody()->write('El pedido no esta listo para ser entregado');
-        }
+        pedido::where('id',$id)->update(["estado"=>"Entregado","pedido_entregado"=>date('H:i:s')]);
+        $request = $request->withAttributes(["id_mesa"=>(pedido::select('n_mesa')->where('id',$id)->get())[0]->n_mesa,"estado"=>"con cliente comiendo",'id_pedido'=>$id]);
+        mesaApi::ActualizarEstado($request,$response,$args);
         return $response->getBody()->write("Pedido entregado con exito");
     }
 }

@@ -3,6 +3,8 @@ namespace App\Models;
 use App\Models\empleado;
 class alimento extends \Illuminate\Database\Eloquent\Model
 {
+
+    protected $fillable = array('id_pedido','tipo','nombre_alimento','estado','tiempo_comienzo','tiempo_estimado','tiempo_final','id_empleado');
     static function cargarAlimentos($alimentos, $pedido)
     {
         $tiposAlimento = array_keys($alimentos);
@@ -10,11 +12,7 @@ class alimento extends \Illuminate\Database\Eloquent\Model
         {
             foreach($alimentos[$tipoAlimento] as $alimentoPedido)
             {
-                $alimento = new alimento();
-                $alimento->id_pedido = $pedido->id;
-                $alimento->tipo = $tipoAlimento;
-                $alimento->nombre_alimento = $alimentoPedido;
-                $alimento->estado = "Pendiente";
+                $alimento = new alimento(["id_pedido"=>$pedido->id,"tipo"=>$tipoAlimento,"nombre_alimento"=>$alimentoPedido,"estado"=>"Pendiente"]);
                 $alimento->save();
             }            
         }

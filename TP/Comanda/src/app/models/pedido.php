@@ -2,6 +2,8 @@
 namespace App\Models;
 class pedido extends \Illuminate\Database\Eloquent\Model
 {
+    protected $fillable = array('n_mesa','estado','codigo_pedido','id_empleado','importe','foto','pedido_realizado');
+
     public static function generarCodigoDePedido() 
     { 
         $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -37,7 +39,6 @@ class pedido extends \Illuminate\Database\Eloquent\Model
                 $precioTotal += (menu::where('tipo',$tipoDeAlimento)->where('nombre',$alimento)->first())->precio;
             }
         }
-        echo $precioTotal;
         return $precioTotal;
     }
 

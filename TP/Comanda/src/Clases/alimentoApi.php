@@ -21,11 +21,7 @@ class alimentoApi
         {
             if($alimento->id_pedido == $id_pedido)
             {
-                $alimento->id_empleado = $empleado->id;
-                $alimento->estado = "En preparacion";
-                $alimento->tiempo_comienzo = date('H:i:s');
-                $alimento->tiempo_estimado = $tiempo_estimado;
-                $alimento->save();
+                $alimento->update(["id_empleado" => $empleado->id,"estado"=>"En preparacion","tiempo_comienzo"=>date('H:i:s'),"tiempo_estimado"=>$tiempo_estimado]);
             }
         }
         $request = $request->withAttribute('id',$id_pedido);
@@ -37,9 +33,8 @@ class alimentoApi
 
     static function terminarPreparacion(Request $request, Response $response, array $args)
     {
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $empleado = VerificadorJWT::TraerData($request->getHeader('token')[0]);
-        $id_pedido = (alimento::select('id_pedido')->where('id_empleado',$empleado->id)->first())->id_pedido;
+        $id_pedido = (alimento::select('id_pedido')->where('id_empleado',$empleado->id)->where('estado','En preparacion')->first())->id_pedido;
         alimento::where('id_empleado',$empleado->id)->where('estado','En preparacion')->update(['estado'=>"Listo para servir",'tiempo_final'=>date('H:i:s')]);
         if(alimento::verificarAlimentosListos($id_pedido)==true)
         {
@@ -59,7 +54,6 @@ class alimentoApi
     {
         $token = $request->getHeader('token')[0];
         $puestoEmpleado = VerificadorJWT::TraerData($token)->tipo;
-        $alimento = new alimento();
         $response->getBody()->write((alimento::obtenerAlimentoBasadoEnPuesto($puestoEmpleado))->toJson());
         return $response;
     }
