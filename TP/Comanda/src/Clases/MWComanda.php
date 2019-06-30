@@ -39,6 +39,11 @@ class MWComanda
 
     function MWVerificarToken(Request $request,Response $response,$next)
     {
+        if($request->getUri()->getPath()=='Pedidos/TiempoEstimado')
+        {
+            $response = $next($request,$response);
+            return $response;
+        }
         $token = $request->getHeader("token");
         try
         {
@@ -54,6 +59,11 @@ class MWComanda
 
     function MWVerificarCredenciales(Request $request,Response $response,$next)
     {
+        if($request->getUri()->getPath()=='Pedidos/TiempoEstimado')
+        {
+            $response = $next($request,$response);
+            return $response;
+        }
         $token = $request->getHeader('token')[0];
         $data = VerificadorJWT::TraerData($token);
         switch($data->tipo)
@@ -83,7 +93,7 @@ class MWComanda
             break;
 
             case "mozo":
-            if($request->getUri()->getPath()=='Pedidos/')
+            if($request->getUri()->getPath()=='Pedidos/' && $request->getUri()->getPath()=='Pedidos/TiempoEstimado')
             {
                 $response = $next($request,$response);
             }
@@ -94,7 +104,7 @@ class MWComanda
             break;
 
             case "socio":
-            if($request->getUri()->getPath()=='Menu/')
+            if($request->getUri()->getPath()=='Menu/'|| $request->getUri()->getPath()=='Pedidos/' && $request->getMethod()=="GET")
             {
                 $response = $next($request,$response);
             }
@@ -236,6 +246,45 @@ class MWComanda
         else
         {
             $response->getBody()->write("El alimento del menu no existe");
+        }
+        return $response;
+    }
+
+    function MWValidarCodigoDePedidoExistente(Request $request,Response $response,$next)
+    {
+        $codigo_de_pedido = $request->getParam("codigo_de_pedido");
+        $n_mesa = $request->getParam("n_mesa");
+        if((pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->count())>0)
+        {
+            $request = $request->withAttribute('pedido',pedido::where('n_mesa',$n_mesa)->where('codigo_pedido',$codigo_de_pedido)->first());
+            $response = $next($request,$response);
+        }
+        else
+        {
+            $response->getBody()->write("El codigo de pedido ingresado no es correcto. Intentelo nuevamente");
+        }
+        return $response;
+    }
+
+    function MWValidarPreparacionDeAlimento(Request $request,Response $response,$next)
+    {
+        $token = $request->getHeader('token')[0];
+        $data = VerificadorJWT::TraerData($token);
+        $id_pedido = $request->getParsedBody()['id_pedido'];
+        if((alimento::where('id_empleado',$data->id)->where('estado','En preparacion')->count())==0)
+        {
+            if(alimento::where('id_pedido',$id_pedido)->where('estado','!=','Pendiente')->count()==0)
+            {
+                $response = $next($request,$response);
+            }
+            else
+            {
+                $response->getBody()->write("Solo se pueden preparar alimentos pendientes");
+            }
+        }
+        else
+        {
+            $response->getBody()->write("Para poder preparar otro alimento, debes terminar de preparar el actual");
         }
         return $response;
     }

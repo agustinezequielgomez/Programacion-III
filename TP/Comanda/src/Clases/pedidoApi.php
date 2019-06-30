@@ -42,9 +42,25 @@ class pedidoApi
         return $response->getBody()->write("\nPedido realizado con exito. Su codigo de pedido es: ".$pedido->codigo_pedido);
     }
 
-    function ModificarUno(Request $request,Response $response, $args)
+    function ConsultarTiempoEstimado(Request $request,Response $response, $args)
     {
-
+        $pedido = $request->getAttribute('pedido');
+        $tiempo_estimado = \DateTime::createFromFormat('H:i:s',$pedido->tiempo_estimado);
+        $ahora = \DateTime::createFromFormat('H:i:s',date('H:i:s'));
+        if($pedido->tiempo_estimado == '00:00:00')
+        {
+            $response->getBody()->write("Su pedido aun no comenzo a prepararse");
+        }
+        else if($ahora<$tiempo_estimado)
+        {
+            $interval = $tiempo_estimado->diff($ahora);
+            $response->getBody()->write("Faltan ".$interval->format('%i')." minutos para que tu pedido este listo!");
+        }
+        else
+        {
+            $response->getBody()->write("Tu pedido va a estar listo en breve!");
+        }
+        return $response;
     }
     
     static function actualizarEstadoPedido(Request $request, Response $response, $args)
