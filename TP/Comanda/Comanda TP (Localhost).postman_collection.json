@@ -1,0 +1,1345 @@
+{
+	"info": {
+		"_postman_id": "34485e6f-3b77-4e2b-8126-adf90b885dc8",
+		"name": "Comanda TP (Localhost)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "pass",
+									"value": "sysadmin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Login/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Empleado",
+			"item": [
+				{
+					"name": "Crear Empleado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEyMTUxNTIsImV4cCI6MTU2MTIxNTY1MiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.cycc6mmb9mjKgeWaF88zGeFwZL2bU1_ITrEIMYdacIQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Jose Artigas",
+									"type": "text"
+								},
+								{
+									"key": "pass",
+									"value": "Cocinero123",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "cocinero",
+									"description": "socio/administrador/mozo/bartender/cocinero/cervecero",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar Empleado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEwNTA4MDUsImV4cCI6MTU2MTA1MTMwNSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.pbxUHEriHN9yLpEvI1eRmytpp2dS74nV2qmFjYZt_UM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Jose Walter",
+									"type": "text"
+								},
+								{
+									"key": "pass",
+									"value": "Socio123",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "socio",
+									"description": "socio/administrador/mozo/bartender/cocinero/cervezero",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "id del empleado a modificar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar empleado",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEwNTA4MDUsImV4cCI6MTU2MTA1MTMwNSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.pbxUHEriHN9yLpEvI1eRmytpp2dS74nV2qmFjYZt_UM"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "id del empleado a eliminar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspender Empleado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEwNTA4MDUsImV4cCI6MTU2MTA1MTMwNSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.pbxUHEriHN9yLpEvI1eRmytpp2dS74nV2qmFjYZt_UM"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "id del empleado a suspender",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/Suspender",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								"Suspender"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activar Empleado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE4NjY0NTEsImV4cCI6MTU2MTg2Njk1MSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.wuh22UsmZaJzcNoyRLnl30fI9hvLpHgREfv832fM9gs"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "id del empleado a activar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/Activar",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								"Activar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver todos los empleados",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEwNzQzODksImV4cCI6MTU2MTA3NDg4OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.O7CCpspWxnuwnSbt88-YZ_ZDYdy1zcJWwP-JRjSgNkk"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Empleados/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Empleados",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido",
+			"item": [
+				{
+					"name": "Ver Pedidos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTg4NDksImV4cCI6MTU2MTkxOTM0OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.n6OU6v2_2fG5xaDtcmI6TFMMBeOAElBHB0-OW8HsZMk",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Pedidos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Pedidos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Tiempo Estimado",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjEwNDQ3MzgsImV4cCI6MTU2MTA0NTIzOCwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjgsIm5vbWJyZSI6IkFsYmVydG8iLCJ0aXBvIjoiYmFydGVuZGVyIn0sImFwcCI6IkNvbWFuZGEgMjAxOSJ9.cfv_QLCcLn5SpK-yaLrteYXBtguFPCxMJQgU4pEXltk"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Pedidos/TiempoEstimado?codigo_de_pedido=VFlr2&codigo_mesa=d0rJ5",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Pedidos",
+								"TiempoEstimado"
+							],
+							"query": [
+								{
+									"key": "codigo_de_pedido",
+									"value": "VFlr2"
+								},
+								{
+									"key": "codigo_mesa",
+									"value": "d0rJ5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hacer Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5Mjg4MjYsImV4cCI6MTU2MTkyOTMyNiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.FR8C0BohIqlLhasVwn0_Y1n3IKo41tX2_D8eRlB3_go",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "n_mesa",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "comida",
+									"value": "milanesa con papas, pizza de muzzarela, empanadas de jamon y queso",
+									"type": "text"
+								},
+								{
+									"key": "vino",
+									"value": "tinto, malbec, blanco",
+									"type": "text"
+								},
+								{
+									"key": "trago",
+									"value": "cuba libre",
+									"type": "text"
+								},
+								{
+									"key": "cerveza",
+									"value": "negra, colorada",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/C:/Users/AGUS_/Pictures/ahre.PNG"
+								},
+								{
+									"key": "postre",
+									"value": "chocotorta, brownie",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Pedidos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Pedidos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE4NDYwNjMsImV4cCI6MTU2MTg0NjU2MywiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.I6KylE6TD2rxsdf7jx90gz0CvpDo8WVBk-VovTmdC0E"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id_pedido",
+									"value": "1",
+									"description": "codigo del pedido a cancelar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Pedidos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Pedidos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Entregar pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTg4NDksImV4cCI6MTU2MTkxOTM0OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.n6OU6v2_2fG5xaDtcmI6TFMMBeOAElBHB0-OW8HsZMk"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id_pedido",
+									"value": "1",
+									"description": "codigo del pedido a cancelar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Pedidos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Pedidos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alimentos",
+			"item": [
+				{
+					"name": "Ver Alimentos a preparar",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTg3ODYsImV4cCI6MTU2MTkxOTI4NiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjE0LCJub21icmUiOiJKdWFuIENydXoiLCJ0aXBvIjoiY2VydmVjZXJvIn0sImFwcCI6IkNvbWFuZGEgMjAxOSJ9.b7NE1OKDS9wptOb-VUjNI9xq7dh40MuEgLllXOTeAGM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Alimentos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Alimentos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Preparar Alimento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTg3ODYsImV4cCI6MTU2MTkxOTI4NiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjE0LCJub21icmUiOiJKdWFuIENydXoiLCJ0aXBvIjoiY2VydmVjZXJvIn0sImFwcCI6IkNvbWFuZGEgMjAxOSJ9.b7NE1OKDS9wptOb-VUjNI9xq7dh40MuEgLllXOTeAGM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id_pedido",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tiempo_estimado",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Alimentos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Alimentos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Terminar Preparacion Alimento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTg3ODYsImV4cCI6MTU2MTkxOTI4NiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjE0LCJub21icmUiOiJKdWFuIENydXoiLCJ0aXBvIjoiY2VydmVjZXJvIn0sImFwcCI6IkNvbWFuZGEgMjAxOSJ9.b7NE1OKDS9wptOb-VUjNI9xq7dh40MuEgLllXOTeAGM"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Alimentos/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Alimentos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logueos",
+			"item": [
+				{
+					"name": "Ver Logueos al sistema",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MDYzOTcsImV4cCI6MTU2MTkwNjg5NywiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.OpdABizCuBt0RWkMuGOIhCypNYXz5uQEsZqGXY_ro_c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Registros/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Registros",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "Agregar alimento al menu",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTgwNzUsImV4cCI6MTU2MTkxODA4NSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEzLCJub21icmUiOiJKb3NlIFdhbHRlciIsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.2jk82Cwm6YxXLYsoHcZYNIeMvkELYgy0ypJb3jwAw68"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Empanadas de piña",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "comida",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "35",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Menu/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar alimento del menu",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE4NTU4NzksImV4cCI6MTU2MTg1NjM3OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEzLCJub21icmUiOiJKb3NlIFdhbHRlciIsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.eWuKXYiKc9P5yatqlaoCdxcvCMoTcQ0Krb18S8PjUmI"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nombre",
+									"value": "Milanesa con papas",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "comida",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "600",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"description": "id del alimento a modificar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Menu/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar empleado Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE4NTYxMDAsImV4cCI6MTU2MTg1NjYwMCwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEzLCJub21icmUiOiJKb3NlIFdhbHRlciIsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.H2clxteTEXE822NDMcOVLqZClDqB4pZGiSiEDH5rFzw"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Menu/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver todos los alimentos del menu",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE4NTYxMDAsImV4cCI6MTU2MTg1NjYwMCwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEzLCJub21icmUiOiJKb3NlIFdhbHRlciIsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.H2clxteTEXE822NDMcOVLqZClDqB4pZGiSiEDH5rFzw"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Menu/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Menu",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mesa",
+			"item": [
+				{
+					"name": "Agregar mesa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTc3NjUsImV4cCI6MTU2MTkxODI2NSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.Eh2MKvAdZuaEqloSUosjXe1jZYu8GIqo-JjBb_1GeRo"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Mesa/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Mesa",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrar mesa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5MTk0ODYsImV4cCI6MTU2MTkxOTk4NiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjksIm5vbWJyZSI6Ikp1YW4gR29tZXoiLCJ0aXBvIjoibW96byJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.adQdS27ABoC9UM-OJrdMpa84Mih57Zsiz0Mtrc5qS_8"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "n_mesa",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Mesa/Cobro",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Mesa",
+								"Cobro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cerrar mesa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5Mjg3MjYsImV4cCI6MTU2MTkyOTIyNiwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEzLCJub21icmUiOiJKb3NlIFdhbHRlciIsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJDb21hbmRhIDIwMTkifQ.2H7rIzIU5x7G58h3f5QkgRiLcvj6WddVIpqCrWUUCmc"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "n_mesa",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Mesa/Cierre",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Mesa",
+								"Cierre"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rates",
+			"item": [
+				{
+					"name": "Puntuar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "codigo_identificacion",
+									"value": "d0rJ5",
+									"type": "text"
+								},
+								{
+									"key": "rate_mesa",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "rate_mozo",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "rate_cocinero",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "rate_restaurant",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "comentario",
+									"value": "Muy bueno todo. Se podria mejorar la presentacion de la mesa.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Rate/",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Rate",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consultas",
+			"item": [
+				{
+					"name": "Consulta empleados",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5Mzg4NzksImV4cCI6MTU2MTkzOTM3OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.jAgarb4CFkkee7H6U_hTtY4rZbNI10Pi2oa0rTAOWh8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Consultas/Empleados?opcion=3",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Consultas",
+								"Empleados"
+							],
+							"query": [
+								{
+									"key": "opcion",
+									"value": "3",
+									"description": "1: Por sector\n2: Por sector y empleado\n3: Por empleado"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta pedidos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5Mzg4NzksImV4cCI6MTU2MTkzOTM3OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.jAgarb4CFkkee7H6U_hTtY4rZbNI10Pi2oa0rTAOWh8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Consultas/Pedidos?cantidad=3&opcion=4",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Consultas",
+								"Pedidos"
+							],
+							"query": [
+								{
+									"key": "cantidad",
+									"value": "3",
+									"description": "cantidad de alimentos vendidos a ver"
+								},
+								{
+									"key": "opcion",
+									"value": "4",
+									"description": "1: Alimentos mas venddidos\n2: Alimentos menos vendidos\n3: Pedidos que tardaron de mas\n4: pedidos cancelados"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta mesas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjE5Mzg4NzksImV4cCI6MTU2MTkzOTM3OSwiYXVkIjoiZjJlZDA3MjcyMWE4NjJjOTUwNjU3ZDg1MjQ1YjYwOTU0MTczNTAzMyIsImRhdGEiOnsiaWQiOjEsIm5vbWJyZSI6ImFkbWluIiwidGlwbyI6ImFkbWluaXN0cmFkb3IifSwiYXBwIjoiQ29tYW5kYSAyMDE5In0.jAgarb4CFkkee7H6U_hTtY4rZbNI10Pi2oa0rTAOWh8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost/Programacion-III/TP/Comanda/public/Consultas/Mesas?opcion=3&cantidad=1",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Programacion-III",
+								"TP",
+								"Comanda",
+								"public",
+								"Consultas",
+								"Mesas"
+							],
+							"query": [
+								{
+									"key": "opcion",
+									"value": "3",
+									"description": "1: Mesa mas usada\n2: Mesa menos usada\n3: Mesa que mas facturo\n4: Mesa que menos facturo\n5: Factura con mayor importe\n6: Factura con menor importe"
+								},
+								{
+									"key": "cantidad",
+									"value": "1",
+									"description": "Cantidad de registros a mostrar"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
