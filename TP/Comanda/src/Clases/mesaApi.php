@@ -33,5 +33,12 @@ class mesaApi
         importeApi::EnviarUno($request,$response,$args);
         return $response->getBody()->write("Cobro realizado con exito");
     }
+
+    function cierreMesa(Request $request,Response $response, $args)
+    {
+        $id = $request->getAttribute('id_mesa');
+        mesa::where('id',$id)->update(["estado"=>"cerrada","id_pedido"=>0]);
+        return $response->getBody()->write("Mesa cerrada con exito");
+    }
 }
 ?>

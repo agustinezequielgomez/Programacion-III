@@ -70,7 +70,7 @@ class MWComanda
         switch($data->tipo)
         {
             case "administrador":
-            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/'||$request->getUri()->getPath()=='Menu/' || $request->getUri()->getPath()=='Mesa/')
+            if($request->getUri()->getPath()=='Empleados/'||$request->getUri()->getPath()=='Registros/'||$request->getUri()->getPath()=='Menu/' || $request->getUri()->getPath()=='Mesa/' || starts_with($request->getUri()->getPath(),'Consultas/' ))
             {
                 $response = $next($request,$response);
             }
@@ -94,7 +94,7 @@ class MWComanda
             break;
 
             case "mozo":
-            if($request->getUri()->getPath()=='Pedidos/' && $request->getUri()->getPath()!='Pedidos/TiempoEstimado' || $request->getUri()->getPath()=='Mesa/Cobro')
+            if($request->getUri()->getPath()=='Pedidos/' && $request->getUri()->getPath()!='Pedidos/TiempoEstimado')
             {
                 $response = $next($request,$response);
             }
@@ -105,7 +105,7 @@ class MWComanda
             break;
 
             case "socio":
-            if($request->getUri()->getPath()=='Menu/'|| $request->getUri()->getPath()=='Pedidos/' && $request->getMethod()=="GET" || $request->getUri()->getPath()=='Mesa/')
+            if($request->getUri()->getPath()=='Menu/'|| $request->getUri()->getPath()=='Pedidos/' && $request->getMethod()=="GET" || $request->getUri()->getPath()=='Mesa/' || $request->getUri()->getPath()=='Mesa/Cierre' || $request->getUri()->getPath()=='Mesa/Cobro')
             {
                 $response = $next($request,$response);
             }
@@ -320,6 +320,11 @@ class MWComanda
                 $response = $next($request,$response);
             }
             else if((mesa::find($id_mesa))->estado=="con cliente comiendo" && $request->getUri()->getPath()=='Mesa/Cobro')
+            {
+                $request = $request->withAttribute('id_mesa',$id_mesa);
+                $response = $next($request,$response);
+            }
+            else if((mesa::find($id_mesa))->estado=="con cliente pagando" && $request->getUri()->getPath()=='Mesa/Cierre')
             {
                 $request = $request->withAttribute('id_mesa',$id_mesa);
                 $response = $next($request,$response);

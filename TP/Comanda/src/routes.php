@@ -11,6 +11,7 @@ use clases\alimentoApi;
 use clases\menuApi;
 use clases\mesaApi;
 use clases\rateApi;
+use clases\consultasApi;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -66,11 +67,19 @@ return function (App $app) {
     {
         $this->post('/',mesaApi::class.':EnviarUno');
         $this->post('/Cobro',mesaApi::class.':cobrarMesa')->add(MWComanda::class.':MWValidarMesa');
+        $this->post('/Cierre',mesaApi::class.':cierreMesa')->add(MWComanda::class.':MWValidarMesa');
     })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 
     $app->group('/Rate',function()
     {
         $this->post('/',rateApi::class.':EnviarPuntuacion')->add(MWComanda::class.':MWValidarPuntuaciones')->add(MWComanda::class.':MWValidarMesaRate');
     });
+
+    $app->group('/Consultas',function()
+    {
+        $this->get('/Empleados',consultasApi::class.':ListarCantidadDeOperaciones');
+        $this->get('/Pedidos',consultasApi::class.':ListarAlimentosVendidos');
+        $this->get('/Mesas',consultasApi::class.':ListarMesas');
+    })->add(MWComanda::class.':MWVerificarCredenciales')->add(MWComanda::class.':MWVerificarToken');
 };
 ?>
